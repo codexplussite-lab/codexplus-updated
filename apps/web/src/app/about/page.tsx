@@ -1,5 +1,6 @@
 import { Navbar } from '@/components/Navbar';
 import { AboutStats } from '@/components/sections/AboutStats';
+import { TeamSection } from '@/components/sections/TeamSection';
 import { SupportSection } from '@/components/sections/SupportSection';
 import { CtaSection } from '@/components/sections/CtaSection';
 import { Footer } from '@/components/Footer';
@@ -29,6 +30,7 @@ export default function AboutPage() {
       </div>
 
       <AboutStats />
+      <TeamSection />
       <SupportSection />
       <CtaSection />
       <Footer />

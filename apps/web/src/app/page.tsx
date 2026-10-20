@@ -4,6 +4,7 @@ import { ClientMarquee } from '@/components/sections/ClientMarquee';
 import { InnovationFeatures } from '@/components/sections/InnovationFeatures';
 import { Services } from '@/components/sections/Services';
 import { FeaturedProjects } from '@/components/sections/FeaturedProjects';
+import { TeamSection } from '@/components/sections/TeamSection';
 import { SupportSection } from '@/components/sections/SupportSection';
 import { CtaSection } from '@/components/sections/CtaSection';
 import { ContactForm } from '@/components/sections/ContactForm';
@@ -18,6 +19,7 @@ export default function HomePage() {
       <InnovationFeatures />
       <Services />
       <FeaturedProjects />
+      <TeamSection />
       <SupportSection />
       <CtaSection />
       <ContactForm />
