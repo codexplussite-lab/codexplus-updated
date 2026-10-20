@@ -15,15 +15,15 @@ export function Navbar() {
 
         <nav className="hidden md:flex items-center gap-7 text-xs font-medium tracking-wide text-gray-300">
           <Link href="/" className="hover:text-white transition">Home</Link>
-          <Link href="/#about" className="hover:text-white transition">About</Link>
-          <Link href="/#services" className="hover:text-white transition">Services</Link>
-          <Link href="/#portfolio" className="hover:text-white transition">Portfolio</Link>
-          <Link href="/#contact" className="hover:text-white transition">Contact</Link>
-          <Link href="/#faq" className="hover:text-white transition">FAQ</Link>
+          <Link href="/about" className="hover:text-white transition">About</Link>
+          <Link href="/services" className="hover:text-white transition">Services</Link>
+          <Link href="/portfolio" className="hover:text-white transition">Portfolio</Link>
+          <Link href="/articles" className="hover:text-white transition">Journal</Link>
+          <Link href="/contact" className="hover:text-white transition">Contact</Link>
         </nav>
 
         <Link
-          href="#contact"
+          href="/contact"
           className="purple-pill-btn px-4 py-1.5 rounded-full text-xs font-semibold text-white hover:brightness-110 transition shadow-lg"
         >
           Get In Touch
