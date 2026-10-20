@@ -1,0 +1,44 @@
+export function AboutStats() {
+  const stats = [
+    { value: '12+', suffix: 'Years', label: 'Craft & Experience' },
+    { value: '40k+', suffix: 'Shipped', label: 'Digital Products' },
+    { value: '99%', suffix: 'Retention', label: 'Client Satisfaction' },
+    { value: '24/7', suffix: 'Support', label: 'Dedicated Senior Craft' },
+  ];
+
+  return (
+    <section id="about" className="py-28 px-6 max-w-7xl mx-auto border-t border-white/5">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="lg:col-span-5">
+          <span className="text-xs font-semibold tracking-wider uppercase text-blue-400 mb-3 block">About the Studio</span>
+          <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight leading-tight mb-6">
+            Where imagination meets engineering.
+          </h2>
+        </div>
+
+        <div className="lg:col-span-7 space-y-6 text-gray-400 text-base md:text-lg leading-relaxed">
+          <p>
+            At our design studio, we&apos;re passionate about transforming raw ideas into reality. Every project starts with curiosity and ends with something people genuinely love to use.
+          </p>
+          <p>
+            From first sketch to final deploy, we grow together with our clients — pairing clean, thoughtful engineering with visual direction that refuses to blend in.
+          </p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-20">
+        {stats.map((s, idx) => (
+          <div key={idx} className="p-8 rounded-2xl bg-[#11131A] border border-white/5 flex flex-col justify-between">
+            <div className="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-2">
+              {s.value}
+            </div>
+            <div>
+              <div className="text-sm font-semibold text-blue-400 mb-1">{s.suffix}</div>
+              <div className="text-xs text-gray-400">{s.label}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}

@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  overflow-x: hidden;
+}
+
+/* Webangles Glow and Radial effects */
+.webangles-glow {
+  background: radial-gradient(50% 50% at 50% 50%, rgba(79, 26, 214, 0.22) 0%, rgba(12, 9, 18, 0) 100%);
+}
+
+.webangles-card {
+  background: linear-gradient(180deg, rgba(20, 20, 20, 0.7) 0%, rgba(10, 10, 10, 0.9) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.webangles-card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.purple-badge {
+  background: linear-gradient(180deg, #4F1AD6 0%, #8059E3 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+}
+
+.purple-pill-btn {
+  background: linear-gradient(180deg, #4F1AD6 0%, #8059E3 100%);
+  box-shadow: 0 4px 20px rgba(79, 26, 214, 0.4);
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}

@@ -1,0 +1,416 @@
+
+=== Tag 0: header ===
+  p: Home
+  p: About
+  p: Portfolio
+
+=== Tag 1: header ===
+  p: Home
+  p: About
+  p: Portfolio
+
+=== Tag 2: header ===
+  p: Home
+  p: About
+  p: Portfolio
+
+=== Tag 3: section ===
+  h2: Smart Web Experiences
+  h1: Built From Every Angle
+  p: 2025
+  p: Next-Gen AI Studio
+  p: Wen Angles is a modern web agency crafting high-performing websites using WordPress, Shopify, Webflow, Framer, and custom developmentΓÇödesigned to convert and scale
+
+=== Tag 4: section ===
+
+=== Tag 5: section ===
+
+=== Tag 6: section ===
+
+=== Tag 7: section ===
+  p: About Us
+  p: Built on creativity, collaboration, and top excellence, SYNC is a dynamic team of industry experts committed to achieving exceptional great results...
+  p: Built on creativity, collaboration, and top excellence, SYNC is a dynamic team of industry experts committed to achieving exceptional great results...
+
+=== Tag 8: section ===
+
+=== Tag 9: section ===
+  h2: Packed with Innovation.
+  p: Features
+  p: Nubien is packed with cutting-edge features designed to elevate your agency or portfolio.
+  p: Book an Appointment
+
+=== Tag 10: section ===
+  h3: Seamless API Integrations
+  h3: Seamless API Integrations
+  h3: Seamless API Integrations
+  h3: Trusted Authentication
+  h3: Trusted Authentication
+  h3: Trusted Authentication
+  h3: AI-Speech Recognition
+  h3: AI-Speech Recognition
+  h3: AI-Speech Recognition
+  h4: Real-Time Data
+  h4: Real-Time Data
+  h4: Real-Time Data
+  h4: Vision Capabilities
+  h4: Vision Capabilities
+  h4: Vision Capabilities
+  h4: Optimized UX/UI
+  h4: Optimized UX/UI
+  h4: Optimized UX/UI
+  h4: Predictive Analytics
+  h4: Predictive Analytics
+  h4: Predictive Analytics
+  p: Nubien supports a wide range of third-party integrations.
+  p: Nubien supports a wide range of third-party integrations.
+  p: Nubien supports a wide range of third-party integrations.
+
+=== Tag 11: section ===
+  p: Data Analysis
+  p: Chatbots
+  p: Capabilities
+
+=== Tag 12: section ===
+  p: Cognitive
+  p: Intelligent
+  p: Infrastructure
+
+=== Tag 13: section ===
+  p: Chatbots
+  p: Infrastructure
+  p: Cognitive
+
+=== Tag 14: section ===
+  p: Data Analysis
+  p: Chatbots
+  p: Infrastructure
+
+=== Tag 15: section ===
+  p: Cognitive
+  p: Infrastructure
+  p: Chatbots
+
+=== Tag 16: section ===
+  p: Data Analysis
+  p: Chatbots
+  p: Capabilities
+
+=== Tag 17: section ===
+  p: Cognitive
+  p: Intelligent
+  p: Infrastructure
+
+=== Tag 18: section ===
+  p: Chatbots
+  p: Infrastructure
+  p: Cognitive
+
+=== Tag 19: section ===
+  p: Data Analysis
+  p: Chatbots
+  p: Infrastructure
+
+=== Tag 20: section ===
+  p: Cognitive
+  p: Infrastructure
+  p: Chatbots
+
+=== Tag 21: section ===
+  p: Data Analysis
+  p: Chatbots
+  p: Capabilities
+
+=== Tag 22: section ===
+  p: Cognitive
+  p: Intelligent
+  p: Infrastructure
+
+=== Tag 23: section ===
+  p: Chatbots
+  p: Infrastructure
+  p: Cognitive
+
+=== Tag 24: section ===
+  p: Data Analysis
+  p: Chatbots
+  p: Infrastructure
+
+=== Tag 25: section ===
+  p: Cognitive
+  p: Infrastructure
+  p: Chatbots
+
+=== Tag 26: section ===
+  h2: AI-Powered Services for
+  h2: AI-Powered Services
+  h2: Future-Driven Businesses
+  h4: AI-Powered Development
+  h4: AI-Powered Development
+  h4: AI-Powered Development
+  h4: AI Chatbots
+  h4: AI Chatbots
+  h4: AI Chatbots
+  h4: Predictive Analytics
+  h4: Predictive Analytics
+  h4: Predictive Analytics
+  h4: Computer Vision Solutions
+  h4: Computer Vision Solutions
+  h4: Computer Vision Solutions
+  h4: Speech Recognition
+  h4: Speech Recognition
+  h4: Speech Recognition
+  h4: AI-Driven Automation
+  h4: AI-Driven Automation
+  h4: AI-Driven Automation
+  p: Services
+  p: Our cutting-edge AI solutions are designed to transform businesses, enhance efficiency, and drive innovation.
+  p: Effortlessly connect with your favorite tools. Whether it's your CRM, email marketing platform.
+
+=== Tag 27: section ===
+  h2: Showcasing Your Best
+  h2: Work with Pure Precision.
+  h4: Lemonide Tech
+  h4: Lemonide Tech
+  h4: Lemonide Tech
+  h4: Viper Studio
+  h4: Viper Studio
+  h4: Viper Studio
+  h4: Million One
+  h4: Million One
+  h4: Million One
+  p: Portfolio
+  p: A portfolio is more than just projectsΓÇöitΓÇÖs your story, vision, and expertise. Reboot ensures your work stands out with a rank.
+  p: Effortlessly connect with your favorite tools. Whether it's your CRM, email marketing platform.
+
+=== Tag 28: section ===
+  h2: Here When You
+  h2: Seamless Integrations
+  h2: Need Us Most Important.
+  h4: Fast Responses
+  h4: Fast Responses
+  h4: Fast Responses
+  h4: Expert Guidance
+  h4: Expert Guidance
+  h4: Expert Guidance
+  h4: Continuous Help
+  h4: Continuous Help
+  h4: Continuous Help
+  p: 24/7 Support
+  p: Nubien comes with dedicated support to help you launch and maintain your site without friction.
+  p: Effortlessly connect with your favorite tools. Whether it's your CRM, email marketing platform.
+
+=== Tag 29: section ===
+  h2: AI Meets Design,
+  h2: Purpose Into Ideas!
+  h4: Advanced AI, Streamlined Design
+  h4: Advanced AI, Streamlined Design
+  h4: Advanced AI, Streamlined Design
+  h4: Effortless Customization for Your Brand
+  h4: Effortless Customization for Your Brand
+  h4: Effortless Customization for Your Brand
+  h4: Future-Proof and Scalable Solutions
+  h4: Future-Proof and Scalable Solutions
+  h4: Future-Proof and Scalable Solutions
+  p: About Nubien
+  p: Nubien is a premium AI agency template crafted for teams pushing the boundaries of technology.
+  p: Effortlessly connect with your favorite tools. Whether it's your CRM, email marketing platform.
+
+=== Tag 30: section ===
+  h2: Seamless Integrations for
+  h2: Maximum Efficiency.
+  p: Integretions
+  p: Nubien seamlessly integrates with leading tools and platforms, ensuring a smooth and efficient workflow.
+  p: View About Reboot
+
+=== Tag 31: section ===
+
+=== Tag 32: section ===
+
+=== Tag 33: section ===
+  h2: Seamless Integrations for
+  h2: Maximum Efficiency.
+  p: Integretions
+  p: Nubien seamlessly integrates with leading tools and platforms, ensuring a smooth and efficient workflow.
+  p: View About Reboot
+
+=== Tag 34: section ===
+
+=== Tag 35: section ===
+
+=== Tag 36: section ===
+  h2: Seamless Integrations
+  h2: Maximum Efficiency.
+  p: Integretions
+  p: Effortlessly connect with your favorite tools. Whether it's your CRM, email marketing platform.
+  p: View About Reboot
+
+=== Tag 37: section ===
+
+=== Tag 38: section ===
+
+=== Tag 39: section ===
+  h2: Flexible Plans for Every NeedΓÇö
+  h2: Perfect for Agencies, and Startups.
+  h4: Starter
+  h2: $99
+  h4: / Month
+  h4: Starter
+  h2: $99
+  h4: / Month
+  h4: Starter
+  h2: $99
+  h4: / Month
+  h4: Professional
+  h2: $599
+  h4: / Month
+  h4: Professional
+  h2: $599
+  h4: / Month
+  h4: Professional
+  h2: $599
+  h4: / Month
+  h4: Enterprise
+  h2: $2,599
+  h4: / Month
+  h4: Enterprise
+  h2: $2,599
+  h4: / Month
+  h4: Enterprise
+  h2: $2,599
+  h4: / Month
+  p: Pricing
+  p: Our pricing plans are designed to make getting started as effortless as possible. With flexible options tailored to suit a variety of needs and budgets.
+  p: Effortlessly connect with your favorite tools. Whether it's your CRM, email marketing platform.
+
+=== Tag 40: section ===
+  h2: Our Proven Process
+  h2: for AI-Driven Success
+  p: Our Process
+  p: With a focus on innovation and efficiency, we help you stay ahead in an ever-evolving digital landscape.
+  p: Effortlessly connect with your favorite tools. Whether it's your CRM, email marketing platform.
+
+=== Tag 41: section ===
+  h3: Launch Your Site with Nubien
+  h3: In a Minutes of Time!
+  h3: Launch Your Site with Nubien
+  h3: In a Minutes of Time!
+  h3: Launch Your Site with Nubien
+  h3: In a Minutes of Time!
+  p: Launch Your Site
+  p: Build your site effortlessly and showcase your work with confidence. Ready to stand out? Get started today!
+  p: Book an Appointment
+
+=== Tag 42: section ===
+  h2: Meet the Team Making
+  h2: Things Happen Every Day
+  p: Our Team
+  p: Our team is made up of passionate professionals who bring their expertise and creativity to every project.
+  p: View About Reboot
+
+=== Tag 43: section ===
+  h2: Meet the Team Making
+  h2: Things Happen Every Day
+  p: Our Team
+  p: Our team is made up of passionate professionals who bring their expertise and creativity to every project.
+  p: View About Reboot
+
+=== Tag 44: section ===
+  h2: Meet the Team Making
+  h2: Things Happen Every Day
+  p: Our Team
+  p: Effortlessly connect with your favorite tools. Whether it's your CRM, email marketing platform.
+  p: View About Reboot
+
+=== Tag 45: section ===
+  h2: Nubien vs. The Rest
+  h2: Let's See the Difference
+  h4: Generic, Overused Layouts
+  h4: Cluttered & Outdated UI
+  h4: Slow & Unoptimized
+  h4: Limited Customization
+  h4: Short-Term Relevance
+  h4: Generic, Overused Layouts
+  h4: Cluttered & Outdated UI
+  h4: Slow & Unoptimized
+  h4: Limited Customization
+  h4: Short-Term Relevance
+  h4: Generic, Overused Layouts
+  h4: Cluttered & Outdated UI
+  h4: Slow & Unoptimized
+  h4: Limited Customization
+  h4: Short-Term Relevance
+  h4: AI-Driven Design
+  h4: Premium, Minimal Aesthetic
+  h4: Performance Optimized
+  h4: Future-Proof Technology
+  h4: Unmatched Flexibility
+  h4: AI-Driven Design
+  h4: Premium, Minimal Aesthetic
+  h4: Performance Optimized
+  h4: Future-Proof Technology
+  h4: Unmatched Flexibility
+  h4: AI-Driven Design
+  h4: Premium, Minimal Aesthetic
+  h4: Performance Optimized
+  h4: Future-Proof Technology
+  h4: Unmatched Flexibility
+  p: Comparison
+  p: Reboot is designed to set your agency and portfolio apart with a premium, clutter-free layout that enhances your work.
+  p: Effortlessly connect with your favorite tools. Whether it's your CRM, email marketing platform.
+
+=== Tag 46: section ===
+  h2: What Our Clients Say
+  h2: What Our Clients
+  h2: About RebootΓÇÖs Excellence
+  p: Testimonial
+  p: Hear from our happy clients! See how weΓÇÖve helped them achieve their goals and create lasting impact.
+  p: Effortlessly connect with your favorite tools. Whether it's your CRM, email marketing platform.
+
+=== Tag 47: section ===
+
+=== Tag 48: section ===
+
+=== Tag 49: section ===
+
+=== Tag 50: section ===
+  h2: Frequently
+  h2: Asked Questions
+  p: FAQ
+  p: Have questions? Our FAQ section has you covered with quick answers to the most common inquiries.
+  p: Effortlessly connect with your favorite tools. Whether it's your CRM, email marketing platform.
+
+=== Tag 51: section ===
+  h2: Ready to Elevate Your Brand
+  h2: with Next-Gen Innovation?
+  h2: Ready to Elevate Your Brand
+  h2: with Next-Gen Innovation?
+  h2: Each Project, Our
+  h2: Design is Great.
+  p: Become a Part of Us
+  p: Ready to take the next step? Join us now and start transforming your vision into reality with expert support.
+  p: Book an Appointment
+
+=== Tag 52: footer ===
+  h4: Template Pages
+  h4: Social
+  h4: Subscribe Form
+  p: Made remotely with ≡ƒÆ£ and passion- Westhill Studio.
+  p: Home
+  p: About
+
+=== Tag 53: footer ===
+  h4: Template Pages
+  h4: Social
+  h4: Subscribe Form
+  p: Made remotely with ≡ƒÆ£ and passion- Westhill Studio.
+  p: Home
+  p: About
+
+=== Tag 54: footer ===
+  h4: Template Pages
+  h4: Social
+  h4: Subscribe Form
+  p: Made remotely with ≡ƒÆ£ and passion- Westhill Studio.
+  p: Home
+  p: About
