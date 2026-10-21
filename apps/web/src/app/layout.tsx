@@ -2,6 +2,8 @@ import './globals.css';
 import { Metadata } from 'next';
 import { DM_Sans } from 'next/font/google';
 import { BackgroundGradient } from '@/components/BackgroundGradient';
+import { PageTransition } from '@/components/motion/PageTransition';
+import { NavigationProgressBar } from '@/components/motion/NavigationProgressBar';
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -84,7 +86,10 @@ export default function RootLayout({
           }}
         />
         <div className="relative z-10">
-          {children}
+          <NavigationProgressBar />
+          <PageTransition>
+            {children}
+          </PageTransition>
         </div>
       </body>
     </html>
