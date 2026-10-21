@@ -87,6 +87,18 @@ body {
   pointer-events: none;
 }
 
+.brand-wordmark-gradient {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(168, 85, 247, 0.7) 45%, rgba(99, 32, 238, 0.3) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px rgba(168, 85, 247, 0.35);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.88;
+  user-select: none;
+  pointer-events: none;
+}
+
 /* WCAG Reduced Motion Overrides */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {

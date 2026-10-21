@@ -4,8 +4,12 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full bg-[#080808] text-[#f5f5f5] pt-24 pb-12 sm:pb-16 overflow-hidden border-t border-white/[0.06]">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+    <footer className="relative w-full bg-gradient-to-b from-[#08080c] via-[#0e071c] to-[#04010a] text-[#f5f5f5] pt-24 pb-12 sm:pb-16 overflow-hidden border-t border-white/[0.08]">
+      {/* Ambient Radial Gradient Flares for Depth */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] bg-gradient-to-t from-[#6320EE]/20 via-[#A855F7]/10 to-transparent blur-[140px] pointer-events-none -z-0" />
+      <div className="absolute top-0 right-1/4 w-[400px] h-[300px] bg-[#8059E3]/10 blur-[120px] pointer-events-none -z-0" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         {/* Top Area: Left Brand Info + Right 4-Column Navigation */}
         <div className="flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-16 pb-20 sm:pb-28">
           {/* Left Branding Area */}
@@ -187,16 +191,13 @@ export function Footer() {
           </nav>
         </div>
 
-        {/* Oversized Outlined Brand Wordmark */}
+        {/* Oversized Outlined & Gradient Brand Wordmark */}
         <div
           aria-hidden="true"
-          className="w-full flex items-center justify-center pt-8 pb-4 overflow-hidden pointer-events-none select-none"
+          className="w-full flex items-center justify-center pt-8 pb-4 overflow-hidden pointer-events-none select-none relative"
         >
           <span
-            className="brand-wordmark-outline text-[clamp(4.5rem,15.5vw,14rem)] text-center tracking-tighter"
-            style={{
-              WebkitTextStroke: '1.5px rgba(235, 235, 235, 0.85)',
-            }}
+            className="brand-wordmark-gradient text-[clamp(4.5rem,15.5vw,14rem)] text-center tracking-tighter drop-shadow-[0_20px_40px_rgba(99,32,238,0.25)]"
           >
             CodeXplus
           </span>
