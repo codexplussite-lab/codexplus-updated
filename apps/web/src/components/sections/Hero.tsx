@@ -36,9 +36,9 @@ export function Hero() {
           initial={{ opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-[#BEF264]/30 backdrop-blur-md mb-8 shadow-[0_0_15px_rgba(190,242,100,0.15)]"
+          className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-[#A855F7]/30 backdrop-blur-md mb-8 shadow-[0_0_15px_rgba(190,242,100,0.15)]"
         >
-          <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#BEF264] text-[#030305] uppercase tracking-wider">
+          <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#A855F7] text-[#030305] uppercase tracking-wider">
             SYSTEMS // STUDIO
           </span>
           <span className="text-xs font-mono font-medium text-gray-300 pr-1">
@@ -58,7 +58,7 @@ export function Hero() {
           <GsapSplitText
             tag="span"
             text="Engineered From Every Angle."
-            className="bg-gradient-to-r from-white via-gray-100 to-[#BEF264] bg-clip-text text-transparent drop-shadow-[0_10px_35px_rgba(190,242,100,0.25)]"
+            className="bg-gradient-to-r from-white via-gray-100 to-[#A855F7] bg-clip-text text-transparent drop-shadow-[0_10px_35px_rgba(190,242,100,0.25)]"
             stagger={0.035}
             delay={0.3}
           />
@@ -84,7 +84,7 @@ export function Hero() {
           <Magnetic strength={0.3}>
             <Link
               href="#contact"
-              className="lime-pill-btn group w-full sm:w-auto px-8 py-3.5 rounded-full text-sm font-bold flex items-center justify-center gap-2 shadow-xl shadow-[#BEF264]/20"
+              className="purple-pill-btn group w-full sm:w-auto px-8 py-3.5 rounded-full text-sm font-bold flex items-center justify-center gap-2 shadow-xl shadow-[#A855F7]/20"
             >
               <span>Start a Project</span>
               <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -110,7 +110,7 @@ export function Hero() {
             animate={{ y: [0, 6, 0] }}
             transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
           >
-            <ArrowDown className="w-4 h-4 text-[#BEF264]" />
+            <ArrowDown className="w-4 h-4 text-[#A855F7]" />
           </motion.div>
         </motion.div>
       </motion.div>

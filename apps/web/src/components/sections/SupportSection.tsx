@@ -26,7 +26,7 @@ export function SupportSection() {
     <section className="py-24 md:py-28 px-6 max-w-7xl mx-auto border-t border-white/[0.06]">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         <FadeIn className="lg:col-span-6">
-          <span className="text-xs font-semibold tracking-wider uppercase text-[#BEF264] mb-3 block">
+          <span className="text-xs font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">
             Dedicated Support
           </span>
           <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight leading-tight mb-6">
@@ -36,7 +36,7 @@ export function SupportSection() {
             CodeXplus provides dedicated engineering support and architectural guidance to ensure your applications launch securely, run reliably, and scale predictably.
           </p>
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/10 text-xs text-gray-300">
-            <CheckCircle2 className="w-4 h-4 text-[#BEF264]" />
+            <CheckCircle2 className="w-4 h-4 text-[#8059E3]" />
             <span>Guaranteed 24-hour response window on all serious inquiries</span>
           </div>
         </FadeIn>
@@ -46,7 +46,7 @@ export function SupportSection() {
             const Icon = pt.icon;
             return (
               <StaggerItem key={idx} className="webangles-card p-6 rounded-2xl flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-[#BEF264] shrink-0 mt-0.5">
+                <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-[#8059E3] shrink-0 mt-0.5">
                   <Icon className="w-5 h-5" />
                 </div>
                 <div>

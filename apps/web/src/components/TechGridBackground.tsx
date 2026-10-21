@@ -69,7 +69,7 @@ export function TechGridBackground() {
         // Draw node
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(190, 242, 100, 0.35)'; // Soft lime accent
+        ctx.fillStyle = 'rgba(128, 89, 227, 0.35)'; // Soft lime accent
         ctx.fill();
 
         // Connect adjacent nodes
@@ -84,7 +84,7 @@ export function TechGridBackground() {
             ctx.moveTo(node.x, node.y);
             ctx.lineTo(other.x, other.y);
             const alpha = (1 - dist / 130) * 0.12;
-            ctx.strokeStyle = `rgba(163, 230, 53, ${alpha})`;
+            ctx.strokeStyle = `rgba(99, 32, 238, ${alpha})`;
             ctx.stroke();
           }
         }
@@ -98,7 +98,7 @@ export function TechGridBackground() {
           ctx.moveTo(node.x, node.y);
           ctx.lineTo(mouse.x, mouse.y);
           const alpha = (1 - mouseDist / 160) * 0.25;
-          ctx.strokeStyle = `rgba(217, 249, 157, ${alpha})`;
+          ctx.strokeStyle = `rgba(155, 114, 244, ${alpha})`;
           ctx.stroke();
         }
       }

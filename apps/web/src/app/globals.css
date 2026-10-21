@@ -5,11 +5,11 @@
 :root {
   --background: #030305;
   --foreground: #ffffff;
-  --color-brand-primary: #BEF264; /* Electric Lime */
-  --color-brand-hover: #D9F99D;
-  --color-brand-dark: #65A30D;
+  --color-brand-primary: #8059E3; /* Electric Lime */
+  --color-brand-hover: #9B72F4;
+  --color-brand-dark: #4F1AD6;
   --color-brand-purple: #6320EE;
-  --color-brand-light: #A3E635;
+  --color-brand-light: #6320EE;
 }
 
 body {
@@ -20,7 +20,7 @@ body {
 
 /* Accessible focus ring across all keyboard interactions */
 :focus-visible {
-  outline: 2px solid #BEF264;
+  outline: 2px solid #8059E3;
   outline-offset: 3px;
 }
 
@@ -50,7 +50,7 @@ body {
 }
 
 .lime-pill-btn {
-  background: linear-gradient(180deg, #BEF264 0%, #A3E635 100%);
+  background: linear-gradient(180deg, #8059E3 0%, #6320EE 100%);
   color: #030305;
   box-shadow: 0 4px 24px rgba(190, 242, 100, 0.35);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -71,11 +71,11 @@ body {
 .purple-badge {
   background: rgba(190, 242, 100, 0.12);
   border: 1px solid rgba(190, 242, 100, 0.35);
-  color: #BEF264;
+  color: #8059E3;
 }
 
 .purple-pill-btn {
-  background: linear-gradient(180deg, #BEF264 0%, #A3E635 100%);
+  background: linear-gradient(180deg, #8059E3 0%, #6320EE 100%);
   color: #030305;
   box-shadow: 0 4px 24px rgba(190, 242, 100, 0.35);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);

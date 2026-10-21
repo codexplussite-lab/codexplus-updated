@@ -68,8 +68,8 @@ export function CustomCursor() {
       <div
         className={`rounded-full transition-all duration-200 ${
           isHovered
-            ? 'w-9 h-9 border border-[#BEF264]/80 bg-[#BEF264]/10 backdrop-blur-[1px] shadow-[0_0_14px_rgba(190,242,100,0.5)]'
-            : 'w-3 h-3 bg-[#BEF264] shadow-[0_0_10px_rgba(190,242,100,0.8)]'
+            ? 'w-9 h-9 border border-[#8059E3]/80 bg-[#8059E3]/10 backdrop-blur-[1px] shadow-[0_0_14px_rgba(128,89,227,0.5)]'
+            : 'w-3 h-3 bg-[#8059E3] shadow-[0_0_10px_rgba(128,89,227,0.8)]'
         }`}
       />
     </motion.div>

@@ -104,7 +104,7 @@ export function Services() {
   return (
     <section id="services" aria-labelledby="services-heading" className="py-24 md:py-28 px-6 max-w-7xl mx-auto border-t border-white/[0.06]">
       <FadeIn className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
-        <span className="text-xs font-mono font-semibold tracking-wider uppercase text-[#BEF264] mb-3 block">
+        <span className="text-xs font-mono font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">
           Disciplines & Engineering Services
         </span>
         <GsapSplitText
@@ -127,7 +127,7 @@ export function Services() {
               {/* Header with Discipline Category & Number */}
               <div className="flex justify-between items-start mb-6">
                 <div>
-                  <span className="text-[11px] font-mono tracking-wider uppercase text-[#BEF264] block mb-1">
+                  <span className="text-[11px] font-mono tracking-wider uppercase text-[#8059E3] block mb-1">
                     {s.category}
                   </span>
                   <span className="text-2xl md:text-3xl font-mono font-bold text-gray-500 group-hover:text-white transition-colors">
