@@ -4,17 +4,16 @@ import { AmbientOrb } from '@/components/AmbientOrb';
 
 export function CtaSection() {
   return (
-    <section className="py-28 px-6 max-w-7xl mx-auto border-t border-white/[0.06] text-center">
-      <div className="relative p-12 md:p-24 rounded-3xl border border-white/[0.12] overflow-hidden bg-gradient-to-b from-[#0e071e]/90 via-[#07030e]/95 to-[#000000] backdrop-blur-xl">
-        {/* Animated WebGL Energy Orb behind the headline matching screenshot */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] pointer-events-none opacity-90 mix-blend-screen scale-125">
-          <AmbientOrb hue={270} rotationSpeed={0.5} />
-        </div>
+    <section className="relative w-full py-28 md:py-36 border-t border-white/[0.08] text-center overflow-hidden bg-gradient-to-b from-[#0c051a] via-[#05020c] to-[#000000]">
+      {/* Full-width Animated WebGL Energy Orb behind headline matching screenshot */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] max-w-full pointer-events-none opacity-95 mix-blend-screen scale-110">
+        <AmbientOrb hue={270} rotationSpeed={0.5} />
+      </div>
 
-        {/* Ambient violet flare glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[350px] bg-[#4F1AD6]/30 blur-[130px] rounded-full pointer-events-none" />
+      {/* Ambient background flares across full section */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[450px] bg-[#4F1AD6]/25 blur-[140px] rounded-full pointer-events-none" />
 
-        <div className="relative z-10 flex flex-col items-center">
+      <div className="relative z-10 max-w-5xl mx-auto px-6 flex flex-col items-center">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.08] border border-white/15 mb-8 backdrop-blur-md">
             <span className="purple-badge px-2 py-0.5 rounded-full text-[10px] font-bold text-white uppercase">
               Active Booking
@@ -48,7 +47,6 @@ export function CtaSection() {
             </Link>
           </div>
         </div>
-      </div>
     </section>
   );
 }
