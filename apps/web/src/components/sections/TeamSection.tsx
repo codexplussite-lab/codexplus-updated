@@ -1,5 +1,8 @@
+'use client';
+
 import { Github, Linkedin, Twitter, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
+import { FadeIn, StaggerContainer, StaggerItem } from '@/components/motion/MotionWrapper';
 
 export interface TeamMember {
   name: string;
@@ -70,7 +73,7 @@ const TEAM_MEMBERS: TeamMember[] = [
 export function TeamSection() {
   return (
     <section id="team" aria-labelledby="team-heading" className="py-24 md:py-28 px-6 max-w-7xl mx-auto border-t border-white/[0.06]">
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+      <FadeIn className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
         <div>
           <span className="text-xs font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">
             Core Engineering Team
@@ -82,11 +85,11 @@ export function TeamSection() {
         <p className="text-gray-400 max-w-md text-sm leading-relaxed">
           Every project is built and reviewed by dedicated senior engineers and product designers. Zero junior outsourcing, zero dropped context.
         </p>
-      </div>
+      </FadeIn>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {TEAM_MEMBERS.map((member, idx) => (
-          <article
+          <StaggerItem
             key={idx}
             aria-label={`${member.name} — ${member.role}`}
             className="webangles-card rounded-2xl overflow-hidden group hover:border-[#8059E3]/40 transition-all duration-300 flex flex-col justify-between p-6"
@@ -164,9 +167,9 @@ export function TeamSection() {
                 </Link>
               )}
             </div>
-          </article>
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerContainer>
     </section>
   );
 }

@@ -1,5 +1,10 @@
+'use client';
+
 import { ArrowUpRight, CheckCircle2, Users, Target } from 'lucide-react';
 import Link from 'next/link';
+import { motion } from 'motion/react';
+import { FadeIn, StaggerContainer, StaggerItem } from '@/components/motion/MotionWrapper';
+import { GsapSplitText } from '@/components/motion/GsapAnimations';
 
 export interface ServiceDetail {
   number: string;
@@ -98,21 +103,23 @@ export const SERVICES_CATALOG: ServiceDetail[] = [
 export function Services() {
   return (
     <section id="services" aria-labelledby="services-heading" className="py-24 md:py-28 px-6 max-w-7xl mx-auto border-t border-white/[0.06]">
-      <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
+      <FadeIn className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
         <span className="text-xs font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">
           Disciplines & Services
         </span>
-        <h2 id="services-heading" className="text-3xl md:text-5xl font-bold text-white tracking-tight mb-4">
-          Software & Design Services Built to Convert.
-        </h2>
+        <GsapSplitText
+          tag="h2"
+          text="Software & Design Services Built to Convert."
+          className="text-3xl md:text-5xl font-bold text-white tracking-tight mb-4"
+        />
         <p className="text-gray-400 text-sm md:text-base leading-relaxed">
           From full-stack web applications to conversion-focused digital flagships, each discipline is engineered for durability, speed, and real business outcomes without framework bloat.
         </p>
-      </div>
+      </FadeIn>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {SERVICES_CATALOG.map((s) => (
-          <div
+          <StaggerItem
             key={s.number}
             className="webangles-card p-8 md:p-10 rounded-2xl flex flex-col justify-between group hover:border-[#8059E3]/50 transition-all duration-300"
           >
@@ -190,9 +197,9 @@ export function Services() {
                 <ArrowUpRight className="w-3 h-3" />
               </Link>
             </div>
-          </div>
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerContainer>
     </section>
   );
 }

@@ -1,14 +1,20 @@
+'use client';
+
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { AmbientOrb } from '@/components/AmbientOrb';
+import { GsapSplitText, GsapParallax } from '@/components/motion/GsapAnimations';
 
 export function CtaSection() {
   return (
     <section className="relative w-full py-36 md:py-48 text-center overflow-visible bg-transparent">
-      {/* Seamless Ambient Orb Container - Sized and centered without clipping or box edges */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[720px] h-[720px] max-w-[95vw] pointer-events-none mix-blend-screen scale-100">
+      {/* Seamless Ambient Orb Container with GSAP Parallax Float */}
+      <GsapParallax
+        speed={35}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[720px] h-[720px] max-w-[95vw] pointer-events-none mix-blend-screen scale-100"
+      >
         <AmbientOrb hue={270} rotationSpeed={0.35} />
-      </div>
+      </GsapParallax>
 
       {/* Smooth diffused radial glow merging organically into background */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] max-w-full bg-[#6320EE]/10 blur-[130px] rounded-full pointer-events-none -z-10" />
@@ -23,9 +29,11 @@ export function CtaSection() {
           </span>
         </div>
 
-        <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight leading-tight mb-6">
-          Ready to Elevate Your Digital Architecture?
-        </h2>
+        <GsapSplitText
+          tag="h2"
+          text="Ready to Elevate Your Digital Architecture?"
+          className="text-3xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight leading-tight mb-6"
+        />
 
         <p className="text-gray-300 max-w-xl mx-auto text-base sm:text-lg leading-relaxed mb-10">
           Partner directly with senior software engineers and design system specialists. Let&apos;s build an experience that converts and scales.

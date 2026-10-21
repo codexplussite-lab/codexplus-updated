@@ -1,4 +1,7 @@
+'use client';
+
 import { CheckCircle2, Clock, Shield, Headphones } from 'lucide-react';
+import { FadeIn, StaggerContainer, StaggerItem } from '@/components/motion/MotionWrapper';
 
 const SUPPORT_POINTS = [
   {
@@ -22,7 +25,7 @@ export function SupportSection() {
   return (
     <section className="py-24 md:py-28 px-6 max-w-7xl mx-auto border-t border-white/[0.06]">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        <div className="lg:col-span-6">
+        <FadeIn className="lg:col-span-6">
           <span className="text-xs font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">
             Dedicated Support
           </span>
@@ -36,13 +39,13 @@ export function SupportSection() {
             <CheckCircle2 className="w-4 h-4 text-[#8059E3]" />
             <span>Guaranteed 24-hour response window on all serious inquiries</span>
           </div>
-        </div>
+        </FadeIn>
 
-        <div className="lg:col-span-6 space-y-4">
+        <StaggerContainer className="lg:col-span-6 space-y-4">
           {SUPPORT_POINTS.map((pt, idx) => {
             const Icon = pt.icon;
             return (
-              <div key={idx} className="webangles-card p-6 rounded-2xl flex items-start gap-4">
+              <StaggerItem key={idx} className="webangles-card p-6 rounded-2xl flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-[#8059E3] shrink-0 mt-0.5">
                   <Icon className="w-5 h-5" />
                 </div>
@@ -50,10 +53,10 @@ export function SupportSection() {
                   <h3 className="text-base font-bold text-white mb-1.5">{pt.title}</h3>
                   <p className="text-sm text-gray-400 leading-relaxed">{pt.desc}</p>
                 </div>
-              </div>
+              </StaggerItem>
             );
           })}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );

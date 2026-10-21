@@ -1,5 +1,8 @@
+'use client';
+
 import { ArrowUpRight, Cpu, Layers, ShieldCheck, Zap } from 'lucide-react';
 import Link from 'next/link';
+import { FadeIn, StaggerContainer, StaggerItem } from '@/components/motion/MotionWrapper';
 
 const CAPABILITIES = [
   {
@@ -31,7 +34,7 @@ const CAPABILITIES = [
 export function InnovationFeatures() {
   return (
     <section id="capabilities" className="py-24 md:py-28 px-6 max-w-7xl mx-auto border-t border-white/[0.06]">
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+      <FadeIn className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
         <div>
           <span className="text-xs font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">
             Core Capabilities
@@ -43,13 +46,13 @@ export function InnovationFeatures() {
         <p className="text-gray-400 max-w-md text-sm leading-relaxed">
           We build end-to-end full-stack architectures that eliminate performance bottlenecks and protect business-critical workloads.
         </p>
-      </div>
+      </FadeIn>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {CAPABILITIES.map((item, idx) => {
           const Icon = item.icon;
           return (
-            <div
+            <StaggerItem
               key={idx}
               className="webangles-card p-8 md:p-10 rounded-2xl flex flex-col justify-between group transition-all duration-300"
             >
@@ -77,10 +80,10 @@ export function InnovationFeatures() {
                   Read spec <ArrowUpRight className="w-3.5 h-3.5" />
                 </span>
               </div>
-            </div>
+            </StaggerItem>
           );
         })}
-      </div>
+      </StaggerContainer>
     </section>
   );
 }

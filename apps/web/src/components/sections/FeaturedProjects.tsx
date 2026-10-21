@@ -1,5 +1,9 @@
+'use client';
+
 import { ArrowUpRight, Code, Sparkles, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
+import { FadeIn, StaggerContainer, StaggerItem } from '@/components/motion/MotionWrapper';
+import { GsapSplitText, GsapParallax } from '@/components/motion/GsapAnimations';
 
 export type ProjectKind = 'client' | 'demo' | 'concept';
 
@@ -66,14 +70,16 @@ export const PORTFOLIO_PROJECTS: CaseStudyProject[] = [
 export function FeaturedProjects() {
   return (
     <section id="portfolio" aria-labelledby="portfolio-heading" className="py-24 md:py-28 px-6 max-w-7xl mx-auto border-t border-white/[0.06]">
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+      <FadeIn className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
         <div>
           <span className="text-xs font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">
             Selected Work & Architecture Studies
           </span>
-          <h2 id="portfolio-heading" className="text-3xl md:text-5xl font-bold text-white tracking-tight">
-            Engineered Proof of Craft.
-          </h2>
+          <GsapSplitText
+            tag="h2"
+            text="Engineered Proof of Craft."
+            className="text-3xl md:text-5xl font-bold text-white tracking-tight"
+          />
         </div>
         <div className="flex items-center gap-4">
           <Link
@@ -84,11 +90,11 @@ export function FeaturedProjects() {
             <ArrowUpRight className="w-4 h-4" />
           </Link>
         </div>
-      </div>
+      </FadeIn>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {PORTFOLIO_PROJECTS.map((proj, idx) => (
-          <article
+          <StaggerItem
             key={proj.id}
             aria-label={`${proj.title} - ${proj.kindLabel}`}
             className="webangles-card rounded-2xl overflow-hidden group hover:border-[#8059E3]/50 transition-all duration-300 flex flex-col justify-between"
@@ -171,9 +177,9 @@ export function FeaturedProjects() {
                 </Link>
               </div>
             </div>
-          </article>
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerContainer>
     </section>
   );
 }

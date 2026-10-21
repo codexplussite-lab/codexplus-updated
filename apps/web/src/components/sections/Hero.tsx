@@ -1,9 +1,10 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { Velaris } from '@/components/Velaris';
+import { GsapSplitText } from '@/components/motion/GsapAnimations';
 
 export function Hero() {
   return (
@@ -39,14 +40,21 @@ export function Hero() {
           </span>
         </div>
 
-        {/* Semantic Unified Single H1 with Styled Sub-lines */}
+        {/* GSAP SplitText Kinetic Headline */}
         <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white mb-8 font-sans">
-          <span className="block font-normal text-gray-300 drop-shadow-sm text-3xl sm:text-5xl md:text-6xl mb-2">
-            Smart Web Experiences,
-          </span>
-          <span className="bg-gradient-to-r from-white via-gray-100 to-[#A855F7] bg-clip-text text-transparent drop-shadow-[0_10px_35px_rgba(99,32,238,0.35)]">
-            Built From Every Angle
-          </span>
+          <GsapSplitText
+            tag="span"
+            text="Smart Web Experiences,"
+            className="block font-normal text-gray-300 drop-shadow-sm text-3xl sm:text-5xl md:text-6xl mb-2"
+            stagger={0.04}
+          />
+          <GsapSplitText
+            tag="span"
+            text="Built From Every Angle"
+            className="bg-gradient-to-r from-white via-gray-100 to-[#A855F7] bg-clip-text text-transparent drop-shadow-[0_10px_35px_rgba(99,32,238,0.35)]"
+            stagger={0.04}
+            delay={0.15}
+          />
         </h1>
 
         {/* Clear B2B Value Proposition: Who, What, Result */}
