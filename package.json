@@ -11,6 +11,7 @@
     "test": "pnpm -r run test"
   },
   "devDependencies": {
+    "next": "^15.1.7",
     "prettier": "^3.4.2",
     "typescript": "^5.7.3"
   }
