@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 
 const NAV_LINKS = [
   { name: 'Home', href: '/' },
@@ -72,13 +73,19 @@ export function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className={`py-1 transition relative focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:rounded ${
-                  active ? 'text-white font-semibold' : 'text-gray-400 hover:text-gray-200'
+                className={`py-1 transition-colors duration-200 relative group focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:rounded ${
+                  active ? 'text-white font-semibold' : 'text-gray-400 hover:text-white'
                 }`}
               >
                 <span>{link.name}</span>
-                {active && (
-                  <span className="absolute -bottom-1.5 left-0 right-0 h-[2px] bg-gradient-to-r from-[#6320EE] to-[#8059E3] rounded-full" />
+                {active ? (
+                  <motion.span
+                    layoutId="navbar-active-indicator"
+                    className="absolute -bottom-1.5 left-0 right-0 h-[2px] bg-gradient-to-r from-[#6320EE] to-[#8059E3] rounded-full shadow-[0_0_8px_rgba(99,32,238,0.8)]"
+                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                  />
+                ) : (
+                  <span className="absolute -bottom-1.5 left-0 right-0 h-[2px] bg-white/20 rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-center" />
                 )}
               </Link>
             );
@@ -108,49 +115,63 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Accessible Mobile Navigation Modal / Overlay */}
-      {mobileMenuOpen && (
-        <div
-          id="mobile-nav-menu"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Mobile Navigation"
-          className="fixed inset-0 z-40 bg-[#030305]/95 backdrop-blur-2xl flex flex-col justify-center items-center px-6 pointer-events-auto md:hidden"
-        >
-          <div className="w-full max-w-sm flex flex-col items-center gap-6 text-center">
-            <span className="text-[11px] font-mono tracking-widest uppercase text-[#8059E3]">
-              Studio Navigation
-            </span>
-            <nav className="flex flex-col gap-4 w-full">
-              {NAV_LINKS.map((link) => {
-                const active = isActive(link.href);
-                return (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={`text-lg font-medium transition py-2 border-b border-white/[0.06] w-full flex items-center justify-between ${
-                      active ? 'text-white font-bold' : 'text-gray-400 hover:text-white'
-                    }`}
-                  >
-                    <span>{link.name}</span>
-                    {active && <span className="w-2 h-2 rounded-full bg-[#8059E3]" />}
-                  </Link>
-                );
-              })}
-            </nav>
-
-            <Link
-              href="/contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className="purple-pill-btn w-full py-3.5 rounded-full text-sm font-semibold text-white mt-4 flex items-center justify-center gap-2"
+      {/* Accessible Animated Mobile Navigation Modal */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            id="mobile-nav-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile Navigation"
+            initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+            animate={{ opacity: 1, backdropFilter: 'blur(20px)' }}
+            exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-40 bg-[#030305]/95 flex flex-col justify-center items-center px-6 pointer-events-auto md:hidden"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.94, y: 15 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full max-w-sm flex flex-col items-center gap-6 text-center"
             >
-              <span>Start a Project</span>
-              <ArrowUpRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      )}
+              <span className="text-[11px] font-mono tracking-widest uppercase text-[#8059E3]">
+                Studio Navigation
+              </span>
+              <nav className="flex flex-col gap-3 w-full">
+                {NAV_LINKS.map((link) => {
+                  const active = isActive(link.href);
+                  return (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`text-lg font-medium transition-colors py-2 border-b border-white/[0.06] w-full flex items-center justify-between ${
+                        active ? 'text-white font-bold' : 'text-gray-400 hover:text-white'
+                      }`}
+                    >
+                      <span>{link.name}</span>
+                      {active && (
+                        <span className="w-2 h-2 rounded-full bg-[#8059E3] shadow-[0_0_8px_rgba(128,89,227,0.8)]" />
+                      )}
+                    </Link>
+                  );
+                })}
+              </nav>
+
+              <Link
+                href="/contact"
+                onClick={() => setMobileMenuOpen(false)}
+                className="purple-pill-btn group w-full py-3.5 rounded-full text-sm font-semibold text-white mt-4 flex items-center justify-center gap-2"
+              >
+                <span>Start a Project</span>
+                <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </Link>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

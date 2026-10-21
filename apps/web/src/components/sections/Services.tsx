@@ -137,9 +137,9 @@ export function Services() {
                 <Link
                   href="/contact"
                   aria-label={`Inquire about ${s.title}`}
-                  className="w-10 h-10 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center text-gray-300 group-hover:bg-[#6320EE] group-hover:text-white transition-all shadow focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+                  className="w-10 h-10 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center text-gray-300 group-hover:bg-[#6320EE] group-hover:text-white group-hover:border-[#8059E3] transition-all duration-200 shadow focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
                 >
-                  <ArrowUpRight className="w-5 h-5" />
+                  <ArrowUpRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </Link>
               </div>
 
@@ -191,10 +191,10 @@ export function Services() {
               <span className="text-xs font-mono text-gray-400">Sprint or Fixed-Milestone Delivery</span>
               <Link
                 href="/contact"
-                className="text-xs font-semibold text-[#8059E3] hover:text-white transition inline-flex items-center gap-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white rounded px-1"
+                className="text-xs font-semibold text-[#8059E3] hover:text-white transition-colors duration-200 inline-flex items-center gap-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white rounded px-1 group/link"
               >
                 <span>Discuss Scope</span>
-                <ArrowUpRight className="w-3 h-3" />
+                <ArrowUpRight className="w-3 h-3 transition-transform duration-200 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
               </Link>
             </div>
           </StaggerItem>

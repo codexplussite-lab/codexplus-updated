@@ -3,7 +3,10 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Send, CheckCircle2, AlertCircle, Loader2, ShieldCheck } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { ContactFormSubmissionSchema } from '@codexplus/shared';
+import { FadeIn } from '@/components/motion/MotionWrapper';
+import { GsapSplitText } from '@/components/motion/GsapAnimations';
 
 interface FieldErrors {
   name?: string;
@@ -118,19 +121,21 @@ export function ContactForm() {
       aria-labelledby="contact-heading"
       className="py-24 md:py-28 px-6 max-w-4xl mx-auto border-t border-white/[0.06]"
     >
-      <div className="text-center mb-16">
+      <FadeIn className="text-center mb-16">
         <span className="text-xs font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">
           Inquire
         </span>
-        <h2 id="contact-heading" className="text-3xl md:text-5xl font-bold text-white tracking-tight mb-4">
-          Let&apos;s Build Together.
-        </h2>
+        <GsapSplitText
+          tag="h2"
+          text="Let's Build Together."
+          className="text-3xl md:text-5xl font-bold text-white tracking-tight mb-4"
+        />
         <p className="text-gray-400 text-sm md:text-base max-w-lg mx-auto leading-relaxed">
           Tell us about your project vision, timeline, and goals. We review all technical inquiries and return preliminary architecture notes within 24 hours.
         </p>
-      </div>
+      </FadeIn>
 
-      <div className="webangles-card p-8 md:p-12 rounded-3xl relative">
+      <FadeIn delay={0.15} className="webangles-card p-8 md:p-12 rounded-3xl relative">
         <form onSubmit={handleSubmit} className="space-y-6" noValidate>
           {/* Honeypot field for anti-spam bots */}
           <div className="hidden" aria-hidden="true">
@@ -304,34 +309,48 @@ export function ContactForm() {
 
           {/* Accessible Form Feedback State */}
           <div aria-live="polite" className="pt-2">
-            {status === 'success' && (
-              <div className="p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-200 text-sm flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-semibold mb-0.5">Brief Received</p>
-                  <p className="text-xs text-emerald-300 leading-relaxed">
-                    Thank you! Your project brief has been received. Our senior engineering team will review it and reply with initial architecture insights within 24 hours.
-                  </p>
-                </div>
-              </div>
-            )}
+            <AnimatePresence mode="wait">
+              {status === 'success' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                  transition={{ duration: 0.25 }}
+                  className="p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-200 text-sm flex items-start gap-3"
+                >
+                  <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-semibold mb-0.5">Brief Received</p>
+                    <p className="text-xs text-emerald-300 leading-relaxed">
+                      Thank you! Your project brief has been received. Our senior engineering team will review it and reply with initial architecture insights within 24 hours.
+                    </p>
+                  </div>
+                </motion.div>
+              )}
 
-            {status === 'error' && (
-              <div className="p-4 rounded-xl bg-red-950/40 border border-red-500/40 text-red-200 text-sm flex items-start gap-3">
-                <AlertCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-semibold mb-0.5">Submission Notice</p>
-                  <p className="text-xs text-red-300 leading-relaxed">{errorMessage}</p>
-                </div>
-              </div>
-            )}
+              {status === 'error' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                  transition={{ duration: 0.25 }}
+                  className="p-4 rounded-xl bg-red-950/40 border border-red-500/40 text-red-200 text-sm flex items-start gap-3"
+                >
+                  <AlertCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-semibold mb-0.5">Submission Notice</p>
+                    <p className="text-xs text-red-300 leading-relaxed">{errorMessage}</p>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           {/* Submit Button */}
           <button
             type="submit"
             disabled={status === 'loading'}
-            className="w-full py-4 rounded-full font-semibold text-sm text-white purple-pill-btn hover:brightness-110 transition disabled:opacity-50 flex items-center justify-center gap-2 shadow-xl shadow-[#6320EE]/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+            className="w-full py-4 rounded-full font-semibold text-sm text-white purple-pill-btn group hover:brightness-110 transition disabled:opacity-50 flex items-center justify-center gap-2 shadow-xl shadow-[#6320EE]/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
           >
             {status === 'loading' ? (
               <>
@@ -341,7 +360,7 @@ export function ContactForm() {
             ) : (
               <>
                 <span>Send Project Brief</span>
-                <Send className="w-4 h-4" />
+                <Send className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </>
             )}
           </button>
@@ -351,7 +370,7 @@ export function ContactForm() {
             <span>End-to-end encrypted • Zero spam guarantee</span>
           </div>
         </form>
-      </div>
+      </FadeIn>
     </section>
   );
 }
