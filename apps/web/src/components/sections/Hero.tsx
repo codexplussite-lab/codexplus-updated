@@ -7,19 +7,27 @@ import { Velaris } from '@/components/Velaris';
 
 export function Hero() {
   return (
-    <Velaris
-      bg="#000000"
-      colors={["#A855F7", "#6366F1", "#4F1AD6", "#000000"]}
-      speed={2.2}
-      grain={0.25}
-      height="auto"
-      className="relative min-h-[92vh] flex flex-col justify-center items-center text-center px-6 pt-32 pb-20"
-    >
+    <section className="relative min-h-[92vh] flex flex-col justify-center items-center text-center px-6 pt-32 pb-20 overflow-hidden">
+      {/* Background Living WebGL Gradient Layer */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <Velaris
+          bg="#000000"
+          colors={["#A855F7", "#6366F1", "#4F1AD6", "#000000"]}
+          speed={2.2}
+          grain={0.25}
+          height="100%"
+          className="h-full w-full"
+        />
+      </div>
+
+      {/* Radial soft purple glow accent */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[380px] bg-[#4F1AD6]/25 blur-[130px] rounded-full pointer-events-none" />
+
       <motion.div
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
-        className="max-w-4xl mx-auto flex flex-col items-center z-10"
+        className="max-w-4xl mx-auto flex flex-col items-center relative z-10"
       >
         {/* Webangles Pill Tag */}
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.08] border border-white/15 backdrop-blur-md mb-8">
@@ -58,6 +66,6 @@ export function Hero() {
           </Link>
         </div>
       </motion.div>
-    </Velaris>
+    </section>
   );
 }
