@@ -123,15 +123,17 @@ export const Velaris = ({
   };
 
   useEffect(() => {
+    // Respect prefers-reduced-motion: if user requested reduced motion, bypass continuous shader animation
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     const canvas = canvasRef.current;
     const container = containerRef.current;
     if (!canvas || !container) return;
 
     const gl =
-      canvas.getContext("webgl", { alpha: true, antialias: false }) ||
+      canvas.getContext("webgl", { alpha: true, antialias: false, powerPreference: "low-power" }) ||
       (canvas.getContext("experimental-webgl") as WebGLRenderingContext | null);
     if (!gl) {
-      console.warn("WebGL not supported on this browser/device");
       return;
     }
 
@@ -141,7 +143,6 @@ export const Velaris = ({
       gl.shaderSource(s, src);
       gl.compileShader(s);
       if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
-        console.error("Shader compilation error:", gl.getShaderInfoLog(s));
         gl.deleteShader(s);
         return null;
       }
@@ -158,7 +159,6 @@ export const Velaris = ({
     gl.attachShader(program, fs);
     gl.linkProgram(program);
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      console.error("Program link error:", gl.getProgramInfoLog(program));
       return;
     }
     gl.useProgram(program);
@@ -184,12 +184,12 @@ export const Velaris = ({
     };
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      // Use DPR 1 for background ambience to significantly reduce mobile GPU fillrate load
       const width = container.clientWidth || window.innerWidth;
       const height = container.clientHeight || window.innerHeight;
       if (width === 0 || height === 0) return;
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
+      canvas.width = Math.min(width, 1280);
+      canvas.height = Math.min(height, 1280);
       gl.viewport(0, 0, canvas.width, canvas.height);
     };
 
@@ -199,17 +199,37 @@ export const Velaris = ({
 
     let raf: number;
     let startTime = performance.now();
+    let lastRenderTime = 0;
+    const targetFps = 30; // Target 30fps for ambient background to keep CPU/GPU cool
+    const frameInterval = 1000 / targetFps;
+
     const render = (currentTime: number) => {
-      const elapsed = (currentTime - startTime) * 0.001 * speed;
-      gl.uniform2f(locs.res, canvas.width || 800, canvas.height || 600);
-      gl.uniform1f(locs.time, elapsed);
-      gl.uniform1f(locs.grain, grain);
-      gl.uniform3f(locs.bg, ...hexToRgb(bg));
+      if (prefersReducedMotion) {
+        // Render single static frame and do not schedule further RAF loops
+        gl.uniform2f(locs.res, canvas.width || 800, canvas.height || 600);
+        gl.uniform1f(locs.time, 1.0);
+        gl.uniform1f(locs.grain, grain);
+        gl.uniform3f(locs.bg, ...hexToRgb(bg));
+        const flat = new Float32Array(colors.slice(0, 4).flatMap(hexToRgb));
+        gl.uniform3fv(locs.colors, flat);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        return;
+      }
 
-      const flat = new Float32Array(colors.slice(0, 4).flatMap(hexToRgb));
-      gl.uniform3fv(locs.colors, flat);
+      const delta = currentTime - lastRenderTime;
+      if (delta >= frameInterval) {
+        lastRenderTime = currentTime - (delta % frameInterval);
+        const elapsed = (currentTime - startTime) * 0.001 * speed;
+        gl.uniform2f(locs.res, canvas.width || 800, canvas.height || 600);
+        gl.uniform1f(locs.time, elapsed);
+        gl.uniform1f(locs.grain, grain);
+        gl.uniform3f(locs.bg, ...hexToRgb(bg));
 
-      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        const flat = new Float32Array(colors.slice(0, 4).flatMap(hexToRgb));
+        gl.uniform3fv(locs.colors, flat);
+
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      }
       raf = requestAnimationFrame(render);
     };
 

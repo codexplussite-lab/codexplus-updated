@@ -8,61 +8,66 @@ import { Velaris } from '@/components/Velaris';
 export function Hero() {
   return (
     <section className="relative min-h-[92vh] flex flex-col justify-center items-center text-center px-6 pt-32 pb-20 overflow-hidden">
-      {/* Background Living WebGL Gradient Layer */}
+      {/* Background WebGL Atmosphere */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <Velaris
-          bg="#000000"
-          colors={["#A855F7", "#6366F1", "#4F1AD6", "#000000"]}
-          speed={2.2}
-          grain={0.25}
+          bg="#030305"
+          colors={["#7535F8", "#4F1AD6", "#2D1065", "#030305"]}
+          speed={1.8}
+          grain={0.2}
           height="100%"
-          className="h-full w-full"
+          className="h-full w-full opacity-80"
         />
       </div>
 
       {/* Radial soft purple glow accent */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[380px] bg-[#4F1AD6]/25 blur-[130px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-[#6320EE]/20 blur-[130px] rounded-full pointer-events-none" />
 
       <motion.div
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         className="max-w-4xl mx-auto flex flex-col items-center relative z-10"
       >
-        {/* Webangles Pill Tag */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.08] border border-white/15 backdrop-blur-md mb-8">
-          <span className="purple-badge px-2.5 py-0.5 rounded-full text-[11px] font-bold text-white uppercase tracking-wider">
-            2026
+        {/* Category Eyebrow Pill */}
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.06] border border-white/10 backdrop-blur-md mb-8">
+          <span className="purple-badge px-2.5 py-0.5 rounded-full text-[10px] font-bold text-white uppercase tracking-wider">
+            Studio
           </span>
-          <span className="text-xs font-medium text-gray-200 pr-1">
-            Next-Gen Digital Studio
+          <span className="text-xs font-medium text-gray-300 pr-1">
+            Bespoke Web Systems & Architecture
           </span>
         </div>
 
-        {/* Dual Heading exactly matching Webangles typography style */}
-        <h2 className="text-4xl sm:text-6xl md:text-7xl font-normal tracking-tight text-gray-200 mb-2 font-sans drop-shadow-md">
-          Smart Web Experiences
-        </h2>
-        <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white mb-8 font-sans drop-shadow-[0_10px_35px_rgba(79,26,214,0.4)]">
-          Built From Every Angle
+        {/* Semantic Unified Single H1 with Styled Sub-lines */}
+        <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white mb-8 font-sans">
+          <span className="block font-normal text-gray-300 drop-shadow-sm text-3xl sm:text-5xl md:text-6xl mb-2">
+            Smart Web Experiences,
+          </span>
+          <span className="bg-gradient-to-r from-white via-gray-100 to-[#A855F7] bg-clip-text text-transparent drop-shadow-[0_10px_35px_rgba(99,32,238,0.35)]">
+            Built From Every Angle
+          </span>
         </h1>
 
-        <p className="text-base sm:text-lg text-gray-300 max-w-2xl leading-relaxed mb-10 font-normal drop-shadow-sm">
-          CodeXplus is a modern web studio crafting high-performing websites and full-stack digital products using Next.js, Fastify, and custom architecture — designed to convert and scale.
+        {/* Clear B2B Value Proposition: Who, What, Result */}
+        <p className="text-base sm:text-lg text-gray-300 max-w-2xl leading-relaxed mb-10 font-normal">
+          CodeXplus builds modern digital architectures, headless CMS portals, and high-performance web applications using Next.js and Fastify — engineered for businesses that demand high conversion and zero downtime.
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center gap-4">
+        {/* Action Pair: One Primary CTA + One Visually Secondary CTA */}
+        <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
           <Link
             href="#contact"
-            className="purple-pill-btn px-7 py-3 rounded-full text-sm font-semibold text-white hover:brightness-110 transition-all flex items-center gap-2 shadow-xl shadow-[#4F1AD6]/30 backdrop-blur-sm"
+            className="purple-pill-btn w-full sm:w-auto px-8 py-3.5 rounded-full text-sm font-semibold text-white hover:brightness-110 transition flex items-center justify-center gap-2 shadow-xl shadow-[#6320EE]/30"
           >
-            Connect With Us <ArrowUpRight className="w-4 h-4" />
+            <span>Start a Project</span>
+            <ArrowUpRight className="w-4 h-4" />
           </Link>
           <Link
-            href="/about"
-            className="px-7 py-3 rounded-full text-sm font-semibold text-gray-200 hover:text-white bg-white/[0.08] hover:bg-white/[0.14] border border-white/20 transition-all backdrop-blur-sm"
+            href="#portfolio"
+            className="w-full sm:w-auto px-8 py-3.5 rounded-full text-sm font-semibold text-gray-200 hover:text-white bg-white/[0.05] hover:bg-white/[0.10] border border-white/15 transition flex items-center justify-center gap-2 backdrop-blur-sm"
           >
-            About CodeXplus
+            <span>Explore Case Studies</span>
           </Link>
         </div>
       </motion.div>

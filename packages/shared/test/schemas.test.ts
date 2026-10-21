@@ -37,10 +37,34 @@ describe('Shared Schemas & Contracts', () => {
     const spamSubmission = {
       name: 'Bot User',
       email: 'bot@example.com',
-      message: 'Hello buy my product',
+      message: 'Hello buy my product and click here',
       honeypot: 'bot-filled-this',
     };
     expect(() => ContactFormSubmissionSchema.parse(spamSubmission)).toThrow();
+  });
+
+  it('should accept valid contact form submission with optional phone and trimmed fields', () => {
+    const valid = {
+      name: '  Hassan Abbas  ',
+      email: '  test@codexplus.site  ',
+      phone: '+92 300 1234567',
+      message: 'This is a genuine inquiry for full-stack engineering services.',
+      consent: true,
+    };
+    const parsed = ContactFormSubmissionSchema.parse(valid);
+    expect(parsed.name).toBe('Hassan Abbas');
+    expect(parsed.email).toBe('test@codexplus.site');
+    expect(parsed.phone).toBe('+92 300 1234567');
+  });
+
+  it('should reject invalid email and too short message', () => {
+    expect(() =>
+      ContactFormSubmissionSchema.parse({
+        name: 'Ha',
+        email: 'invalid-email',
+        message: 'short',
+      })
+    ).toThrow();
   });
 
   it('should correctly parse field metadata', () => {

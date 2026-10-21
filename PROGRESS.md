@@ -28,7 +28,16 @@
 ---
 
 ## Open Decisions & Content TODOs
-1. **Counters**: Actual figures for Projects Completed, Client Retention, and Global Awards.
-2. **Contact Info**: Replace US placeholder address with official Karachi details & select final primary email (`info@codexplus.site` vs `hello@codexplus.studio`).
-3. **Badge Text**: Update 'Currently booking Q3 2026' to current quarter.
-4. **Social Links**: Provide exact handles for GitHub, LinkedIn, Twitter, Instagram, Dribbble.
+1. **Team Profiles Verification (Pending Owner Confirmation)**:
+   - `Arman Naqvi` (Lead Architect & Founder): Confirm bio, role, and official social handles (GitHub, LinkedIn, Twitter).
+   - `Sofia Chen`, `Marcus Vance`, `Elena Rostova`: Confirm whether these are actual team members/partners or if team section should only feature confirmed founders/leads. (Currently displayed with "Pending confirmation" flags).
+2. **Case Studies & Portfolio Verification**:
+   - `Lemonide Tech Enterprise Portal`, `Viper Creative Experience Studio`, `Million One Global Commerce`: Currently labeled accurately as Architecture Demos / Motion Studies / Proof-of-Concepts derived from template references with "Request Brief" actions. Owner to confirm whether genuine completed client case studies and screenshots can be published.
+3. **Testimonials Confirmation**:
+   - Sample testimonials (`Elena Vasquez`, `Marcus Feld`, `Sofia Lindgren`) are marked as concept demos and kept off production pages pending verified client quotes and permissions.
+4. **Counters & Metrics**:
+   - Replaced speculative numbers (e.g. 40k+ shipped, 99% retention) with verified qualitative engineering pillars (Senior Execution, 100% Type Safe, Fastify & Next.js 15, 24h Turnaround).
+5. **Contact Info & Location**:
+   - Confirm official Karachi office address and final primary domain email (`ha4244488@gmail.com` / `info@codexplus.site` / `hello@codexplus.studio`).
+6. **Social Media Accounts**:
+   - Provide verified organization handles for GitHub, LinkedIn, and X/Twitter.

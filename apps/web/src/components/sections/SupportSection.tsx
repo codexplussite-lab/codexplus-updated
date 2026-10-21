@@ -1,44 +1,58 @@
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, Clock, Shield, Headphones } from 'lucide-react';
 
 const SUPPORT_POINTS = [
   {
-    title: 'Fast Responses',
-    desc: 'Rapid communication with direct engineering access — zero account manager delays.',
+    icon: Clock,
+    title: 'Rapid Engineering Turnaround',
+    desc: 'Direct communication channels with senior systems engineers. No intermediary account managers or ticketing bureaucracy.',
   },
   {
-    title: 'Expert Guidance',
-    desc: 'Architectural reviews and strategic roadmapping to future-proof your digital investments.',
+    icon: Shield,
+    title: 'Proactive Reliability & Architecture Auditing',
+    desc: 'Continuous performance reviews, automated security patch assessments, and edge cache revalidation to ensure 99.9% platform availability.',
   },
   {
-    title: 'Continuous Help',
-    desc: 'Proactive monitoring, uptime protection, and rapid feature rollouts post-launch.',
+    icon: Headphones,
+    title: 'Post-Launch Partnership & Scaling',
+    desc: 'Structured maintenance retainers, continuous feature sprints, and infrastructure scaling support as your user volume expands.',
   },
 ];
 
 export function SupportSection() {
   return (
-    <section className="py-28 px-6 max-w-7xl mx-auto border-t border-white/[0.06]">
+    <section className="py-24 md:py-28 px-6 max-w-7xl mx-auto border-t border-white/[0.06]">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         <div className="lg:col-span-6">
-          <span className="text-xs font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">24/7 Support</span>
+          <span className="text-xs font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">
+            Dedicated Support
+          </span>
           <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight leading-tight mb-6">
-            Here When You Need Us Most.
+            Reliable Engineering When Stakes Are High.
           </h2>
-          <p className="text-gray-400 text-base leading-relaxed mb-8">
-            CodeXplus comes with dedicated engineering support to help you launch, scale, and maintain your web applications without friction or downtime.
+          <p className="text-gray-400 text-base leading-relaxed mb-6">
+            CodeXplus provides dedicated engineering support and architectural guidance to ensure your applications launch securely, run reliably, and scale predictably.
           </p>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/10 text-xs text-gray-300">
+            <CheckCircle2 className="w-4 h-4 text-[#8059E3]" />
+            <span>Guaranteed 24-hour response window on all serious inquiries</span>
+          </div>
         </div>
 
         <div className="lg:col-span-6 space-y-4">
-          {SUPPORT_POINTS.map((pt, idx) => (
-            <div key={idx} className="webangles-card p-6 rounded-2xl flex items-start gap-4">
-              <CheckCircle2 className="w-6 h-6 text-[#8059E3] shrink-0 mt-0.5" />
-              <div>
-                <h4 className="text-base font-bold text-white mb-1">{pt.title}</h4>
-                <p className="text-sm text-gray-400 leading-relaxed">{pt.desc}</p>
+          {SUPPORT_POINTS.map((pt, idx) => {
+            const Icon = pt.icon;
+            return (
+              <div key={idx} className="webangles-card p-6 rounded-2xl flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-[#8059E3] shrink-0 mt-0.5">
+                  <Icon className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-white mb-1.5">{pt.title}</h3>
+                  <p className="text-sm text-gray-400 leading-relaxed">{pt.desc}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

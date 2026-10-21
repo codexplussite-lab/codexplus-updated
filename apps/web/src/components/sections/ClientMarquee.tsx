@@ -1,24 +1,24 @@
 export function ClientMarquee() {
-  const tags = [
-    'Cognitive',
-    'Intelligent Systems',
-    'Infrastructure',
-    'Full-Stack Craft',
-    'Next.js 15',
-    'Custom CMS',
-    'Scalable Cloud',
-    'Design Systems',
+  const STACK_CORE = [
+    'Next.js 15 App Router',
+    'Fastify 5 Node Architecture',
+    'PostgreSQL & Drizzle ORM',
+    'Strict Zod Schema Validation',
+    'Tailwind CSS & Design Systems',
+    'Framer Motion Micro-Interactions',
+    'Headless CMS Integrations',
+    'Core Web Vitals Optimization',
   ];
 
   return (
-    <section className="py-8 border-y border-white/[0.06] overflow-hidden">
-      <div className="flex animate-marquee gap-12 whitespace-nowrap">
-        {tags.concat(tags).map((tag, idx) => (
-          <div key={idx} className="flex items-center gap-4">
-            <span className="text-sm font-semibold tracking-wider text-gray-500 hover:text-gray-300 uppercase transition cursor-default">
-              {tag}
+    <section aria-label="Core Engineering Technologies" className="py-6 bg-[#08080C] border-y border-white/[0.06] overflow-hidden">
+      <div className="flex animate-marquee gap-10 whitespace-nowrap">
+        {STACK_CORE.concat(STACK_CORE).map((tech, idx) => (
+          <div key={idx} className="flex items-center gap-3">
+            <span className="text-xs font-mono font-medium tracking-wider text-gray-400 uppercase transition hover:text-white cursor-default">
+              {tech}
             </span>
-            <div className="w-1.5 h-1.5 rounded-full bg-[#4F1AD6]" />
+            <div className="w-1.5 h-1.5 rounded-full bg-[#8059E3]" aria-hidden="true" />
           </div>
         ))}
       </div>

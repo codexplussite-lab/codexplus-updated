@@ -167,7 +167,12 @@ export const AmbientOrb: FC<AmbientOrbProps> = ({
     void main() {
       vec2 fragCoord = vUv * iResolution.xy;
       vec4 col = mainImage(fragCoord);
-      gl_FragColor = vec4(col.rgb * col.a, col.a);
+      // Soft radial falloff towards canvas perimeter to ensure 0 boundary seam
+      vec2 uvNorm = vUv * 2.0 - 1.0;
+      float edgeDist = length(uvNorm);
+      float edgeFade = smoothstep(1.0, 0.78, edgeDist);
+      float finalAlpha = col.a * edgeFade;
+      gl_FragColor = vec4(col.rgb * finalAlpha, finalAlpha);
     }
   `;
 
@@ -190,9 +195,10 @@ export const AmbientOrb: FC<AmbientOrbProps> = ({
       glContext = rendererInstance.gl;
       glContext.clearColor(0, 0, 0, 0);
       glContext.enable(glContext.BLEND);
-      glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA);
+      glContext.blendFunc(glContext.ONE, glContext.ONE_MINUS_SRC_ALPHA); // Additive pre-multiplied blend to eliminate dark rectangular boundaries
 
       const canvas = glContext.canvas as HTMLCanvasElement;
+      canvas.style.backgroundColor = 'transparent';
       while (container.firstChild) {
         container.removeChild(container.firstChild);
       }

@@ -3,8 +3,11 @@
 @tailwind utilities;
 
 :root {
-  --background: #000000;
+  --background: #030305;
   --foreground: #ffffff;
+  --color-brand-primary: #6320EE;
+  --color-brand-hover: #7535F8;
+  --color-brand-light: #9B72F4;
 }
 
 body {
@@ -13,29 +16,49 @@ body {
   overflow-x: hidden;
 }
 
+/* Accessible focus ring across all keyboard interactions */
+:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
 /* Webangles Glow and Radial effects */
 .webangles-glow {
-  background: radial-gradient(50% 50% at 50% 50%, rgba(79, 26, 214, 0.22) 0%, rgba(12, 9, 18, 0) 100%);
+  background: radial-gradient(50% 50% at 50% 50%, rgba(99, 32, 238, 0.22) 0%, rgba(12, 9, 18, 0) 100%);
 }
 
 .webangles-card {
-  background: linear-gradient(180deg, rgba(20, 20, 20, 0.7) 0%, rgba(10, 10, 10, 0.9) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(180deg, rgba(16, 16, 24, 0.8) 0%, rgba(9, 9, 14, 0.95) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .webangles-card:hover {
-  border-color: rgba(255, 255, 255, 0.18);
+  border-color: rgba(155, 114, 244, 0.35);
+  box-shadow: 0 14px 40px -10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(99, 32, 238, 0.15);
 }
 
 .purple-badge {
-  background: linear-gradient(180deg, #4F1AD6 0%, #8059E3 100%);
-  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(180deg, #6320EE 0%, #8059E3 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .purple-pill-btn {
-  background: linear-gradient(180deg, #4F1AD6 0%, #8059E3 100%);
-  box-shadow: 0 4px 20px rgba(79, 26, 214, 0.4);
+  background: linear-gradient(180deg, #6320EE 0%, #8059E3 100%);
+  box-shadow: 0 4px 24px rgba(99, 32, 238, 0.45);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.purple-pill-btn:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 6px 28px rgba(99, 32, 238, 0.6);
+  transform: translateY(-1px);
+}
+
+.purple-pill-btn:active {
+  transform: translateY(1px);
+  filter: brightness(0.95);
 }
 
 @keyframes marquee {
@@ -46,9 +69,41 @@ body {
 .animate-marquee {
   display: flex;
   width: max-content;
-  animation: marquee 25s linear infinite;
+  animation: marquee 35s linear infinite;
 }
 
 .animate-marquee:hover {
   animation-play-state: paused;
+}
+
+/* Premium Outlined Oversized Typography Wordmark */
+.brand-wordmark-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(235, 235, 235, 0.85);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.88;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* WCAG Reduced Motion Overrides */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-marquee {
+    animation: none !important;
+    overflow-x: auto !important;
+    scrollbar-width: thin;
+  }
+  .webangles-card:hover {
+    transform: none !important;
+  }
+  .purple-pill-btn:hover, .purple-pill-btn:active {
+    transform: none !important;
+  }
 }
