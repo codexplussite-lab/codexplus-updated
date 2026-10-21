@@ -11,7 +11,7 @@ export function ClientMarquee() {
   ];
 
   return (
-    <section className="py-8 border-y border-white/[0.06] bg-black overflow-hidden">
+    <section className="py-8 border-y border-white/[0.06] overflow-hidden">
       <div className="flex animate-marquee gap-12 whitespace-nowrap">
         {tags.concat(tags).map((tag, idx) => (
           <div key={idx} className="flex items-center gap-4">

@@ -127,23 +127,40 @@ export const Velaris = ({
     const container = containerRef.current;
     if (!canvas || !container) return;
 
-    const gl = canvas.getContext("webgl");
-    if (!gl) return;
+    const gl =
+      canvas.getContext("webgl", { alpha: true, antialias: false }) ||
+      (canvas.getContext("experimental-webgl") as WebGLRenderingContext | null);
+    if (!gl) {
+      console.warn("WebGL not supported on this browser/device");
+      return;
+    }
 
     const createShader = (type: number, src: string) => {
-      const s = gl.createShader(type)!;
+      const s = gl.createShader(type);
+      if (!s) return null;
       gl.shaderSource(s, src);
       gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+        console.error("Shader compilation error:", gl.getShaderInfoLog(s));
+        gl.deleteShader(s);
+        return null;
+      }
       return s;
     };
 
-    const program = gl.createProgram()!;
-    gl.attachShader(program, createShader(gl.VERTEX_SHADER, vertexShaderGLSL));
-    gl.attachShader(
-      program,
-      createShader(gl.FRAGMENT_SHADER, fragmentShaderGLSL),
-    );
+    const vs = createShader(gl.VERTEX_SHADER, vertexShaderGLSL);
+    const fs = createShader(gl.FRAGMENT_SHADER, fragmentShaderGLSL);
+    if (!vs || !fs) return;
+
+    const program = gl.createProgram();
+    if (!program) return;
+    gl.attachShader(program, vs);
+    gl.attachShader(program, fs);
     gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      console.error("Program link error:", gl.getProgramInfoLog(program));
+      return;
+    }
     gl.useProgram(program);
 
     const buffer = gl.createBuffer();
@@ -167,9 +184,12 @@ export const Velaris = ({
     };
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio, 2);
-      canvas.width = (container.clientWidth || window.innerWidth) * dpr;
-      canvas.height = (container.clientHeight || window.innerHeight) * dpr;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const width = container.clientWidth || window.innerWidth;
+      const height = container.clientHeight || window.innerHeight;
+      if (width === 0 || height === 0) return;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
       gl.viewport(0, 0, canvas.width, canvas.height);
     };
 
@@ -178,9 +198,11 @@ export const Velaris = ({
     ro.observe(container);
 
     let raf: number;
-    const render = (t: number) => {
-      gl.uniform2f(locs.res, canvas.width, canvas.height);
-      gl.uniform1f(locs.time, t * 0.001 * speed);
+    let startTime = performance.now();
+    const render = (currentTime: number) => {
+      const elapsed = (currentTime - startTime) * 0.001 * speed;
+      gl.uniform2f(locs.res, canvas.width || 800, canvas.height || 600);
+      gl.uniform1f(locs.time, elapsed);
       gl.uniform1f(locs.grain, grain);
       gl.uniform3f(locs.bg, ...hexToRgb(bg));
 

@@ -10,7 +10,7 @@ export const metadata = {
 
 export default function ContactPage() {
   return (
-    <main className="min-h-screen bg-black text-white selection:bg-[#4F1AD6] pt-28">
+    <main className="min-h-screen text-white selection:bg-[#4F1AD6] pt-28">
       <Navbar />
       <div className="max-w-5xl mx-auto px-6 py-16 text-center">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 mb-6">

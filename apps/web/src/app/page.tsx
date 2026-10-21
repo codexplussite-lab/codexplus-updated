@@ -12,7 +12,7 @@ import { Footer } from '@/components/Footer';
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-black text-white selection:bg-[#4F1AD6]">
+    <main className="min-h-screen text-white selection:bg-[#4F1AD6]">
       <Navbar />
       <Hero />
       <ClientMarquee />

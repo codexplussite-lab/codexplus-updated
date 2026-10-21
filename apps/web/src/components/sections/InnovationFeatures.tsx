@@ -30,7 +30,7 @@ const FEATURES = [
 
 export function InnovationFeatures() {
   return (
-    <section className="py-28 px-6 max-w-7xl mx-auto border-t border-white/[0.06] bg-black">
+    <section className="py-28 px-6 max-w-7xl mx-auto border-t border-white/[0.06]">
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
         <div>
           <span className="text-xs font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">Features</span>

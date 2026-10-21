@@ -17,7 +17,7 @@ const SUPPORT_POINTS = [
 
 export function SupportSection() {
   return (
-    <section className="py-28 px-6 max-w-7xl mx-auto border-t border-white/[0.06] bg-black">
+    <section className="py-28 px-6 max-w-7xl mx-auto border-t border-white/[0.06]">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         <div className="lg:col-span-6">
           <span className="text-xs font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">24/7 Support</span>
