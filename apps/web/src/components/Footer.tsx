@@ -6,8 +6,8 @@ export function Footer() {
   return (
     <footer className="relative w-full bg-gradient-to-b from-[#08080c] via-[#0e071c] to-[#04010a] text-[#f5f5f5] pt-24 pb-12 sm:pb-16 overflow-hidden border-t border-white/[0.08]">
       {/* Ambient Radial Gradient Flares for Depth */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] bg-gradient-to-t from-[#A855F7]/20 via-[#A855F7]/10 to-transparent blur-[140px] pointer-events-none -z-0" />
-      <div className="absolute top-0 right-1/4 w-[400px] h-[300px] bg-[#A855F7]/10 blur-[120px] pointer-events-none -z-0" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] bg-gradient-to-t from-[#6320EE]/20 via-[#A855F7]/10 to-transparent blur-[140px] pointer-events-none -z-0" />
+      <div className="absolute top-0 right-1/4 w-[400px] h-[300px] bg-[#8059E3]/10 blur-[120px] pointer-events-none -z-0" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         {/* Top Area: Left Brand Info + Right 4-Column Navigation */}

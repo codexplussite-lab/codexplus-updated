@@ -57,7 +57,7 @@ export function Navbar() {
     <header className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 md:pt-5 px-4 pointer-events-none">
       <div className="w-full max-w-5xl h-14 rounded-full px-5 md:px-6 flex items-center justify-between backdrop-blur-xl bg-[#09090D]/85 border border-white/10 shadow-2xl pointer-events-auto">
         <Link href="/" className="flex items-center gap-2 group" aria-label="CodeXplus Homepage">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-[#8059E3] to-[#8059E3] flex items-center justify-center font-bold text-white text-sm shadow-md shadow-[#8059E3]/30">
+          <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-[#6320EE] to-[#8059E3] flex items-center justify-center font-bold text-white text-sm shadow-md shadow-[#6320EE]/30">
             C
           </div>
           <span className="text-base font-bold tracking-tight text-white group-hover:text-gray-200 transition">
@@ -66,7 +66,7 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Multi-Page Navigation with Active Indicator */}
-        <nav aria-label="Primary Navigation" className="hidden md:flex items-center gap-5 text-[11px] font-medium tracking-wider uppercase">
+        <nav aria-label="Primary Navigation" className="hidden md:flex items-center gap-6 text-xs font-medium tracking-wide">
           {NAV_LINKS.map((link) => {
             const active = isActive(link.href);
             return (
@@ -81,7 +81,7 @@ export function Navbar() {
                 {active ? (
                   <motion.span
                     layoutId="navbar-active-indicator"
-                    className="absolute -bottom-1.5 left-0 right-0 h-[2px] bg-gradient-to-r from-[#8059E3] to-[#8059E3] rounded-full shadow-[0_0_8px_rgba(99,32,238,0.8)]"
+                    className="absolute -bottom-1.5 left-0 right-0 h-[2px] bg-gradient-to-r from-[#6320EE] to-[#8059E3] rounded-full shadow-[0_0_8px_rgba(99,32,238,0.8)]"
                     transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                   />
                 ) : (
@@ -147,7 +147,7 @@ export function Navbar() {
                       key={link.name}
                       href={link.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`text-sm font-medium transition-colors py-2 border-b border-white/[0.06] w-full flex items-center justify-between ${
+                      className={`text-lg font-medium transition-colors py-2 border-b border-white/[0.06] w-full flex items-center justify-between ${
                         active ? 'text-white font-bold' : 'text-gray-400 hover:text-white'
                       }`}
                     >

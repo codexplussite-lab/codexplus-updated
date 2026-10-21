@@ -97,7 +97,7 @@ export function TeamSection() {
             <div>
               {/* Member Visual Avatar Card with Ambient Obsidian Lighting */}
               <div className="h-52 rounded-xl bg-gradient-to-br from-[#120917] via-[#0D0D12] to-[#1a1129] border border-white/[0.06] flex flex-col items-center justify-center relative overflow-hidden mb-6 group-hover:border-[#8059E3]/30 transition-colors">
-                <div className="absolute inset-0 bg-[#8059E3]/10 opacity-0 group-hover:opacity-100 transition-opacity blur-2xl pointer-events-none" />
+                <div className="absolute inset-0 bg-[#6320EE]/10 opacity-0 group-hover:opacity-100 transition-opacity blur-2xl pointer-events-none" />
                 
                 <div 
                   role="img"

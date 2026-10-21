@@ -74,7 +74,7 @@ export function FeaturedProjects() {
       <FadeIn className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
         <div>
           <span className="text-xs font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">
-            Selected Work // Architecture Studies
+            Selected Work & Architecture Studies
           </span>
           <GsapSplitText
             tag="h2"
@@ -104,7 +104,7 @@ export function FeaturedProjects() {
               <div className="webangles-card rounded-2xl overflow-hidden group hover:border-[#8059E3]/50 transition-all duration-300 flex flex-col justify-between h-full">
                 {/* Visual Thumbnail Representation with Code / Architecture Wireframe Preview */}
                 <div className="h-64 bg-gradient-to-br from-[#120917] via-[#0E0E12] to-[#1a1129] border-b border-white/[0.06] p-6 relative flex flex-col justify-between overflow-hidden">
-                  <div className="absolute inset-0 bg-[#8059E3]/10 opacity-0 group-hover:opacity-100 transition-opacity blur-2xl pointer-events-none" />
+                  <div className="absolute inset-0 bg-[#6320EE]/10 opacity-0 group-hover:opacity-100 transition-opacity blur-2xl pointer-events-none" />
                   
                   <div className="flex items-center justify-between relative z-10 gap-2">
                     <span className="text-[10px] font-mono tracking-wider uppercase px-2.5 py-1 rounded bg-white/[0.06] text-gray-300 border border-white/10">
@@ -143,7 +143,7 @@ export function FeaturedProjects() {
                   <div>
                     {/* Genuine Classification Tag */}
                     <div className="mb-3">
-                      <span className="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#8059E3]/15 text-[#9B72F4] border border-[#8059E3]/30">
+                      <span className="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#6320EE]/15 text-[#9B72F4] border border-[#8059E3]/30">
                         <Sparkles className="w-3 h-3 text-[#9B72F4]" />
                         {proj.kindLabel}
                       </span>

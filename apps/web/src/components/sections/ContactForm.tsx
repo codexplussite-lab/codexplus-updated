@@ -171,7 +171,7 @@ export function ContactForm() {
                   clearFieldError('name');
                 }}
                 className={`w-full px-4 py-3 rounded-xl bg-white/[0.04] border ${
-                  fieldErrors.name ? 'border-red-500/80 focus:ring-red-500/30' : 'border-white/[0.08] focus:border-[#8059E3] focus:ring-[#8059E3]/25'
+                  fieldErrors.name ? 'border-red-500/80 focus:ring-red-500/30' : 'border-white/[0.08] focus:border-[#8059E3] focus:ring-[#6320EE]/25'
                 } text-white placeholder-gray-500 text-sm focus:outline-none focus:ring-2 transition`}
                 placeholder="Elena Vasquez"
               />
@@ -202,7 +202,7 @@ export function ContactForm() {
                   clearFieldError('email');
                 }}
                 className={`w-full px-4 py-3 rounded-xl bg-white/[0.04] border ${
-                  fieldErrors.email ? 'border-red-500/80 focus:ring-red-500/30' : 'border-white/[0.08] focus:border-[#8059E3] focus:ring-[#8059E3]/25'
+                  fieldErrors.email ? 'border-red-500/80 focus:ring-red-500/30' : 'border-white/[0.08] focus:border-[#8059E3] focus:ring-[#6320EE]/25'
                 } text-white placeholder-gray-500 text-sm focus:outline-none focus:ring-2 transition`}
                 placeholder="elena@company.com"
               />
@@ -232,7 +232,7 @@ export function ContactForm() {
                 clearFieldError('phone');
               }}
               className={`w-full px-4 py-3 rounded-xl bg-white/[0.04] border ${
-                fieldErrors.phone ? 'border-red-500/80 focus:ring-red-500/30' : 'border-white/[0.08] focus:border-[#8059E3] focus:ring-[#8059E3]/25'
+                fieldErrors.phone ? 'border-red-500/80 focus:ring-red-500/30' : 'border-white/[0.08] focus:border-[#8059E3] focus:ring-[#6320EE]/25'
               } text-white placeholder-gray-500 text-sm focus:outline-none focus:ring-2 transition`}
               placeholder="+1 (555) 019-2834 or +92 300 1234567"
             />
@@ -263,7 +263,7 @@ export function ContactForm() {
                 clearFieldError('message');
               }}
               className={`w-full px-4 py-3 rounded-xl bg-white/[0.04] border ${
-                fieldErrors.message ? 'border-red-500/80 focus:ring-red-500/30' : 'border-white/[0.08] focus:border-[#8059E3] focus:ring-[#8059E3]/25'
+                fieldErrors.message ? 'border-red-500/80 focus:ring-red-500/30' : 'border-white/[0.08] focus:border-[#8059E3] focus:ring-[#6320EE]/25'
               } text-white placeholder-gray-500 text-sm focus:outline-none focus:ring-2 transition resize-none`}
               placeholder="Tell us about your product, expected timelines, and primary goals..."
             />
@@ -285,14 +285,14 @@ export function ContactForm() {
                   setFormData({ ...formData, consent: e.target.checked });
                   clearFieldError('consent');
                 }}
-                className="mt-0.5 w-4 h-4 rounded border-white/20 bg-white/[0.04] text-[#8059E3] focus:ring-[#8059E3] focus:ring-offset-0 transition"
+                className="mt-0.5 w-4 h-4 rounded border-white/20 bg-white/[0.04] text-[#6320EE] focus:ring-[#8059E3] focus:ring-offset-0 transition"
               />
               <span className="text-xs text-gray-400 leading-relaxed group-hover:text-gray-300 transition">
                 I agree to the collection and processing of my contact details and project brief solely for communication regarding this inquiry as detailed in the{' '}
                 <Link
                   href="/privacy-policy"
                   target="_blank"
-                  className="text-[#8059E3] underline hover:text-white transition"
+                  className="text-[#9B72F4] underline hover:text-white transition"
                 >
                   Privacy Policy
                 </Link>
@@ -350,7 +350,7 @@ export function ContactForm() {
           <button
             type="submit"
             disabled={status === 'loading'}
-            className="w-full py-4 rounded-full font-semibold text-sm text-white purple-pill-btn group hover:brightness-110 transition disabled:opacity-50 flex items-center justify-center gap-2 shadow-xl shadow-[#8059E3]/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+            className="w-full py-4 rounded-full font-semibold text-sm text-white purple-pill-btn group hover:brightness-110 transition disabled:opacity-50 flex items-center justify-center gap-2 shadow-xl shadow-[#6320EE]/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
           >
             {status === 'loading' ? (
               <>

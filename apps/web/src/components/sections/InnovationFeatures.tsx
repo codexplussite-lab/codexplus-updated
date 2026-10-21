@@ -36,8 +36,8 @@ export function InnovationFeatures() {
     <section id="capabilities" className="py-24 md:py-28 px-6 max-w-7xl mx-auto border-t border-white/[0.06]">
       <FadeIn className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
         <div>
-          <span className="text-xs font-mono font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">
-            Core Capabilities // Systems
+          <span className="text-xs font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">
+            Core Capabilities
           </span>
           <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight">
             Engineered for Precision & Scale.
@@ -58,7 +58,7 @@ export function InnovationFeatures() {
             >
               <div>
                 <div className="flex justify-between items-center mb-6">
-                  <div className="w-12 h-12 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-[#8059E3] group-hover:scale-105 group-hover:border-[#8059E3]/40 group-hover:bg-[#8059E3]/10 transition-all">
+                  <div className="w-12 h-12 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-[#8059E3] group-hover:scale-105 group-hover:border-[#8059E3]/40 transition-all">
                     <Icon className="w-6 h-6" />
                   </div>
                   <span className="text-[11px] font-mono font-medium px-3 py-1 rounded-full bg-white/[0.03] text-gray-400 border border-white/[0.06]">

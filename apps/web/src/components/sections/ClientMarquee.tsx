@@ -18,7 +18,7 @@ export function ClientMarquee() {
             <span className="text-xs font-mono font-medium tracking-wider text-gray-400 uppercase transition hover:text-white cursor-default">
               {tech}
             </span>
-            <div className="w-1.5 h-1.5 rounded-full bg-[#8059E3] shadow-[0_0_6px_rgba(128,89,227,0.8)]" aria-hidden="true" />
+            <div className="w-1.5 h-1.5 rounded-full bg-[#8059E3]" aria-hidden="true" />
           </div>
         ))}
       </div>
