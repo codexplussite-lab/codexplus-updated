@@ -18,7 +18,6 @@ export function Navbar() {
           <Link href="/about" className="hover:text-white transition">About</Link>
           <Link href="/services" className="hover:text-white transition">Services</Link>
           <Link href="/portfolio" className="hover:text-white transition">Portfolio</Link>
-          <Link href="/team" className="hover:text-white transition">Team</Link>
           <Link href="/articles" className="hover:text-white transition">Journal</Link>
           <Link href="/contact" className="hover:text-white transition">Contact</Link>
         </nav>

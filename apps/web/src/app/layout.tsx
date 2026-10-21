@@ -1,6 +1,7 @@
 import './globals.css';
 import { Metadata } from 'next';
 import { DM_Sans } from 'next/font/google';
+import { BackgroundGradient } from '@/components/BackgroundGradient';
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -19,9 +20,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`dark ${dmSans.variable}`}>
-      <body className="min-h-screen bg-[#000000] text-[#FFFFFF] font-sans antialiased selection:bg-[#4F1AD6] selection:text-white">
-        {children}
+    <html lang="en" className={`dark ${dmSans.variable}`} suppressHydrationWarning>
+      <body
+        className="min-h-screen bg-[#000000] text-[#FFFFFF] font-sans antialiased selection:bg-[#4F1AD6] selection:text-white relative"
+        suppressHydrationWarning
+      >
+        <BackgroundGradient />
+        <div className="relative z-10">
+          {children}
+        </div>
       </body>
     </html>
   );
