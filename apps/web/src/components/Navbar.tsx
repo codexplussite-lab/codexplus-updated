@@ -66,7 +66,7 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Multi-Page Navigation with Active Indicator */}
-        <nav aria-label="Primary Navigation" className="hidden md:flex items-center gap-6 text-xs font-medium tracking-wide">
+        <nav aria-label="Primary Navigation" className="hidden md:flex items-center gap-5 text-[11px] font-medium tracking-wider uppercase">
           {NAV_LINKS.map((link) => {
             const active = isActive(link.href);
             return (
@@ -147,7 +147,7 @@ export function Navbar() {
                       key={link.name}
                       href={link.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`text-lg font-medium transition-colors py-2 border-b border-white/[0.06] w-full flex items-center justify-between ${
+                      className={`text-sm font-medium transition-colors py-2 border-b border-white/[0.06] w-full flex items-center justify-between ${
                         active ? 'text-white font-bold' : 'text-gray-400 hover:text-white'
                       }`}
                     >

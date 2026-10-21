@@ -36,13 +36,13 @@ export function Hero() {
           initial={{ opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-[#A855F7]/30 backdrop-blur-md mb-8 shadow-[0_0_15px_rgba(190,242,100,0.15)]"
+          className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.06] border border-white/10 backdrop-blur-md mb-8"
         >
-          <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#A855F7] text-[#030305] uppercase tracking-wider">
-            SYSTEMS // STUDIO
+          <span className="purple-badge px-2.5 py-0.5 rounded-full text-[10px] font-bold text-white uppercase tracking-wider">
+            Studio
           </span>
-          <span className="text-xs font-mono font-medium text-gray-300 pr-1">
-            Bespoke Web Architecture & Engineering
+          <span className="text-xs font-medium text-gray-300 pr-1">
+            Bespoke Web Systems & Architecture
           </span>
         </motion.div>
 
@@ -92,7 +92,7 @@ export function Hero() {
           </Magnetic>
           <Link
             href="#portfolio"
-            className="w-full sm:w-auto px-8 py-3.5 rounded-full text-sm font-semibold text-gray-200 hover:text-white bg-white/[0.04] hover:bg-white/[0.10] border border-white/15 transition flex items-center justify-center gap-2 backdrop-blur-sm"
+            className="w-full sm:w-auto px-8 py-3.5 rounded-full text-sm font-semibold text-gray-200 hover:text-white bg-white/[0.06] hover:bg-white/[0.10] border border-white/15 transition flex items-center justify-center gap-2 backdrop-blur-sm"
           >
             <span>Explore Case Studies</span>
           </Link>
