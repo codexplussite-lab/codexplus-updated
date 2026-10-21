@@ -4,6 +4,8 @@ import { DM_Sans } from 'next/font/google';
 import { BackgroundGradient } from '@/components/BackgroundGradient';
 import { PageTransition } from '@/components/motion/PageTransition';
 import { NavigationProgressBar } from '@/components/motion/NavigationProgressBar';
+import { TechGridBackground } from '@/components/TechGridBackground';
+import { CustomCursor } from '@/components/CustomCursor';
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -64,6 +66,8 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <BackgroundGradient />
+        <TechGridBackground />
+        <CustomCursor />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

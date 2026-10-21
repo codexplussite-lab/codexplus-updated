@@ -97,7 +97,7 @@ export interface VelarisProps {
 const DEFAULT_PURPLE_COLORS = [
   "#A855F7", // bright violet
   "#6366F1", // indigo accent
-  "#4F1AD6", // primary brand purple
+  "#65A30D", // primary brand purple
   "#1E0B4B", // deep purple dark
 ];
 

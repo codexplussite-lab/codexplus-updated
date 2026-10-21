@@ -17,11 +17,11 @@ export function CtaSection() {
       </GsapParallax>
 
       {/* Smooth diffused radial glow merging organically into background */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] max-w-full bg-[#6320EE]/10 blur-[130px] rounded-full pointer-events-none -z-10" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] max-w-full bg-[#BEF264]/10 blur-[130px] rounded-full pointer-events-none -z-10" />
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 flex flex-col items-center">
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.08] border border-white/15 mb-8 backdrop-blur-md">
-          <span className="purple-badge px-2 py-0.5 rounded-full text-[10px] font-bold text-white uppercase tracking-wider">
+          <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#BEF264] text-[#030305] uppercase tracking-wider px-2 py-0.5 rounded-full text-[10px] font-bold text-white uppercase tracking-wider">
             Booking Calendar
           </span>
           <span className="text-xs font-medium text-gray-200">
@@ -42,7 +42,7 @@ export function CtaSection() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
           <Link
             href="/contact"
-            className="purple-pill-btn w-full sm:w-auto px-8 py-3.5 rounded-full font-semibold text-sm text-white hover:brightness-110 transition flex items-center justify-center gap-2 shadow-xl shadow-[#6320EE]/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+            className="lime-pill-btn w-full sm:w-auto px-8 py-3.5 rounded-full font-semibold text-sm text-white hover:brightness-110 transition flex items-center justify-center gap-2 shadow-xl shadow-[#BEF264]/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
           >
             <span>Start a Project</span>
             <ArrowUpRight className="w-4 h-4" />

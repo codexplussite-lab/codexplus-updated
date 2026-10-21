@@ -73,8 +73,8 @@ export function FeaturedProjects() {
     <section id="portfolio" aria-labelledby="portfolio-heading" className="py-24 md:py-28 px-6 max-w-7xl mx-auto border-t border-white/[0.06]">
       <FadeIn className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
         <div>
-          <span className="text-xs font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">
-            Selected Work & Architecture Studies
+          <span className="text-xs font-semibold tracking-wider uppercase text-[#BEF264] mb-3 block">
+            Selected Work // Architecture Studies
           </span>
           <GsapSplitText
             tag="h2"
@@ -101,10 +101,10 @@ export function FeaturedProjects() {
             className="h-full flex"
           >
             <TiltCard maxTilt={5} className="w-full h-full flex flex-col">
-              <div className="webangles-card rounded-2xl overflow-hidden group hover:border-[#8059E3]/50 transition-all duration-300 flex flex-col justify-between h-full">
+              <div className="webangles-card rounded-2xl overflow-hidden group hover:border-[#BEF264]/50 transition-all duration-300 flex flex-col justify-between h-full">
                 {/* Visual Thumbnail Representation with Code / Architecture Wireframe Preview */}
                 <div className="h-64 bg-gradient-to-br from-[#120917] via-[#0E0E12] to-[#1a1129] border-b border-white/[0.06] p-6 relative flex flex-col justify-between overflow-hidden">
-                  <div className="absolute inset-0 bg-[#6320EE]/10 opacity-0 group-hover:opacity-100 transition-opacity blur-2xl pointer-events-none" />
+                  <div className="absolute inset-0 bg-[#BEF264]/10 opacity-0 group-hover:opacity-100 transition-opacity blur-2xl pointer-events-none" />
                   
                   <div className="flex items-center justify-between relative z-10 gap-2">
                     <span className="text-[10px] font-mono tracking-wider uppercase px-2.5 py-1 rounded bg-white/[0.06] text-gray-300 border border-white/10">
@@ -115,8 +115,8 @@ export function FeaturedProjects() {
 
                   {/* Graphic Wireframe & Monogram Preview */}
                   <div className="py-2 relative z-10 flex flex-col items-center justify-center text-center">
-                    <div className="w-12 h-12 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center text-white font-bold text-lg mb-2 shadow-inner group-hover:scale-110 group-hover:border-[#8059E3]/40 transition-all duration-300">
-                      <Code className="w-5 h-5 text-[#8059E3] group-hover:text-white transition-colors" />
+                    <div className="w-12 h-12 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center text-white font-bold text-lg mb-2 shadow-inner group-hover:scale-110 group-hover:border-[#BEF264]/40 transition-all duration-300">
+                      <Code className="w-5 h-5 text-[#BEF264] group-hover:text-white transition-colors" />
                     </div>
                     <span className="text-base font-bold tracking-tight text-white group-hover:text-[#A855F7] transition-colors line-clamp-1">
                       {proj.title}
@@ -143,7 +143,7 @@ export function FeaturedProjects() {
                   <div>
                     {/* Genuine Classification Tag */}
                     <div className="mb-3">
-                      <span className="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#6320EE]/15 text-[#9B72F4] border border-[#8059E3]/30">
+                      <span className="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#BEF264]/15 text-[#9B72F4] border border-[#BEF264]/30">
                         <Sparkles className="w-3 h-3 text-[#9B72F4]" />
                         {proj.kindLabel}
                       </span>
@@ -173,7 +173,7 @@ export function FeaturedProjects() {
                     <Link
                       href={proj.destinationUrl}
                       aria-label={`${proj.destinationLabel} for ${proj.title}`}
-                      className="text-xs font-semibold text-white group-hover:text-[#8059E3] transition inline-flex items-center gap-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white rounded px-1"
+                      className="text-xs font-semibold text-white group-hover:text-[#BEF264] transition inline-flex items-center gap-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white rounded px-1"
                     >
                       <span>{proj.destinationLabel}</span>
                       <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

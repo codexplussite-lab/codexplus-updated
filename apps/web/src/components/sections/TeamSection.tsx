@@ -75,7 +75,7 @@ export function TeamSection() {
     <section id="team" aria-labelledby="team-heading" className="py-24 md:py-28 px-6 max-w-7xl mx-auto border-t border-white/[0.06]">
       <FadeIn className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
         <div>
-          <span className="text-xs font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">
+          <span className="text-xs font-semibold tracking-wider uppercase text-[#BEF264] mb-3 block">
             Core Engineering Team
           </span>
           <h2 id="team-heading" className="text-3xl md:text-5xl font-bold text-white tracking-tight">
@@ -92,17 +92,17 @@ export function TeamSection() {
           <StaggerItem
             key={idx}
             aria-label={`${member.name} — ${member.role}`}
-            className="webangles-card rounded-2xl overflow-hidden group hover:border-[#8059E3]/40 transition-all duration-300 flex flex-col justify-between p-6"
+            className="webangles-card rounded-2xl overflow-hidden group hover:border-[#BEF264]/40 transition-all duration-300 flex flex-col justify-between p-6"
           >
             <div>
               {/* Member Visual Avatar Card with Ambient Obsidian Lighting */}
-              <div className="h-52 rounded-xl bg-gradient-to-br from-[#120917] via-[#0D0D12] to-[#1a1129] border border-white/[0.06] flex flex-col items-center justify-center relative overflow-hidden mb-6 group-hover:border-[#8059E3]/30 transition-colors">
-                <div className="absolute inset-0 bg-[#6320EE]/10 opacity-0 group-hover:opacity-100 transition-opacity blur-2xl pointer-events-none" />
+              <div className="h-52 rounded-xl bg-gradient-to-br from-[#120917] via-[#0D0D12] to-[#1a1129] border border-white/[0.06] flex flex-col items-center justify-center relative overflow-hidden mb-6 group-hover:border-[#BEF264]/30 transition-colors">
+                <div className="absolute inset-0 bg-[#BEF264]/10 opacity-0 group-hover:opacity-100 transition-opacity blur-2xl pointer-events-none" />
                 
                 <div 
                   role="img"
                   aria-label={`Initials avatar for ${member.name}`}
-                  className="w-16 h-16 rounded-full bg-white/[0.05] border border-white/10 flex items-center justify-center text-2xl font-bold text-white group-hover:scale-105 group-hover:border-[#8059E3] transition-all shadow-inner"
+                  className="w-16 h-16 rounded-full bg-white/[0.05] border border-white/10 flex items-center justify-center text-2xl font-bold text-white group-hover:scale-105 group-hover:border-[#BEF264] transition-all shadow-inner"
                 >
                   {member.avatarLetter}
                 </div>
@@ -120,10 +120,10 @@ export function TeamSection() {
                 </div>
               )}
 
-              <h3 className="text-lg font-bold text-white mb-1 group-hover:text-[#8059E3] transition-colors">
+              <h3 className="text-lg font-bold text-white mb-1 group-hover:text-[#BEF264] transition-colors">
                 {member.name}
               </h3>
-              <p className="text-xs font-medium text-[#8059E3] mb-3 font-mono">
+              <p className="text-xs font-medium text-[#BEF264] mb-3 font-mono">
                 {member.role}
               </p>
               <p className="text-xs text-gray-400 leading-relaxed mb-6">
