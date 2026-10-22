@@ -18,14 +18,14 @@ export function NavigationProgressBar() {
 
     if (!barRef.current) return;
 
-    // Reset and fire a sleek top glowing progress bar on route change
+    // Fast top glowing progress bar on route change
     const el = barRef.current;
     const tl = gsap.timeline();
 
     tl.set(el, { width: '0%', opacity: 1 })
-      .to(el, { width: '70%', duration: 0.25, ease: 'power2.out' })
-      .to(el, { width: '100%', duration: 0.2, ease: 'power3.inOut' })
-      .to(el, { opacity: 0, duration: 0.25, ease: 'power2.in' });
+      .to(el, { width: '80%', duration: 0.12, ease: 'power2.out' })
+      .to(el, { width: '100%', duration: 0.1, ease: 'power3.inOut' })
+      .to(el, { opacity: 0, duration: 0.12, ease: 'power2.in' });
 
     return () => {
       tl.kill();

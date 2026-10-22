@@ -19,7 +19,7 @@ const TECH_GROUPS = [
 
 export function TechStack() {
   return (
-    <section id="skills" className="py-28 px-6 max-w-7xl mx-auto border-t border-white/5">
+    <section id="skills" className="py-28 px-6 max-w-7xl mx-auto ">
       <div className="text-center max-w-3xl mx-auto mb-20">
         <span className="text-xs font-semibold tracking-wider uppercase text-blue-400 mb-3 block">Skills & Stack</span>
         <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight mb-6">

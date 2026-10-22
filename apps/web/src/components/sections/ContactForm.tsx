@@ -119,7 +119,7 @@ export function ContactForm() {
     <section
       id="contact"
       aria-labelledby="contact-heading"
-      className="py-24 md:py-28 px-6 max-w-4xl mx-auto border-t border-white/[0.06]"
+      className="py-24 md:py-28 px-6 max-w-4xl mx-auto "
     >
       <FadeIn className="text-center mb-16">
         <span className="text-xs font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">

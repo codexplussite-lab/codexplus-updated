@@ -34,7 +34,7 @@ const TESTIMONIALS: Testimonial[] = [
 
 export function Testimonials() {
   return (
-    <section aria-labelledby="testimonials-heading" className="py-28 px-6 max-w-7xl mx-auto border-t border-white/[0.06]">
+    <section aria-labelledby="testimonials-heading" className="py-28 px-6 max-w-7xl mx-auto ">
       <div className="text-center max-w-2xl mx-auto mb-20">
         <span className="text-xs font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">Client Perspectives</span>
         <h2 id="testimonials-heading" className="text-3xl md:text-5xl font-bold text-white tracking-tight mb-4">
@@ -69,7 +69,7 @@ export function Testimonials() {
                 &ldquo;{t.quote}&rdquo;
               </p>
             </div>
-            <div className="pt-6 border-t border-white/[0.06]">
+            <div className="pt-6 ">
               <h3 className="text-sm font-bold text-white">{t.name}</h3>
               <p className="text-xs text-gray-400">{t.role}</p>
             </div>

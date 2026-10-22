@@ -7,7 +7,7 @@ export function AboutStats() {
   ];
 
   return (
-    <section id="about" aria-labelledby="about-stats-heading" className="py-24 md:py-28 px-6 max-w-7xl mx-auto border-t border-white/[0.06]">
+    <section id="about" aria-labelledby="about-stats-heading" className="py-24 md:py-28 px-6 max-w-7xl mx-auto ">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         <div className="lg:col-span-5">
           <span className="text-xs font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">About the Studio</span>

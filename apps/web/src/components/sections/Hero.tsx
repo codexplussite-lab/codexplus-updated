@@ -3,27 +3,11 @@
 import { motion } from 'motion/react';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
-import { Velaris } from '@/components/Velaris';
 import { GsapSplitText } from '@/components/motion/GsapAnimations';
 
 export function Hero() {
   return (
-    <section className="relative min-h-[92vh] flex flex-col justify-center items-center text-center px-6 pt-32 pb-20 overflow-hidden">
-      {/* Background WebGL Atmosphere */}
-      <div className="absolute inset-0 pointer-events-none z-0">
-        <Velaris
-          bg="#030305"
-          colors={["#7535F8", "#4F1AD6", "#2D1065", "#030305"]}
-          speed={1.8}
-          grain={0.2}
-          height="100%"
-          className="h-full w-full opacity-80"
-        />
-      </div>
-
-      {/* Radial soft purple glow accent */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-[#6320EE]/20 blur-[130px] rounded-full pointer-events-none" />
-
+    <section className="relative min-h-[92vh] flex flex-col justify-center items-center text-center px-6 pt-32 pb-20">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

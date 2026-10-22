@@ -102,7 +102,7 @@ export const SERVICES_CATALOG: ServiceDetail[] = [
 
 export function Services() {
   return (
-    <section id="services" aria-labelledby="services-heading" className="py-24 md:py-28 px-6 max-w-7xl mx-auto border-t border-white/[0.06]">
+    <section id="services" aria-labelledby="services-heading" className="py-24 md:py-28 px-6 max-w-7xl mx-auto ">
       <FadeIn className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
         <span className="text-xs font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">
           Disciplines & Services
@@ -154,7 +154,7 @@ export function Services() {
               </p>
 
               {/* Deliverables */}
-              <div className="mb-6 pt-4 border-t border-white/[0.06]">
+              <div className="mb-6 pt-4 ">
                 <h4 className="text-xs font-mono uppercase tracking-wider text-gray-400 mb-3">
                   Scope & Key Deliverables
                 </h4>
@@ -187,7 +187,7 @@ export function Services() {
               </div>
             </div>
 
-            <div className="pt-6 border-t border-white/[0.06] flex items-center justify-between">
+            <div className="pt-6  flex items-center justify-between">
               <span className="text-xs font-mono text-gray-400">Sprint or Fixed-Milestone Delivery</span>
               <Link
                 href="/contact"

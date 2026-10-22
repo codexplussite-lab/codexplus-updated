@@ -1,4 +1,5 @@
 import { Navbar } from '@/components/Navbar';
+import { PageHero } from '@/components/sections/PageHero';
 import Link from 'next/link';
 import { ArrowUpRight, BookOpen, Clock, Tag } from 'lucide-react';
 import { CtaSection } from '@/components/sections/CtaSection';
@@ -38,69 +39,86 @@ const ARTICLES = [
 
 export default function ArticlesPage() {
   return (
-    <main className="min-h-screen text-white pt-28">
+    <main className="min-h-screen text-white">
       <Navbar />
 
-      <section className="max-w-5xl mx-auto px-6 py-16 text-center">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 mb-6 backdrop-blur-md">
-          <span className="purple-badge px-2 py-0.5 rounded-full text-[10px] font-bold text-white uppercase tracking-wider">
-            Technical Journal
-          </span>
-          <span className="text-xs text-gray-300 font-medium">Field Notes & Architecture</span>
+      <PageHero
+        badgeLabel="Technical Journal"
+        badgeTitle="Field Notes & Architecture"
+        titlePrimary="Engineering Notes &"
+        titleGradient="Technical Breakdowns."
+        description="Deep dives into production web architecture, performance engineering, modern design systems, and resilient full-stack systems."
+      />
+
+      {/* Featured Editorial Post */}
+      <section className="max-w-6xl mx-auto px-6 mb-16">
+        <div className="webangles-card p-8 md:p-12 rounded-3xl border border-white/[0.08] relative overflow-hidden group">
+          <div className="flex flex-wrap items-center gap-4 text-xs text-gray-400 mb-6">
+            <span className="purple-badge px-2.5 py-0.5 rounded-full text-[10px] font-bold text-white uppercase">
+              Featured Breakdown
+            </span>
+            <div className="flex items-center gap-1.5">
+              <Clock className="w-3.5 h-3.5 text-[#8059E3]" />
+              <span>15 min read</span>
+            </div>
+            <span>•</span>
+            <span>Published June 2026</span>
+          </div>
+
+          <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight mb-4 group-hover:text-[#A855F7] transition">
+            Replacing Headless Sanity with an In-House Fastify 5 & PostgreSQL Engine
+          </h2>
+          <p className="text-gray-300 text-sm md:text-base leading-relaxed mb-8 max-w-3xl">
+            A comprehensive architectural post-mortem explaining why we migrated from off-the-shelf third party SaaS CMS solutions to an owned, type-safe Fastify and PostgreSQL infrastructure running under 15ms TTFB.
+          </p>
+
+          <div className="flex flex-wrap items-center justify-between gap-4 pt-6 ">
+            <div className="flex flex-wrap gap-2">
+              {['Fastify', 'PostgreSQL', 'Drizzle ORM', 'Next.js 15'].map((t) => (
+                <span
+                  key={t}
+                  className="px-3 py-1 rounded-full text-xs font-mono bg-white/[0.04] border border-white/10 text-gray-400"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+
+            <span className="inline-flex items-center gap-2 text-sm font-semibold text-[#8059E3] group-hover:text-white transition">
+              <span>Read Architecture Brief</span>
+              <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </span>
+          </div>
         </div>
-        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
-          Thoughts on Engineering & Digital Craft.
-        </h1>
-        <p className="text-gray-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-          Deep-dives into scalable web architecture, type safety, design systems, and modern digital performance.
-        </p>
       </section>
 
-      {/* Article Cards Grid */}
-      <section className="max-w-5xl mx-auto px-6 pb-24">
-        <div className="space-y-6">
-          {ARTICLES.map((article, idx) => (
+      {/* Articles Feed */}
+      <section className="max-w-6xl mx-auto px-6 py-12 ">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {ARTICLES.map((article) => (
             <article
-              key={idx}
-              className="webangles-card p-8 md:p-10 rounded-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-8 group hover:border-[#8059E3]/50 transition-all duration-300"
+              key={article.title}
+              className="webangles-card p-6 md:p-8 rounded-2xl border border-white/[0.06] hover:border-[#8059E3]/40 transition flex flex-col justify-between group"
             >
-              <div className="max-w-2xl">
-                <div className="flex flex-wrap items-center gap-3 text-xs text-gray-400 font-mono mb-3">
+              <div>
+                <div className="flex items-center justify-between text-xs text-gray-400 mb-4">
                   <span className="text-[#8059E3] font-semibold">{article.category}</span>
-                  <span aria-hidden="true">•</span>
-                  <span>{article.date}</span>
-                  <span aria-hidden="true">•</span>
-                  <span className="flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5 text-gray-500" />
-                    {article.readMinutes}
-                  </span>
+                  <div className="flex items-center gap-1">
+                    <Clock className="w-3 h-3" />
+                    <span>{article.readMinutes}</span>
+                  </div>
                 </div>
-
-                <h2 className="text-xl md:text-2xl font-bold text-white group-hover:text-[#A855F7] transition-colors mb-3">
+                <h3 className="text-lg font-bold text-white mb-3 group-hover:text-[#A855F7] transition leading-snug">
                   {article.title}
-                </h2>
-
-                <p className="text-sm text-gray-400 leading-relaxed mb-4">
+                </h3>
+                <p className="text-xs text-gray-400 leading-relaxed mb-6">
                   {article.excerpt}
                 </p>
-
-                <div className="flex flex-wrap gap-2">
-                  {article.tags.map((tag, tIdx) => (
-                    <span
-                      key={tIdx}
-                      className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] text-gray-400 border border-white/[0.06]"
-                    >
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
               </div>
 
-              <div
-                aria-label={`Read article: ${article.title}`}
-                className="w-12 h-12 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center text-gray-400 group-hover:bg-[#6320EE] group-hover:text-white transition-all shrink-0 shadow"
-              >
-                <ArrowUpRight className="w-5 h-5" />
+              <div className="pt-4 border-t border-white/[0.04] flex items-center justify-between">
+                <span className="text-xs text-gray-500 font-mono">{article.date}</span>
+                <ArrowUpRight className="w-4 h-4 text-gray-400 group-hover:text-white transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </div>
             </article>
           ))}

@@ -33,7 +33,7 @@ const CAPABILITIES = [
 
 export function InnovationFeatures() {
   return (
-    <section id="capabilities" className="py-24 md:py-28 px-6 max-w-7xl mx-auto border-t border-white/[0.06]">
+    <section id="capabilities" className="py-24 md:py-28 px-6 max-w-7xl mx-auto ">
       <FadeIn className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
         <div>
           <span className="text-xs font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">
@@ -74,7 +74,7 @@ export function InnovationFeatures() {
                 </p>
               </div>
 
-              <div className="pt-6 mt-6 border-t border-white/[0.06] flex justify-between items-center text-xs text-gray-500 font-mono">
+              <div className="pt-6 mt-6  flex justify-between items-center text-xs text-gray-500 font-mono">
                 <span>0{idx + 1} // ARCHITECTURE</span>
                 <span className="text-gray-400 group-hover:text-white transition-colors flex items-center gap-1">
                   Read spec <ArrowUpRight className="w-3.5 h-3.5" />

@@ -1,10 +1,11 @@
 import { Navbar } from '@/components/Navbar';
+import { PageHero } from '@/components/sections/PageHero';
 import { AboutStats } from '@/components/sections/AboutStats';
 import { TeamSection } from '@/components/sections/TeamSection';
 import { SupportSection } from '@/components/sections/SupportSection';
 import { CtaSection } from '@/components/sections/CtaSection';
 import { Footer } from '@/components/Footer';
-import { Code2, ShieldAlert, Sparkles, Terminal } from 'lucide-react';
+import { Code2, Sparkles, Terminal } from 'lucide-react';
 
 export const metadata = {
   title: 'About Our Studio — CodeXplus',
@@ -31,38 +32,32 @@ const PILLARS = [
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen text-white pt-28">
+    <main className="min-h-screen text-white">
       <Navbar />
 
-      <section className="max-w-5xl mx-auto px-6 py-16 text-center">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 mb-6 backdrop-blur-md">
-          <span className="purple-badge px-2 py-0.5 rounded-full text-[10px] font-bold text-white uppercase tracking-wider">
-            Studio Story
-          </span>
-          <span className="text-xs text-gray-300 font-medium">Engineering & Design Studio</span>
-        </div>
-        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
-          Architects of the Modern Web.
-        </h1>
-        <p className="text-gray-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-          CodeXplus was founded on a simple premise: ambitious digital companies deserve web platforms engineered with the precision of high-scale enterprise software and the artistry of award-winning design studios.
-        </p>
-      </section>
+      <PageHero
+        badgeLabel="Studio Story"
+        badgeTitle="Engineering & Design Studio"
+        titlePrimary="Architects of the"
+        titleGradient="Modern Web."
+        description="CodeXplus was founded on a simple premise: ambitious digital companies deserve web platforms engineered with the precision of high-scale enterprise software and the artistry of award-winning design studios."
+      />
 
       {/* Philosophy Pillars */}
-      <section className="py-20 px-6 max-w-7xl mx-auto">
+      <section className="max-w-6xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {PILLARS.map((pil, idx) => {
-            const Icon = pil.icon;
+          {PILLARS.map((pillar) => {
+            const Icon = pillar.icon;
             return (
-              <div key={idx} className="webangles-card p-8 rounded-2xl flex flex-col justify-between">
-                <div>
-                  <div className="w-12 h-12 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-[#8059E3] mb-6">
-                    <Icon className="w-6 h-6" />
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-3">{pil.title}</h3>
-                  <p className="text-sm text-gray-400 leading-relaxed">{pil.desc}</p>
+              <div
+                key={pillar.title}
+                className="webangles-card p-8 rounded-2xl border border-white/[0.08] hover:border-[#8059E3]/40 transition group"
+              >
+                <div className="w-12 h-12 rounded-xl bg-[#6320EE]/10 border border-[#8059E3]/20 flex items-center justify-center text-[#8059E3] mb-6 group-hover:scale-110 transition">
+                  <Icon className="w-6 h-6" />
                 </div>
+                <h3 className="text-xl font-bold mb-3">{pillar.title}</h3>
+                <p className="text-gray-400 text-sm leading-relaxed">{pillar.desc}</p>
               </div>
             );
           })}

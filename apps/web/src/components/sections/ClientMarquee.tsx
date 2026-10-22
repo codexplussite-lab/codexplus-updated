@@ -11,7 +11,7 @@ export function ClientMarquee() {
   ];
 
   return (
-    <section aria-label="Core Engineering Technologies" className="py-6 bg-[#08080C] border-y border-white/[0.06] overflow-hidden">
+    <section aria-label="Core Engineering Technologies" className="py-6 overflow-hidden">
       <div className="flex animate-marquee gap-10 whitespace-nowrap">
         {STACK_CORE.concat(STACK_CORE).map((tech, idx) => (
           <div key={idx} className="flex items-center gap-3">

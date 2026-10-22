@@ -72,7 +72,7 @@ const TEAM_MEMBERS: TeamMember[] = [
 
 export function TeamSection() {
   return (
-    <section id="team" aria-labelledby="team-heading" className="py-24 md:py-28 px-6 max-w-7xl mx-auto border-t border-white/[0.06]">
+    <section id="team" aria-labelledby="team-heading" className="py-24 md:py-28 px-6 max-w-7xl mx-auto ">
       <FadeIn className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
         <div>
           <span className="text-xs font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">
@@ -132,7 +132,7 @@ export function TeamSection() {
             </div>
 
             {/* Social links with 44x44px touch targets and explicit aria labels */}
-            <div className="pt-4 border-t border-white/[0.06] flex items-center gap-2">
+            <div className="pt-4  flex items-center gap-2">
               {member.socials?.github && (
                 <Link
                   href={member.socials.github}
