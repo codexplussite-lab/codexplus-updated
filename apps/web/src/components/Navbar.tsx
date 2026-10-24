@@ -17,7 +17,28 @@ const NAV_LINKS = [
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [siteSettings, setSiteSettings] = useState<{
+    siteName?: string;
+    logoUrl?: string;
+  }>({
+    siteName: 'CodeXplus',
+    logoUrl: '/logo.svg',
+  });
   const pathname = usePathname();
+
+  useEffect(() => {
+    fetch('/api/backend/public/site')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.settings) {
+          setSiteSettings({
+            siteName: data.settings.siteName || 'CodeXplus',
+            logoUrl: data.settings.logoUrl || '/logo.png',
+          });
+        }
+      })
+      .catch(() => null);
+  }, []);
 
   // Close mobile menu on resize to desktop & handle Escape key
   useEffect(() => {
@@ -56,13 +77,15 @@ export function Navbar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 md:pt-5 px-4 pointer-events-none">
       <div className="w-full max-w-5xl h-14 rounded-full px-5 md:px-6 flex items-center justify-between backdrop-blur-xl bg-[#09090D]/85 border border-white/10 shadow-2xl pointer-events-auto">
-        <Link href="/" className="flex items-center gap-2 group" aria-label="CodeXplus Homepage">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-[#6320EE] to-[#8059E3] flex items-center justify-center font-bold text-white text-sm shadow-md shadow-[#6320EE]/30">
-            C
+        {/* Brand Logo only (Text removed as requested) */}
+        <Link href="/" className="flex items-center group py-1" aria-label="Homepage">
+          <div className="h-8 flex items-center justify-center">
+            <img
+              src={siteSettings.logoUrl || '/logo.svg'}
+              alt="Logo"
+              className="h-7 w-auto object-contain max-h-7 rounded-sm group-hover:opacity-90 transition-opacity"
+            />
           </div>
-          <span className="text-base font-bold tracking-tight text-white group-hover:text-gray-200 transition">
-            CodeX<span className="text-[#8059E3]">+</span>
-          </span>
         </Link>
 
         {/* Desktop Multi-Page Navigation with Active Indicator */}
@@ -98,48 +121,33 @@ export function Navbar() {
             className="purple-pill-btn px-4 md:px-5 py-2 rounded-full text-xs font-semibold text-white hover:brightness-110 transition shadow-lg inline-flex items-center gap-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
           >
             <span>Start a Project</span>
-            <ArrowUpRight className="w-3.5 h-3.5 hidden sm:inline" />
+            <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </Link>
 
-          {/* Accessible Mobile Menu Toggle Button */}
+          {/* Mobile Hamburger Button */}
           <button
-            type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden w-9 h-9 rounded-full bg-white/[0.05] border border-white/10 flex items-center justify-center text-gray-300 hover:text-white transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+            className="md:hidden p-2 rounded-full bg-white/[0.05] border border-white/10 text-gray-300 hover:text-white transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+            aria-label="Toggle navigation menu"
             aria-expanded={mobileMenuOpen}
-            aria-controls="mobile-nav-menu"
-            aria-label={mobileMenuOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
           >
             {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
           </button>
         </div>
       </div>
 
-      {/* Accessible Animated Mobile Navigation Modal */}
+      {/* Mobile Navigation Drawer */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            id="mobile-nav-menu"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Mobile Navigation"
-            initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-            animate={{ opacity: 1, backdropFilter: 'blur(20px)' }}
-            exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 bg-[#030305]/95 flex flex-col justify-center items-center px-6 pointer-events-auto md:hidden"
+            initial={{ opacity: 0, y: -20, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.98 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-x-4 top-20 bg-[#09090D]/95 border border-white/10 rounded-3xl p-6 backdrop-blur-2xl shadow-2xl z-50 pointer-events-auto md:hidden"
           >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.94, y: 15 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.94, y: 15 }}
-              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full max-w-sm flex flex-col items-center gap-6 text-center"
-            >
-              <span className="text-[11px] font-mono tracking-widest uppercase text-[#8059E3]">
-                Studio Navigation
-              </span>
-              <nav className="flex flex-col gap-3 w-full">
+            <div className="flex flex-col gap-4">
+              <nav className="flex flex-col gap-2">
                 {NAV_LINKS.map((link) => {
                   const active = isActive(link.href);
                   return (
@@ -147,28 +155,29 @@ export function Navbar() {
                       key={link.name}
                       href={link.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`text-lg font-medium transition-colors py-2 border-b border-white/[0.06] w-full flex items-center justify-between ${
-                        active ? 'text-white font-bold' : 'text-gray-400 hover:text-white'
+                      className={`px-4 py-3 rounded-2xl text-sm font-medium transition-colors ${
+                        active
+                          ? 'bg-[#6320EE]/20 text-white font-bold border border-[#6320EE]/40'
+                          : 'text-gray-300 hover:text-white hover:bg-white/[0.04]'
                       }`}
                     >
-                      <span>{link.name}</span>
-                      {active && (
-                        <span className="w-2 h-2 rounded-full bg-[#8059E3] shadow-[0_0_8px_rgba(128,89,227,0.8)]" />
-                      )}
+                      {link.name}
                     </Link>
                   );
                 })}
               </nav>
 
-              <Link
-                href="/contact"
-                onClick={() => setMobileMenuOpen(false)}
-                className="purple-pill-btn group w-full py-3.5 rounded-full text-sm font-semibold text-white mt-4 flex items-center justify-center gap-2"
-              >
-                <span>Start a Project</span>
-                <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </Link>
-            </motion.div>
+              <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
+                <Link
+                  href="/contact"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="purple-pill-btn w-full py-3.5 rounded-2xl text-xs font-semibold text-white flex items-center justify-center gap-2"
+                >
+                  <span>Start a Project</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

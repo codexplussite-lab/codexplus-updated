@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -16,9 +17,15 @@ export function Footer() {
           <div className="flex flex-col space-y-2">
             <Link
               href="/"
-              className="text-base sm:text-lg font-bold tracking-tight text-[#f5f5f5] hover:text-white transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-white inline-block w-fit"
+              className="inline-block w-fit focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
             >
-              CodeXplus
+              <Image
+                src="/logo.svg"
+                alt="CodeXplus"
+                width={140}
+                height={32}
+                className="h-7 w-auto object-contain brightness-105"
+              />
             </Link>
             <p className="text-xs sm:text-sm text-[#858585] tracking-wide pt-1">
               &copy; {currentYear} CodeXplus

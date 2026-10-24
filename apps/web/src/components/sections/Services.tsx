@@ -1,200 +1,117 @@
 'use client';
 
-import { ArrowUpRight, CheckCircle2, Users, Target } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { motion } from 'motion/react';
+import { ArrowUpRight, Sparkles } from 'lucide-react';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/motion/MotionWrapper';
-import { GsapSplitText } from '@/components/motion/GsapAnimations';
 
-export interface ServiceDetail {
-  number: string;
-  category: string;
+export interface ServiceItem {
+  id?: string;
+  number?: string;
   title: string;
-  tagline: string;
+  slug?: string;
   description: string;
-  deliverables: string[];
-  suitableClients: string;
-  typicalUseCases: string[];
+  bullets?: string[];
+  ctaText?: string;
+  ctaHref?: string;
 }
 
-export const SERVICES_CATALOG: ServiceDetail[] = [
+const FALLBACK_SERVICES: ServiceItem[] = [
   {
     number: '01',
-    category: 'Full-Stack Application Development',
-    title: 'Custom Web Apps & Resilient Backends',
-    tagline: 'High-throughput system architecture with strict end-to-end type safety.',
-    description: 'We architect and build tailored web applications using Next.js 15 App Router and Fastify Node runtimes. Paired with normalized PostgreSQL databases via Drizzle ORM and Redis caching, each system is crafted for high throughput, maintainability, and clean technical boundaries without framework bloat.',
-    deliverables: [
-      'Production Next.js 15 frontend architecture',
-      'Fastify 5 REST API microservice or monolith',
-      'Drizzle ORM schema modeling with automated migrations',
-      'Zod request/response validation contracts',
-      'Role-based authentication & session management',
-    ],
-    suitableClients: 'B2B SaaS startups, expanding digital agencies, and enterprise teams replacing legacy monolithic tools.',
-    typicalUseCases: [
-      'Customer portals and high-traffic multi-tenant SaaS dashboards',
-      'Internal operations workflows and order dispatch systems',
-      'Data-intensive platforms with real-time state synchronization',
-    ],
+    title: 'Next.js 15 Platform Engineering',
+    description: 'High-throughput web applications with sub-second page loads, RSC streaming, and modern edge deployment.',
+    bullets: ['App Router Architecture', 'Server Actions & Streaming', 'Core Web Vitals Optimization', 'Design Token Integration'],
   },
   {
     number: '02',
-    category: 'Website Design & Front-End Engineering',
-    title: 'Digital Flagships & Design Systems',
-    tagline: 'Conversion-engineered web experiences with architectural Obsidian craft.',
-    description: 'We translate brand positioning into responsive digital storefronts and marketing sites. By establishing token-based design systems (colors, spacing, typography scales) and pairing them with hardware-accelerated micro-interactions and accessible semantic structures, we ensure your brand leaves an enduring impression across all viewports.',
-    deliverables: [
-      'Design token architecture (Tailwind CSS + CSS custom properties)',
-      'WCAG 2.2 AA compliant component hierarchy and contrast',
-      'Hardware-accelerated micro-interactions with reduced-motion support',
-      'Responsive multi-breakpoint layout across mobile, tablet, and ultra-wide',
-      'SEO metadata architecture and OpenGraph asset templates',
-    ],
-    suitableClients: 'Funded tech companies, creative studios, and professional service firms seeking digital flagships that convert visitors.',
-    typicalUseCases: [
-      'High-converting product launch sites and company rebrands',
-      'Multi-page agency showcases with interactive media and case studies',
-      'Marketing campaign hubs engineered for high visitor engagement',
-    ],
+    title: 'Custom Fastify 5 Backend & APIs',
+    description: 'Bespoke microservices, strict Zod validation, and high-concurrency Node.js endpoints with low latency.',
+    bullets: ['Drizzle & PostgreSQL ORM', 'Session & Role Auth', 'Zero-Downtime CI/CD', 'OpenAPI Documentation'],
   },
   {
     number: '03',
-    category: 'Headless CMS Architecture',
-    title: 'Headless CMS & Bespoke Admin Panels',
-    tagline: 'Empower marketing teams while preserving total data ownership.',
-    description: 'We replace costly, fragmented third-party CMS subscriptions with clean headless content architectures or bespoke single-tenant admin panels. Your editors get intuitive Markdown/block drafting and instantaneous static revalidation, while your engineering team maintains complete control over database schemas and content pipelines.',
-    deliverables: [
-      'Single-tenant administrative panel tailored to your exact schemas',
-      'Automated On-Demand Incremental Static Regeneration (ISR)',
-      'Granular role-based editorial workflows (Admin vs Editor roles)',
-      'Self-hosted media asset management and image optimization pipeline',
-      'Structured content modeling with versioned revision logs',
-    ],
-    suitableClients: 'Content-driven marketing teams, editorial publications, and brands seeking zero vendor lock-in with total data autonomy.',
-    typicalUseCases: [
-      'Replacing recurring third-party CMS fees with self-hosted control',
-      'Multi-author editorial blogs, journals, and knowledge hubs',
-      'Dynamic product catalogs and portfolio management with instant updates',
-    ],
-  },
-  {
-    number: '04',
-    category: 'Performance Auditing & Modernization',
-    title: 'Core Web Vitals & Performance Auditing',
-    tagline: 'Systematic diagnostics and optimization to eliminate real-world latency.',
-    description: 'We perform deep-dive profiling across network waterfalls, JavaScript bundle execution, and rendering pipelines. Rather than making speculative guarantees, we apply deterministic engineering practices—tree-shaking client dependencies, optimizing font loading, tuning server response times, and isolating layout shifts—to measurably boost UX and search engine crawlability.',
-    deliverables: [
-      'Comprehensive Core Web Vitals diagnostic audit report (LCP, INP, CLS)',
-      'JavaScript client bundle footprint analysis and code-splitting audit',
-      'Image asset compression and responsive picture element pipelines',
-      'Font delivery and critical CSS render-blocking remediation',
-      'Cache-Control header optimization and CDN edge routing tuning',
-    ],
-    suitableClients: 'E-commerce storefronts experiencing drop-offs, media publishers with poor search rankings, and web apps facing sluggish interactivity.',
-    typicalUseCases: [
-      'Remediating poor Core Web Vitals scores flagged in Google Search Console',
-      'Accelerating mobile checkout funnels and high-bounce landing pages',
-      'Migrating legacy heavyweight frameworks to lean modern Jamstack stacks',
-    ],
+    title: 'Design Systems & 120fps Interaction',
+    description: 'Living component libraries, accessible Tailwind tokens, and buttery GSAP & WebGL interactions.',
+    bullets: ['Tailwind Design Tokens', 'GSAP & WebGL Shaders', 'WCAG AA Accessibility', 'Figma to Code Pipeline'],
   },
 ];
 
 export function Services() {
+  const [servicesList, setServicesList] = useState<ServiceItem[]>([]);
+
+  useEffect(() => {
+    fetch('/api/backend/public/services')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data && data.items && data.items.length > 0) {
+          setServicesList(data.items);
+        } else {
+          setServicesList(FALLBACK_SERVICES);
+        }
+      })
+      .catch(() => setServicesList(FALLBACK_SERVICES));
+  }, []);
+
+  const items = servicesList.length > 0 ? servicesList : FALLBACK_SERVICES;
+
   return (
-    <section id="services" aria-labelledby="services-heading" className="py-24 md:py-28 px-6 max-w-7xl mx-auto ">
-      <FadeIn className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
-        <span className="text-xs font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">
-          Disciplines & Services
-        </span>
-        <GsapSplitText
-          tag="h2"
-          text="Software & Design Services Built to Convert."
-          className="text-3xl md:text-5xl font-bold text-white tracking-tight mb-4"
-        />
-        <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-          From full-stack web applications to conversion-focused digital flagships, each discipline is engineered for durability, speed, and real business outcomes without framework bloat.
+    <section id="services" aria-labelledby="services-heading" className="py-24 md:py-28 px-6 max-w-7xl mx-auto">
+      <FadeIn className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+        <div>
+          <span className="text-xs font-semibold tracking-wider uppercase text-[#8059E3] mb-3 block">
+            Core Disciplines
+          </span>
+          <h2 id="services-heading" className="text-3xl md:text-5xl font-bold text-white tracking-tight">
+            High-Performance Web Engineering.
+          </h2>
+        </div>
+        <p className="text-gray-400 max-w-md text-sm leading-relaxed">
+          From micro-optimized Fastify APIs to fluid Next.js 15 architectures. Every build follows strict TypeScript safety and zero unnecessary bundle overhead.
         </p>
       </FadeIn>
 
-      <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {SERVICES_CATALOG.map((s) => (
+      <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {items.map((srv, idx) => (
           <StaggerItem
-            key={s.number}
-            className="webangles-card p-8 md:p-10 rounded-2xl flex flex-col justify-between group hover:border-[#8059E3]/50 transition-all duration-300"
+            key={srv.id || idx}
+            className="webangles-card p-8 rounded-2xl flex flex-col justify-between group hover:border-[#8059E3]/40 transition-all duration-300"
           >
             <div>
-              {/* Header with Discipline Category & Number */}
-              <div className="flex justify-between items-start mb-6">
-                <div>
-                  <span className="text-[11px] font-mono tracking-wider uppercase text-[#8059E3] block mb-1">
-                    {s.category}
-                  </span>
-                  <span className="text-2xl md:text-3xl font-mono font-bold text-gray-500 group-hover:text-white transition-colors">
-                    {s.number}
-                  </span>
-                </div>
-                <Link
-                  href="/contact"
-                  aria-label={`Inquire about ${s.title}`}
-                  className="w-10 h-10 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center text-gray-300 group-hover:bg-[#6320EE] group-hover:text-white group-hover:border-[#8059E3] transition-all duration-200 shadow focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
-                >
-                  <ArrowUpRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </Link>
+              <div className="flex items-center justify-between mb-6">
+                <span className="text-xs font-mono font-bold text-[#8059E3] tracking-widest">
+                  {srv.number || `0${idx + 1}`}
+                </span>
+                <Sparkles className="w-4 h-4 text-gray-500 group-hover:text-[#8059E3] transition-colors" />
               </div>
 
-              <h3 className="text-xl md:text-2xl font-bold text-white mb-2 group-hover:text-gray-100 transition-colors">
-                {s.title}
+              <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#A855F7] transition-colors">
+                {srv.title}
               </h3>
-              <p className="text-xs font-mono text-[#9B72F4] mb-4">
-                {s.tagline}
-              </p>
-              <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                {s.description}
+              <p className="text-sm text-gray-400 leading-relaxed mb-6">
+                {srv.description}
               </p>
 
-              {/* Deliverables */}
-              <div className="mb-6 pt-4 ">
-                <h4 className="text-xs font-mono uppercase tracking-wider text-gray-400 mb-3">
-                  Scope & Key Deliverables
-                </h4>
-                <ul className="space-y-2" aria-label={`Deliverables for ${s.title}`}>
-                  {s.deliverables.map((deliv, dIdx) => (
-                    <li key={dIdx} className="flex items-start gap-2.5 text-xs text-gray-300">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#8059E3] shrink-0 mt-0.5" />
-                      <span>{deliv}</span>
+              {srv.bullets && srv.bullets.length > 0 && (
+                <ul className="space-y-2 mb-8 border-t border-white/[0.06] pt-4">
+                  {srv.bullets.map((b, bIdx) => (
+                    <li key={bIdx} className="text-xs text-gray-400 flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#8059E3]" />
+                      <span>{b}</span>
                     </li>
                   ))}
                 </ul>
-              </div>
-
-              {/* Suitable Clients & Use Cases */}
-              <div className="mb-6 space-y-3 bg-white/[0.02] p-4 rounded-xl border border-white/[0.05]">
-                <div className="flex items-start gap-2 text-xs">
-                  <Users className="w-4 h-4 text-[#8059E3] shrink-0 mt-0.5" />
-                  <div>
-                    <span className="font-semibold text-gray-300">Best for: </span>
-                    <span className="text-gray-400">{s.suitableClients}</span>
-                  </div>
-                </div>
-                <div className="flex items-start gap-2 text-xs">
-                  <Target className="w-4 h-4 text-[#8059E3] shrink-0 mt-0.5" />
-                  <div>
-                    <span className="font-semibold text-gray-300">Typical use cases: </span>
-                    <span className="text-gray-400">{s.typicalUseCases.join(' • ')}</span>
-                  </div>
-                </div>
-              </div>
+              )}
             </div>
 
-            <div className="pt-6  flex items-center justify-between">
-              <span className="text-xs font-mono text-gray-400">Sprint or Fixed-Milestone Delivery</span>
+            <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between">
+              <span className="text-xs text-gray-500 font-mono">Senior-Led Delivery</span>
               <Link
-                href="/contact"
-                className="text-xs font-semibold text-[#8059E3] hover:text-white transition-colors duration-200 inline-flex items-center gap-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white rounded px-1 group/link"
+                href="/services"
+                className="text-xs font-semibold text-[#8059E3] group-hover:text-white flex items-center gap-1 transition-colors"
               >
-                <span>Discuss Scope</span>
-                <ArrowUpRight className="w-3 h-3 transition-transform duration-200 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
+                <span>Learn More</span>
+                <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </Link>
             </div>
           </StaggerItem>

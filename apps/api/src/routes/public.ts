@@ -10,9 +10,17 @@ export async function publicRoutes(fastify: FastifyInstance) {
     const [settings] = await db.select().from(siteSettings).limit(1);
     const [nav] = await db.select().from(navigation).limit(1);
 
+    const mergedSettings = settings
+      ? {
+          ...settings,
+          logoUrl: (settings.seo as any)?.logoUrl || (settings as any).logoUrl || '/logo.png',
+          faviconUrl: (settings.seo as any)?.faviconUrl || (settings as any).faviconUrl || '/favicon.jpeg',
+        }
+      : null;
+
     reply.header('Cache-Control', 'public, max-age=60, s-maxage=300');
     return reply.send({
-      settings: settings || null,
+      settings: mergedSettings,
       navigation: nav || null,
     });
   });

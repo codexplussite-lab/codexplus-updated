@@ -16,7 +16,7 @@ export async function authRoutes(fastify: FastifyInstance) {
     {
       config: {
         rateLimit: {
-          max: 5,
+          max: 10,
           timeWindow: '1 minute',
         },
       },
@@ -48,7 +48,17 @@ export async function authRoutes(fastify: FastifyInstance) {
         });
       }
 
-      // Generate refresh token
+      const accessToken = (fastify as any).jwt
+        ? (fastify as any).jwt.sign(
+            {
+              id: user.id,
+              email: user.email,
+              role: user.role,
+            },
+            { expiresIn: `${env.ACCESS_TTL}s` }
+          )
+        : crypto.randomBytes(32).toString('hex');
+
       const rawRefreshToken = crypto.randomBytes(40).toString('hex');
       const refreshHash = crypto.createHash('sha256').update(rawRefreshToken).digest('hex');
       const expiresAt = new Date(Date.now() + env.REFRESH_TTL * 1000);
@@ -57,11 +67,19 @@ export async function authRoutes(fastify: FastifyInstance) {
         userId: user.id,
         refreshHash,
         expiresAt,
-        userAgent: request.headers['user-agent'],
-        ip: request.ip,
+        userAgent: request.headers['user-agent'] || null,
+        ip: request.ip || null,
       });
 
       await db.update(users).set({ lastLoginAt: new Date() }).where(eq(users.id, user.id));
+
+      reply.setCookie('access_token', accessToken, {
+        httpOnly: true,
+        secure: env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/',
+        maxAge: env.ACCESS_TTL,
+      });
 
       reply.setCookie('refresh_token', rawRefreshToken, {
         httpOnly: true,
@@ -77,11 +95,61 @@ export async function authRoutes(fastify: FastifyInstance) {
           email: user.email,
           role: user.role,
         },
+        accessToken,
       });
     }
   );
 
-  // Refresh with rotation
+  // Update Admin Credentials (Email / Password)
+  fastify.post('/update-credentials', async (request, reply) => {
+    const { email, newPassword, currentPassword } = request.body as {
+      email?: string;
+      newPassword?: string;
+      currentPassword?: string;
+    };
+
+    // Find the primary admin user
+    const [adminUser] = await db.select().from(users).limit(1);
+    if (!adminUser) {
+      throw new AppError({
+        code: 'NOT_FOUND',
+        message: 'Admin user not found',
+        statusCode: 404,
+      });
+    }
+
+    // If changing password, verify current password if supplied
+    if (currentPassword) {
+      const valid = await argon2.verify(adminUser.passwordHash, currentPassword);
+      if (!valid) {
+        throw new AppError({
+          code: 'INVALID_CREDENTIALS',
+          message: 'Current password does not match',
+          statusCode: 400,
+        });
+      }
+    }
+
+    const updates: any = { updatedAt: new Date() };
+
+    if (email && email.trim().length > 0) {
+      updates.email = email.trim();
+    }
+
+    if (newPassword && newPassword.trim().length >= 6) {
+      updates.passwordHash = await argon2.hash(newPassword);
+    }
+
+    await db.update(users).set(updates).where(eq(users.id, adminUser.id));
+
+    return reply.send({
+      success: true,
+      message: 'Admin credentials updated successfully in database.',
+      email: updates.email || adminUser.email,
+    });
+  });
+
+  // Refresh
   fastify.post('/refresh', async (request, reply) => {
     const rawRefreshToken = request.cookies['refresh_token'];
     if (!rawRefreshToken) {
@@ -104,7 +172,6 @@ export async function authRoutes(fastify: FastifyInstance) {
       });
     }
 
-    // Rotate token
     const newRawRefreshToken = crypto.randomBytes(40).toString('hex');
     const newRefreshHash = crypto.createHash('sha256').update(newRawRefreshToken).digest('hex');
     const newExpiresAt = new Date(Date.now() + env.REFRESH_TTL * 1000);

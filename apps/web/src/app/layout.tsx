@@ -19,7 +19,13 @@ export const metadata: Metadata = {
     default: 'CodeXplus — Elite Web Systems & Full-Stack Digital Engineering Studio',
     template: '%s | CodeXplus',
   },
-  description: 'CodeXplus builds high-performance web applications, custom digital architectures, and headless CMS platforms for ambitious businesses and tech leaders.',
+  description:
+    'CodeXplus builds high-performance web applications, custom digital architectures, and headless CMS platforms for ambitious businesses and tech leaders.',
+  icons: {
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
+  },
   keywords: ['Web Development', 'Next.js 15', 'Fastify', 'Digital Agency', 'Full-Stack Engineering', 'Custom CMS'],
   authors: [{ name: 'CodeXplus Studio' }],
   creator: 'CodeXplus',
@@ -89,9 +95,7 @@ export default function RootLayout({
         />
         <div className="relative z-10">
           <NavigationProgressBar />
-          <PageTransition>
-            {children}
-          </PageTransition>
+          <PageTransition>{children}</PageTransition>
         </div>
       </body>
     </html>

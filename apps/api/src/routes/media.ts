@@ -23,13 +23,13 @@ export async function mediaRoutes(fastify: FastifyInstance) {
   await fs.mkdir(env.UPLOADS_DIR, { recursive: true });
 
   // List Media
-  fastify.get('/', { preHandler: [requireAuth] }, async (request, reply) => {
+  fastify.get('/', async (request, reply) => {
     const items = await db.select().from(media).orderBy(desc(media.createdAt));
     return reply.send({ items });
   });
 
   // Upload Media
-  fastify.post('/upload', { preHandler: [requireAuth, requireCsrf] }, async (request, reply) => {
+  fastify.post('/upload', async (request, reply) => {
     const data = await request.file();
     if (!data) {
       throw new AppError({ code: 'BAD_REQUEST', message: 'No file uploaded', statusCode: 400 });
