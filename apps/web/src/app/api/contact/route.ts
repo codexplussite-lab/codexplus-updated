@@ -47,7 +47,7 @@ export async function POST(request: Request) {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 4000);
 
-      const fastifyRes = await fetch(`${apiBaseUrl}/api/forms/contact`, {
+      const fastifyRes = await fetch(`${apiBaseUrl}/backend/forms/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

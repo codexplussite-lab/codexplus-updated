@@ -19,8 +19,12 @@ import {
 } from '../db/schema.js';
 import { eq, desc, asc } from 'drizzle-orm';
 import { AppError } from '../plugins/error-handler.js';
+import { requireAuth } from '../middleware/auth.js';
 
 export async function adminRoutes(fastify: FastifyInstance) {
+  // Saare admin routes ke liye login zaroori
+  fastify.addHook('preHandler', requireAuth);
+
   // 1. Singletons: Site Settings
   fastify.get('/singletons/site-settings', async (request, reply) => {
     const [settings] = await db.select().from(siteSettings).limit(1);
@@ -87,18 +91,21 @@ export async function adminRoutes(fastify: FastifyInstance) {
 
   fastify.post('/team', async (request, reply) => {
     const body = request.body as any;
+    const [last] = await db.select({ position: teamMembers.position }).from(teamMembers).orderBy(desc(teamMembers.position)).limit(1);
+    const nextPos = (last?.position ?? -1) + 1;
+
     const socials = {
-      photoUrl: body.photoUrl || '',
-      github: body.github || '',
-      linkedin: body.linkedin || '',
-      twitter: body.twitter || '',
+      photoUrl: body.photoUrl || body.socials?.photoUrl || '',
+      github: body.github || body.socials?.github || '',
+      linkedin: body.linkedin || body.socials?.linkedin || '',
+      twitter: body.twitter || body.socials?.twitter || '',
     };
 
     const [created] = await db.insert(teamMembers).values({
       name: body.name || 'Team Member',
       role: body.role || 'Specialist',
-      bio: body.bio || '',
-      position: body.position || 0,
+      bio: body.bio || body.description || '',
+      position: body.position !== undefined ? body.position : nextPos,
       status: body.status || 'published',
       socials,
     }).returning();
@@ -108,22 +115,27 @@ export async function adminRoutes(fastify: FastifyInstance) {
   fastify.put('/team/:id', async (request, reply) => {
     const { id } = request.params as { id: string };
     const body = request.body as any;
+    const updateData: Record<string, any> = { updatedAt: new Date() };
 
-    const socials = {
-      photoUrl: body.photoUrl || '',
-      github: body.github || '',
-      linkedin: body.linkedin || '',
-      twitter: body.twitter || '',
-    };
+    if (body.name !== undefined) updateData.name = body.name;
+    if (body.role !== undefined) updateData.role = body.role;
+    if (body.bio !== undefined) updateData.bio = body.bio;
+    else if (body.description !== undefined) updateData.bio = body.description;
+    if (body.position !== undefined) updateData.position = body.position;
+    if (body.status !== undefined) updateData.status = body.status;
 
-    await db.update(teamMembers).set({
-      name: body.name,
-      role: body.role,
-      bio: body.bio,
-      status: body.status || 'published',
-      socials,
-      updatedAt: new Date(),
-    }).where(eq(teamMembers.id, id));
+    if (body.photoUrl !== undefined || body.github !== undefined || body.linkedin !== undefined || body.twitter !== undefined || body.socials !== undefined) {
+      const [existing] = await db.select({ socials: teamMembers.socials }).from(teamMembers).where(eq(teamMembers.id, id)).limit(1);
+      const existingSocials = (existing?.socials as Record<string, any>) || {};
+      updateData.socials = {
+        photoUrl: body.photoUrl ?? body.socials?.photoUrl ?? existingSocials.photoUrl ?? '',
+        github: body.github ?? body.socials?.github ?? existingSocials.github ?? '',
+        linkedin: body.linkedin ?? body.socials?.linkedin ?? existingSocials.linkedin ?? '',
+        twitter: body.twitter ?? body.socials?.twitter ?? existingSocials.twitter ?? '',
+      };
+    }
+
+    await db.update(teamMembers).set(updateData).where(eq(teamMembers.id, id));
     return reply.send({ success: true });
   });
 
@@ -141,14 +153,20 @@ export async function adminRoutes(fastify: FastifyInstance) {
 
   fastify.post('/services', async (request, reply) => {
     const body = request.body as any;
+    const [last] = await db.select({ position: services.position }).from(services).orderBy(desc(services.position)).limit(1);
+    const nextPos = (last?.position ?? -1) + 1;
+    const number = body.number?.trim() || String(nextPos + 1).padStart(2, '0');
+    const slug = body.slug?.trim() || body.title?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || `service-${Date.now()}`;
+
     const [created] = await db.insert(services).values({
-      number: body.number || '01',
+      number,
       title: body.title || 'New Service',
-      slug: body.slug || `service-${Date.now()}`,
+      slug,
       description: body.description || '',
-      bullets: body.bullets || ['High Performance Architecture'],
+      bullets: Array.isArray(body.bullets) ? body.bullets : (body.bullets ? [body.bullets] : ['High Performance Architecture']),
+      cta: body.cta || null,
       status: body.status || 'published',
-      position: body.position || 0,
+      position: body.position !== undefined ? body.position : nextPos,
     }).returning();
     return reply.send(created);
   });
@@ -156,13 +174,18 @@ export async function adminRoutes(fastify: FastifyInstance) {
   fastify.put('/services/:id', async (request, reply) => {
     const { id } = request.params as { id: string };
     const body = request.body as any;
-    await db.update(services).set({
-      number: body.number,
-      title: body.title,
-      description: body.description,
-      status: body.status || 'published',
-      updatedAt: new Date(),
-    }).where(eq(services.id, id));
+    const updateData: Record<string, any> = { updatedAt: new Date() };
+
+    if (body.number !== undefined) updateData.number = body.number;
+    if (body.title !== undefined) updateData.title = body.title;
+    if (body.slug !== undefined) updateData.slug = body.slug;
+    if (body.description !== undefined) updateData.description = body.description;
+    if (body.bullets !== undefined) updateData.bullets = Array.isArray(body.bullets) ? body.bullets : [body.bullets];
+    if (body.cta !== undefined) updateData.cta = body.cta;
+    if (body.position !== undefined) updateData.position = body.position;
+    if (body.status !== undefined) updateData.status = body.status;
+
+    await db.update(services).set(updateData).where(eq(services.id, id));
     return reply.send({ success: true });
   });
 
@@ -180,17 +203,23 @@ export async function adminRoutes(fastify: FastifyInstance) {
 
   fastify.post('/projects', async (request, reply) => {
     const body = request.body as any;
+    const [last] = await db.select({ position: projects.position }).from(projects).orderBy(desc(projects.position)).limit(1);
+    const nextPos = (last?.position ?? -1) + 1;
+    const slug = body.slug?.trim() || body.title?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || `project-${Date.now()}`;
+
     const [created] = await db.insert(projects).values({
       title: body.title || 'New Project',
-      slug: body.slug || `project-${Date.now()}`,
+      slug,
       category: body.category || 'Platform',
-      summary: body.summary || '',
+      summary: body.summary || body.description || '',
       year: body.year || '2026',
       client: body.client || 'Client',
-      tags: body.tags || ['Next.js 15', 'Fastify 5'],
-      url: body.imageUrl || null,
+      tags: Array.isArray(body.tags) ? body.tags : ['Next.js 15', 'Fastify 5'],
+      url: body.imageUrl || body.url || null,
+      body: body.body || null,
+      featured: body.featured !== undefined ? body.featured : true,
       status: body.status || 'published',
-      position: body.position || 0,
+      position: body.position !== undefined ? body.position : nextPos,
     }).returning();
     return reply.send(created);
   });
@@ -198,16 +227,23 @@ export async function adminRoutes(fastify: FastifyInstance) {
   fastify.put('/projects/:id', async (request, reply) => {
     const { id } = request.params as { id: string };
     const body = request.body as any;
-    await db.update(projects).set({
-      title: body.title,
-      category: body.category,
-      summary: body.summary,
-      year: body.year,
-      client: body.client,
-      url: body.imageUrl || undefined,
-      status: body.status || 'published',
-      updatedAt: new Date(),
-    }).where(eq(projects.id, id));
+    const updateData: Record<string, any> = { updatedAt: new Date() };
+
+    if (body.title !== undefined) updateData.title = body.title;
+    if (body.slug !== undefined) updateData.slug = body.slug;
+    if (body.category !== undefined) updateData.category = body.category;
+    if (body.summary !== undefined) updateData.summary = body.summary;
+    else if (body.description !== undefined) updateData.summary = body.description;
+    if (body.year !== undefined) updateData.year = body.year;
+    if (body.client !== undefined) updateData.client = body.client;
+    if (body.tags !== undefined) updateData.tags = Array.isArray(body.tags) ? body.tags : [body.tags];
+    if (body.imageUrl !== undefined || body.url !== undefined) updateData.url = body.imageUrl || body.url;
+    if (body.body !== undefined) updateData.body = body.body;
+    if (body.featured !== undefined) updateData.featured = body.featured;
+    if (body.position !== undefined) updateData.position = body.position;
+    if (body.status !== undefined) updateData.status = body.status;
+
+    await db.update(projects).set(updateData).where(eq(projects.id, id));
     return reply.send({ success: true });
   });
 
@@ -225,14 +261,17 @@ export async function adminRoutes(fastify: FastifyInstance) {
 
   fastify.post('/posts', async (request, reply) => {
     const body = request.body as any;
+    const slug = body.slug?.trim() || body.title?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || `article-${Date.now()}`;
     const [created] = await db.insert(posts).values({
       title: body.title || 'New Article',
-      slug: body.slug || `article-${Date.now()}`,
+      slug,
       category: body.category || 'Architecture',
-      excerpt: body.excerpt || '',
+      excerpt: body.excerpt || body.summary || body.description || '',
       body: body.body || { text: '' },
+      author: body.author || 'CodeXplus Team',
+      readMinutes: body.readMinutes || 5,
       status: body.status || 'published',
-      publishedAt: new Date(),
+      publishedAt: body.publishedAt ? new Date(body.publishedAt) : new Date(),
     }).returning();
     return reply.send(created);
   });
@@ -240,13 +279,20 @@ export async function adminRoutes(fastify: FastifyInstance) {
   fastify.put('/posts/:id', async (request, reply) => {
     const { id } = request.params as { id: string };
     const body = request.body as any;
-    await db.update(posts).set({
-      title: body.title,
-      category: body.category,
-      excerpt: body.excerpt,
-      status: body.status || 'published',
-      updatedAt: new Date(),
-    }).where(eq(posts.id, id));
+    const updateData: Record<string, any> = { updatedAt: new Date() };
+
+    if (body.title !== undefined) updateData.title = body.title;
+    if (body.slug !== undefined) updateData.slug = body.slug;
+    if (body.category !== undefined) updateData.category = body.category;
+    if (body.excerpt !== undefined) updateData.excerpt = body.excerpt;
+    else if (body.summary !== undefined) updateData.excerpt = body.summary;
+    else if (body.description !== undefined) updateData.excerpt = body.description;
+    if (body.body !== undefined) updateData.body = body.body;
+    if (body.author !== undefined) updateData.author = body.author;
+    if (body.readMinutes !== undefined) updateData.readMinutes = body.readMinutes;
+    if (body.status !== undefined) updateData.status = body.status;
+
+    await db.update(posts).set(updateData).where(eq(posts.id, id));
     return reply.send({ success: true });
   });
 
@@ -264,10 +310,13 @@ export async function adminRoutes(fastify: FastifyInstance) {
 
   fastify.post('/faqs', async (request, reply) => {
     const body = request.body as any;
+    const [last] = await db.select({ position: faqs.position }).from(faqs).orderBy(desc(faqs.position)).limit(1);
+    const nextPos = (last?.position ?? -1) + 1;
+
     const [created] = await db.insert(faqs).values({
       question: body.question || '',
       answer: body.answer || '',
-      position: body.position || 0,
+      position: body.position !== undefined ? body.position : nextPos,
       status: body.status || 'published',
     }).returning();
     return reply.send(created);
@@ -276,12 +325,14 @@ export async function adminRoutes(fastify: FastifyInstance) {
   fastify.put('/faqs/:id', async (request, reply) => {
     const { id } = request.params as { id: string };
     const body = request.body as any;
-    await db.update(faqs).set({
-      question: body.question,
-      answer: body.answer,
-      status: body.status || 'published',
-      updatedAt: new Date(),
-    }).where(eq(faqs.id, id));
+    const updateData: Record<string, any> = { updatedAt: new Date() };
+
+    if (body.question !== undefined) updateData.question = body.question;
+    if (body.answer !== undefined) updateData.answer = body.answer;
+    if (body.position !== undefined) updateData.position = body.position;
+    if (body.status !== undefined) updateData.status = body.status;
+
+    await db.update(faqs).set(updateData).where(eq(faqs.id, id));
     return reply.send({ success: true });
   });
 
@@ -291,7 +342,7 @@ export async function adminRoutes(fastify: FastifyInstance) {
     return reply.send({ success: true });
   });
 
-  // 8. Pages & Sections
+  // 8. Pages & Sections (Upsert Supported)
   fastify.get('/pages/:slug', async (request, reply) => {
     const { slug } = request.params as { slug: string };
     const [page] = await db.select().from(pages).where(eq(pages.slug, slug)).limit(1);
@@ -308,9 +359,16 @@ export async function adminRoutes(fastify: FastifyInstance) {
     const { slug } = request.params as { slug: string };
     const { sections } = request.body as { sections: Array<{ id?: string; type: string; position: number; enabled: boolean; data: any }> };
 
-    const [page] = await db.select().from(pages).where(eq(pages.slug, slug)).limit(1);
+    let [page] = await db.select().from(pages).where(eq(pages.slug, slug)).limit(1);
     if (!page) {
-      throw new AppError({ code: 'NOT_FOUND', message: 'Page not found', statusCode: 404 });
+      // Upsert: Create page row automatically so saving sections never 404s
+      const [createdPage] = await db.insert(pages).values({
+        slug,
+        title: slug === 'home' ? 'Home' : slug.charAt(0).toUpperCase() + slug.slice(1),
+        status: 'published',
+        publishedAt: new Date(),
+      }).returning();
+      page = createdPage;
     }
 
     await db.transaction(async (tx) => {

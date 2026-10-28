@@ -21,7 +21,7 @@ export function Hero() {
   });
 
   useEffect(() => {
-    fetch('/api/backend/public/pages/home')
+    fetch('/api/backend/public/pages/home', { cache: 'no-store' })
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         const heroSection = data?.sections?.find((s: any) => s.type === 'hero');

@@ -41,7 +41,7 @@ export function FeaturedProjects() {
   const [projects, setProjects] = useState<ProjectItem[]>([]);
 
   useEffect(() => {
-    fetch('/api/backend/public/projects')
+    fetch('/api/backend/public/projects', { cache: 'no-store' })
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data && data.items && data.items.length > 0) {

@@ -30,7 +30,7 @@ const EnvSchema = z.object({
   TURNSTILE_SECRET: z.string().optional(),
 
   ADMIN_SEED_EMAIL: z.string().email().default('admin@codexplus.site'),
-  ADMIN_SEED_PASSWORD: z.string().min(8).default('AdminPassword123!'),
+  ADMIN_SEED_PASSWORD: z.string().min(8).default('CodeXplusAdmin!2026Secure'),
 });
 
 export type Env = z.infer<typeof EnvSchema>;

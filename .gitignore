@@ -9,4 +9,4 @@ out/
 *.log
 .DS_Store
 *.tsbuildinfo
-
+uploads/

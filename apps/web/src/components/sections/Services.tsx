@@ -41,7 +41,7 @@ export function Services() {
   const [servicesList, setServicesList] = useState<ServiceItem[]>([]);
 
   useEffect(() => {
-    fetch('/api/backend/public/services')
+    fetch('/api/backend/public/services', { cache: 'no-store' })
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data && data.items && data.items.length > 0) {

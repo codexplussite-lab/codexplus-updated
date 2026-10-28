@@ -1,107 +1,79 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const API_BASE = 'http://127.0.0.1:4000/api';
+const API_BASE = process.env.API_INTERNAL_URL || 'http://127.0.0.1:4000/backend';
 
-export async function GET(request: NextRequest) {
+async function forwardRequest(request: NextRequest, method: string) {
   const { pathname, search } = request.nextUrl;
   const targetPath = pathname.replace(/^\/api\/backend/, '');
   const url = `${API_BASE}${targetPath}${search}`;
 
   try {
+    const headers: Record<string, string> = {};
+    const cookie = request.headers.get('cookie');
+    const csrfToken = request.headers.get('x-csrf-token');
+    const contentType = request.headers.get('content-type');
+
+    if (cookie) headers['cookie'] = cookie;
+    if (csrfToken) headers['x-csrf-token'] = csrfToken;
+    if (contentType) headers['content-type'] = contentType;
+
+    let body: BodyInit | undefined = undefined;
+    if (['POST', 'PUT', 'PATCH'].includes(method)) {
+      const arrayBuffer = await request.arrayBuffer();
+      if (arrayBuffer.byteLength > 0) {
+        body = Buffer.from(arrayBuffer);
+      }
+    }
+
     const res = await fetch(url, {
-      headers: {
-        cookie: request.headers.get('cookie') || '',
-        'x-csrf-token': request.headers.get('x-csrf-token') || '',
-        'content-type': 'application/json',
-      },
+      method,
+      headers,
+      body,
+      cache: 'no-store',
     });
 
-    const data = await res.json().catch(() => ({}));
-    const response = NextResponse.json(data, { status: res.status });
+    const resContentType = res.headers.get('content-type') || '';
+    let responseData: any;
+    if (resContentType.includes('application/json')) {
+      responseData = await res.json().catch(() => ({}));
+    } else {
+      const text = await res.text().catch(() => '');
+      responseData = { text };
+    }
 
+    const response = NextResponse.json(responseData, { status: res.status });
+
+    // Forward set-cookie header (preserving session/refresh tokens)
     const setCookie = res.headers.get('set-cookie');
     if (setCookie) {
       response.headers.set('set-cookie', setCookie);
     }
 
     return response;
-  } catch (error) {
-    return NextResponse.json({ error: 'Backend unreachable' }, { status: 502 });
+  } catch (error: any) {
+    return NextResponse.json(
+      { error: 'Backend gateway unreachable', details: error?.message || 'Connection refused' },
+      { status: 502 }
+    );
   }
+}
+
+export async function GET(request: NextRequest) {
+  return forwardRequest(request, 'GET');
 }
 
 export async function POST(request: NextRequest) {
-  const { pathname, search } = request.nextUrl;
-  const targetPath = pathname.replace(/^\/api\/backend/, '');
-  const url = `${API_BASE}${targetPath}${search}`;
-
-  try {
-    const body = await request.text();
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: {
-        cookie: request.headers.get('cookie') || '',
-        'x-csrf-token': request.headers.get('x-csrf-token') || '',
-        'content-type': request.headers.get('content-type') || 'application/json',
-      },
-      body: body || undefined,
-    });
-
-    const data = await res.json().catch(() => ({}));
-    const response = NextResponse.json(data, { status: res.status });
-
-    const setCookie = res.headers.get('set-cookie');
-    if (setCookie) {
-      response.headers.set('set-cookie', setCookie);
-    }
-
-    return response;
-  } catch (error) {
-    return NextResponse.json({ error: 'Backend unreachable' }, { status: 502 });
-  }
+  return forwardRequest(request, 'POST');
 }
 
 export async function PUT(request: NextRequest) {
-  const { pathname, search } = request.nextUrl;
-  const targetPath = pathname.replace(/^\/api\/backend/, '');
-  const url = `${API_BASE}${targetPath}${search}`;
+  return forwardRequest(request, 'PUT');
+}
 
-  try {
-    const body = await request.text();
-    const res = await fetch(url, {
-      method: 'PUT',
-      headers: {
-        cookie: request.headers.get('cookie') || '',
-        'x-csrf-token': request.headers.get('x-csrf-token') || '',
-        'content-type': request.headers.get('content-type') || 'application/json',
-      },
-      body: body || undefined,
-    });
-
-    const data = await res.json().catch(() => ({}));
-    return NextResponse.json(data, { status: res.status });
-  } catch (error) {
-    return NextResponse.json({ error: 'Backend unreachable' }, { status: 502 });
-  }
+export async function PATCH(request: NextRequest) {
+  return forwardRequest(request, 'PATCH');
 }
 
 export async function DELETE(request: NextRequest) {
-  const { pathname, search } = request.nextUrl;
-  const targetPath = pathname.replace(/^\/api\/backend/, '');
-  const url = `${API_BASE}${targetPath}${search}`;
-
-  try {
-    const res = await fetch(url, {
-      method: 'DELETE',
-      headers: {
-        cookie: request.headers.get('cookie') || '',
-        'x-csrf-token': request.headers.get('x-csrf-token') || '',
-      },
-    });
-
-    const data = await res.json().catch(() => ({}));
-    return NextResponse.json(data, { status: res.status });
-  } catch (error) {
-    return NextResponse.json({ error: 'Backend unreachable' }, { status: 502 });
-  }
+  return forwardRequest(request, 'DELETE');
 }

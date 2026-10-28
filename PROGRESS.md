@@ -1,8 +1,8 @@
 # CodeXplus Rebuild — Project Progress Tracker
 
 ## Status Overview
-- Current Phase: Phase 0 (Setup & Monorepo Initialization)
-- Last Updated: 20 Oct 2026
+- Current Phase: Phase 9 (Stabilization, Security & Production Docker Hardening)
+- Last Updated: 28 Oct 2026
 
 ---
 
@@ -11,19 +11,25 @@
 - [x] **Phase 0: Setup**
   - [x] Git repository initialized
   - [x] Root `AGENTS.md` created
-  - [ ] `docs/PLAN.md` exported from plan specification
-  - [ ] Monorepo structure (`pnpm-workspace.yaml`, base `package.json`, `tsconfig.base.json`)
-  - [ ] `.agents/skills/` setup
-- [ ] **Phase 1: Design Extraction & Tokens** (`design-ref/`)
-- [ ] **Phase 2: Contract & Shared Schemas** (`packages/shared`)
-- [ ] **Phase 3: Database & Migrations** (`apps/api` Drizzle + Postgres)
-- [ ] **Phase 4: Fastify API Core & CRUD Modules**
-- [ ] **Phase 5: Content Scrape & Seed Assets**
-- [ ] **Phase 6: Admin Panel & Web Frontend**
-- [ ] **Phase 7: Forms & Seed Import**
-- [ ] **Phase 8: Visual QA**
-- [ ] **Phase 9: Deployment & Security Review**
-- [ ] **Phase 10: Launch Checklist**
+  - [x] Monorepo structure (`pnpm-workspace.yaml`, base `package.json`, `tsconfig.base.json`)
+- [x] **Phase 1: Design Extraction & Tokens** (`design-ref/`)
+- [x] **Phase 2: Contract & Shared Schemas** (`packages/shared`)
+- [x] **Phase 3: Database & Migrations** (`apps/api` Drizzle + Postgres)
+- [x] **Phase 4: Fastify API Core & CRUD Modules**
+- [x] **Phase 5: Content Scrape & Seed Assets**
+- [x] **Phase 6: Admin Panel & Web Frontend**
+- [x] **Phase 7: Forms & Seed Import**
+- [x] **Phase 8: Visual QA**
+- [x] **Phase 9: Stabilization, Operations & Security Review**
+  - [x] Task 1: Fix root cause of singular URLs (`ENDPOINT_MAP` in `apps/web/src/app/admin/page.tsx`), remove API rewrite workaround
+  - [x] Task 2: Duplicate submission prevention in admin (`isSavingModalRef`, disabled button, spinner)
+  - [x] Task 3: Complete CRUD with auto-slug, position, number increment, and extended form fields
+  - [x] Task 4: Automated, idempotent database init & migrations (`apps/api/src/db/init.ts`) on container boot
+  - [x] Task 5: Security hardening, credential rotation, magic-byte media validation (15MB limit), safe static SVG logo
+  - [x] Task 6: Repository cleanup (*.bak removed, obsolete upload route deleted, proxy rewritten with binary arrayBuffer)
+  - [x] Task 7: Dynamic frontend data freshness (`cache: 'no-store'`, dynamic Articles page)
+  - [x] Task 8: Operations tooling (`scripts/backup-db.sh`, `scripts/reset-admin-password.sh`, `Dockerfile` dependency layer caching)
+- [ ] **Phase 10: Server Deployment & Acceptance Verification**
 
 ---
 

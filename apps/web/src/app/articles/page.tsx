@@ -1,16 +1,26 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import { Navbar } from '@/components/Navbar';
 import { PageHero } from '@/components/sections/PageHero';
 import Link from 'next/link';
-import { ArrowUpRight, BookOpen, Clock, Tag } from 'lucide-react';
+import { ArrowUpRight, Clock } from 'lucide-react';
 import { CtaSection } from '@/components/sections/CtaSection';
 import { Footer } from '@/components/Footer';
 
-export const metadata = {
-  title: 'Engineering Journal & Technical Insights — CodeXplus',
-  description: 'Articles, field notes, and architecture breakdowns on Next.js 15, Fastify, and design systems.',
-};
+interface ArticleItem {
+  id?: string;
+  category: string;
+  date?: string;
+  publishedAt?: string;
+  readMinutes?: string | number;
+  title: string;
+  excerpt: string;
+  tags?: string[];
+  slug?: string;
+}
 
-const ARTICLES = [
+const FALLBACK_ARTICLES: ArticleItem[] = [
   {
     category: 'Design Systems',
     date: 'Jun 18, 2026',
@@ -38,6 +48,40 @@ const ARTICLES = [
 ];
 
 export default function ArticlesPage() {
+  const [articles, setArticles] = useState<ArticleItem[]>([]);
+
+  useEffect(() => {
+    fetch('/api/backend/public/posts', { cache: 'no-store' })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data && data.items && data.items.length > 0) {
+          setArticles(
+            data.items.map((post: any) => ({
+              id: post.id,
+              category: post.category || 'Architecture',
+              date: post.publishedAt
+                ? new Date(post.publishedAt).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: '2-digit',
+                    year: 'numeric',
+                  })
+                : '2026',
+              readMinutes: post.readMinutes ? `${post.readMinutes} min read` : '5 min read',
+              title: post.title,
+              excerpt: post.excerpt || '',
+              slug: post.slug,
+              tags: ['Next.js 15', 'Fastify', 'Architecture'],
+            }))
+          );
+        } else {
+          setArticles(FALLBACK_ARTICLES);
+        }
+      })
+      .catch(() => setArticles(FALLBACK_ARTICLES));
+  }, []);
+
+  const displayArticles = articles.length > 0 ? articles : FALLBACK_ARTICLES;
+
   return (
     <main className="min-h-screen text-white">
       <Navbar />
@@ -95,9 +139,9 @@ export default function ArticlesPage() {
       {/* Articles Feed */}
       <section className="max-w-6xl mx-auto px-6 py-12 ">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {ARTICLES.map((article) => (
+          {displayArticles.map((article, idx) => (
             <article
-              key={article.title}
+              key={article.id || article.title || idx}
               className="webangles-card p-6 md:p-8 rounded-2xl border border-white/[0.06] hover:border-[#8059E3]/40 transition flex flex-col justify-between group"
             >
               <div>

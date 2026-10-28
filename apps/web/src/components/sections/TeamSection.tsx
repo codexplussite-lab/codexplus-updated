@@ -32,7 +32,7 @@ export function TeamSection() {
   const [members, setMembers] = useState<TeamMember[]>([]);
 
   useEffect(() => {
-    fetch('/api/backend/public/team')
+    fetch('/api/backend/public/team', { cache: 'no-store' })
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data && data.items && data.items.length > 0) {

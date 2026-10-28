@@ -1,16 +1,47 @@
+version: '3.8'
+
 services:
   postgres:
     image: postgres:16-alpine
     container_name: codexplus_postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: codexplus
-      POSTGRES_PASSWORD: codexplus_secret
-      POSTGRES_DB: codexplus_db
+      POSTGRES_USER: codexfastify
+      POSTGRES_PASSWORD: 8446c8eec2ab6a852b4a97e178b48c74
+      POSTGRES_DB: codexfastify
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - codexplus-net
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: codexplus_app
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:4001:4000"
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - ./uploads:/app/apps/web/public/uploads
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://codexfastify:8446c8eec2ab6a852b4a97e178b48c74@postgres:5432/codexfastify
+      - COOKIE_SECRET=ee76a8274b0476506363cad5d2421e18686580cc3038f8dc2cdd437d0bc39e6a
+      - ADMIN_SEED_EMAIL=admin@codexplus.site
+      - ADMIN_SEED_PASSWORD=CodeXplusAdmin!2026Secure
+      - API_INTERNAL_URL=http://127.0.0.1:4000/backend
+    depends_on:
+      - postgres
+    networks:
+      - codexplus-net
 
 volumes:
   postgres_data:
+
+networks:
+  codexplus-net:
+    driver: bridge

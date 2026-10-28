@@ -27,7 +27,7 @@ export function Navbar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    fetch('/api/backend/public/site')
+    fetch('/api/backend/public/site', { cache: 'no-store' })
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data?.settings) {

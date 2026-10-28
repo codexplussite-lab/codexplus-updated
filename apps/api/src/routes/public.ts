@@ -18,7 +18,7 @@ export async function publicRoutes(fastify: FastifyInstance) {
         }
       : null;
 
-    reply.header('Cache-Control', 'public, max-age=60, s-maxage=300');
+    reply.header('Cache-Control', 'no-cache, no-store, must-revalidate');
     return reply.send({
       settings: mergedSettings,
       navigation: nav || null,
@@ -49,7 +49,7 @@ export async function publicRoutes(fastify: FastifyInstance) {
       .where(and(eq(pageSections.pageId, page.id), eq(pageSections.enabled, true)))
       .orderBy(asc(pageSections.position));
 
-    reply.header('Cache-Control', 'public, max-age=60, s-maxage=300');
+    reply.header('Cache-Control', 'no-cache, no-store, must-revalidate');
     return reply.send({
       page,
       sections,
@@ -64,7 +64,7 @@ export async function publicRoutes(fastify: FastifyInstance) {
       .where(eq(projects.status, 'published'))
       .orderBy(asc(projects.position));
 
-    reply.header('Cache-Control', 'public, max-age=60, s-maxage=300');
+    reply.header('Cache-Control', 'no-cache, no-store, must-revalidate');
     return reply.send({ items: allProjects });
   });
 
@@ -84,7 +84,7 @@ export async function publicRoutes(fastify: FastifyInstance) {
       });
     }
 
-    reply.header('Cache-Control', 'public, max-age=60, s-maxage=300');
+    reply.header('Cache-Control', 'no-cache, no-store, must-revalidate');
     return reply.send(project);
   });
 
@@ -96,7 +96,7 @@ export async function publicRoutes(fastify: FastifyInstance) {
       .where(eq(posts.status, 'published'))
       .orderBy(desc(posts.publishedAt));
 
-    reply.header('Cache-Control', 'public, max-age=60, s-maxage=300');
+    reply.header('Cache-Control', 'no-cache, no-store, must-revalidate');
     return reply.send({ items: allPosts });
   });
 
@@ -116,7 +116,7 @@ export async function publicRoutes(fastify: FastifyInstance) {
       });
     }
 
-    reply.header('Cache-Control', 'public, max-age=60, s-maxage=300');
+    reply.header('Cache-Control', 'no-cache, no-store, must-revalidate');
     return reply.send(post);
   });
 

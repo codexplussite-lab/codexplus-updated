@@ -33,6 +33,21 @@ import {
   Shield,
 } from 'lucide-react';
 
+const ENDPOINT_MAP: Record<string, string> = {
+  service: 'services',
+  services: 'services',
+  project: 'projects',
+  projects: 'projects',
+  team: 'team',
+  post: 'posts',
+  posts: 'posts',
+  article: 'posts',
+  articles: 'posts',
+  faq: 'faqs',
+  faqs: 'faqs',
+  media: 'media',
+};
+
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -41,8 +56,8 @@ export default function AdminPage() {
   >('overview');
 
   // Auth form
-  const [loginEmail, setLoginEmail] = useState('admin@codexplus.site');
-  const [loginPassword, setLoginPassword] = useState('AdminPassword123!');
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
   const [authError, setAuthError] = useState('');
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
 
@@ -76,6 +91,8 @@ export default function AdminPage() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   // Modal / Editing states
+  const [isSavingModal, setIsSavingModal] = useState(false);
+  const isSavingModalRef = useRef(false);
   const [editingItem, setEditingItem] = useState<{
     type: 'service' | 'project' | 'team' | 'post' | 'faq';
     item: any;
@@ -199,7 +216,7 @@ export default function AdminPage() {
       }
 
       const me = await fetch('/api/backend/auth/me').catch(() => null);
-      if (me?.ok || localStorage.getItem('codex_admin_logged') === 'true') {
+      if (me?.ok) {
         setIsAuthenticated(true);
       }
     } catch (err) {
@@ -221,24 +238,14 @@ export default function AdminPage() {
       });
 
       if (!res.ok) {
-        if (loginEmail === 'admin@codexplus.site' && loginPassword === 'AdminPassword123!') {
-          localStorage.setItem('codex_admin_logged', 'true');
-          setIsAuthenticated(true);
-          return;
-        }
-        const err = await res.json();
+        const err = await res.json().catch(() => ({}));
         throw new Error(err.message || 'Login failed. Please check credentials.');
       }
 
-      localStorage.setItem('codex_admin_logged', 'true');
       setIsAuthenticated(true);
+      fetchInitialData();
     } catch (err: any) {
-      if (loginEmail === 'admin@codexplus.site' && loginPassword === 'AdminPassword123!') {
-        localStorage.setItem('codex_admin_logged', 'true');
-        setIsAuthenticated(true);
-      } else {
-        setAuthError(err.message);
-      }
+      setAuthError(err.message);
     } finally {
       setIsLoading(false);
     }
@@ -348,31 +355,62 @@ export default function AdminPage() {
   };
 
   const handleSaveModalItem = async (itemData: any) => {
-    if (!editingItem) return;
+    if (!editingItem || isSavingModalRef.current) return;
+    isSavingModalRef.current = true;
+    setIsSavingModal(true);
     setSaveStatus('saving');
 
     const { type, isNew } = editingItem;
     const method = isNew ? 'POST' : 'PUT';
-    const endpoint = isNew ? `/api/backend/admin/${type}` : `/api/backend/admin/${type}/${itemData.id}`;
+    const resource = ENDPOINT_MAP[type] ?? (type.endsWith('s') ? type : `${type}s`);
+    const endpoint = isNew ? `/api/backend/admin/${resource}` : `/api/backend/admin/${resource}/${itemData.id}`;
+
+    // Clean and normalize payload before sending
+    const payload = { ...itemData };
+    if (type === 'service') {
+      if (typeof payload.bullets === 'string') {
+        payload.bullets = payload.bullets
+          .split('\n')
+          .map((b: string) => b.trim())
+          .filter(Boolean);
+      }
+      if (!payload.slug && payload.title) {
+        payload.slug = payload.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      }
+    } else if (type === 'project') {
+      if (typeof payload.tags === 'string') {
+        payload.tags = payload.tags
+          .split(',')
+          .map((t: string) => t.trim())
+          .filter(Boolean);
+      }
+      if (!payload.slug && payload.title) {
+        payload.slug = payload.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      }
+    } else if (type === 'post') {
+      if (!payload.slug && payload.title) {
+        payload.slug = payload.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      }
+    }
 
     try {
       const res = await fetch(endpoint, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(itemData),
+        body: JSON.stringify(payload),
       });
 
       if (res.ok) {
-        const savedRecord = await res.json().catch(() => itemData);
+        const savedRecord = await res.json().catch(() => payload);
 
         if (type === 'team') {
           const formatted = {
-            ...itemData,
+            ...payload,
             id: savedRecord.id || itemData.id,
-            photoUrl: itemData.photoUrl || '',
-            github: itemData.github || '',
-            linkedin: itemData.linkedin || '',
-            twitter: itemData.twitter || '',
+            photoUrl: payload.photoUrl || '',
+            github: payload.github || '',
+            linkedin: payload.linkedin || '',
+            twitter: payload.twitter || '',
           };
           if (isNew) {
             setTeamList([...teamList, formatted]);
@@ -381,27 +419,27 @@ export default function AdminPage() {
           }
         } else if (type === 'service') {
           if (isNew) {
-            setServicesList([...servicesList, savedRecord.id ? savedRecord : itemData]);
+            setServicesList([...servicesList, savedRecord.id ? savedRecord : payload]);
           } else {
-            setServicesList(servicesList.map((s) => (s.id === itemData.id ? itemData : s)));
+            setServicesList(servicesList.map((s) => (s.id === itemData.id ? payload : s)));
           }
         } else if (type === 'project') {
           if (isNew) {
-            setProjectsList([...projectsList, savedRecord.id ? savedRecord : itemData]);
+            setProjectsList([...projectsList, savedRecord.id ? savedRecord : payload]);
           } else {
-            setProjectsList(projectsList.map((p) => (p.id === itemData.id ? itemData : p)));
+            setProjectsList(projectsList.map((p) => (p.id === itemData.id ? payload : p)));
           }
         } else if (type === 'post') {
           if (isNew) {
-            setPostsList([...postsList, savedRecord.id ? savedRecord : itemData]);
+            setPostsList([...postsList, savedRecord.id ? savedRecord : payload]);
           } else {
-            setPostsList(postsList.map((p) => (p.id === itemData.id ? itemData : p)));
+            setPostsList(postsList.map((p) => (p.id === itemData.id ? payload : p)));
           }
         } else if (type === 'faq') {
           if (isNew) {
-            setFaqsList([...faqsList, savedRecord.id ? savedRecord : itemData]);
+            setFaqsList([...faqsList, savedRecord.id ? savedRecord : payload]);
           } else {
-            setFaqsList(faqsList.map((f) => (f.id === itemData.id ? itemData : f)));
+            setFaqsList(faqsList.map((f) => (f.id === itemData.id ? payload : f)));
           }
         }
 
@@ -415,6 +453,9 @@ export default function AdminPage() {
     } catch (err) {
       console.error(err);
       setSaveStatus('error');
+    } finally {
+      isSavingModalRef.current = false;
+      setIsSavingModal(false);
     }
   };
 
@@ -424,16 +465,17 @@ export default function AdminPage() {
     }
 
     try {
-      const res = await fetch(`/api/backend/admin/${type}/${id}`, {
+      const resource = ENDPOINT_MAP[type] ?? (type.endsWith('s') ? type : `${type}s`);
+      const res = await fetch(`/api/backend/admin/${resource}/${id}`, {
         method: 'DELETE',
       });
 
       if (res.ok) {
-        if (type === 'service') setServicesList(servicesList.filter((x) => x.id !== id));
-        if (type === 'project') setProjectsList(projectsList.filter((x) => x.id !== id));
+        if (type === 'service' || type === 'services') setServicesList(servicesList.filter((x) => x.id !== id));
+        if (type === 'project' || type === 'projects') setProjectsList(projectsList.filter((x) => x.id !== id));
         if (type === 'team') setTeamList(teamList.filter((x) => x.id !== id));
-        if (type === 'post') setPostsList(postsList.filter((x) => x.id !== id));
-        if (type === 'faq') setFaqsList(faqsList.filter((x) => x.id !== id));
+        if (type === 'post' || type === 'posts') setPostsList(postsList.filter((x) => x.id !== id));
+        if (type === 'faq' || type === 'faqs') setFaqsList(faqsList.filter((x) => x.id !== id));
         if (type === 'media') setMediaList(mediaList.filter((x) => x.id !== id));
       }
     } catch (err) {
@@ -690,7 +732,7 @@ export default function AdminPage() {
           </div>
           <button
             onClick={() => {
-              localStorage.removeItem('codex_admin_logged');
+              fetch('/api/backend/auth/logout', { method: 'POST' }).catch(() => null);
               setIsAuthenticated(false);
             }}
             className="p-1.5 text-gray-500 hover:text-red-400 transition"
@@ -1299,7 +1341,14 @@ export default function AdminPage() {
                   setEditingItem({
                     type: 'service',
                     isNew: true,
-                    item: { number: '04', title: '', slug: '', description: '', status: 'published' },
+                    item: {
+                      number: String(servicesList.length + 1).padStart(2, '0'),
+                      title: '',
+                      slug: '',
+                      description: '',
+                      bullets: 'High-Performance Architecture\nType-Safe Contracts\nSub-15ms Latency',
+                      status: 'published',
+                    },
                   })
                 }
                 className="purple-pill-btn px-4 py-2 rounded-xl text-xs font-semibold text-white flex items-center gap-1.5"
@@ -1322,7 +1371,15 @@ export default function AdminPage() {
 
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => setEditingItem({ type: 'service', item: srv })}
+                    onClick={() =>
+                      setEditingItem({
+                        type: 'service',
+                        item: {
+                          ...srv,
+                          bullets: Array.isArray(srv.bullets) ? srv.bullets.join('\n') : (srv.bullets || ''),
+                        },
+                      })
+                    }
                     className="p-2 rounded-lg bg-white/[0.04] hover:bg-white/10 text-gray-300 hover:text-white transition"
                   >
                     <Edit2 className="w-4 h-4" />
@@ -1793,19 +1850,65 @@ export default function AdminPage() {
               )}
 
               {'title' in editingItem.item && (
+                <>
+                  <div>
+                    <label className="block text-xs font-mono text-gray-400 mb-1">Title</label>
+                    <input
+                      type="text"
+                      required
+                      value={editingItem.item.title || ''}
+                      onChange={(e) => {
+                        const newTitle = e.target.value;
+                        const autoSlug = newTitle
+                          .toLowerCase()
+                          .replace(/[^a-z0-9]+/g, '-')
+                          .replace(/(^-|-$)/g, '');
+                        setEditingItem({
+                          ...editingItem,
+                          item: {
+                            ...editingItem.item,
+                            title: newTitle,
+                            slug: editingItem.isNew ? autoSlug : (editingItem.item.slug || autoSlug),
+                          },
+                        });
+                      }}
+                      className="w-full bg-[#13131F] border border-white/10 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-[#8059E3]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-mono text-gray-400 mb-1 flex items-center justify-between">
+                      <span>URL Slug</span>
+                      <span className="text-[10px] text-gray-500">Auto-generated or custom</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={editingItem.item.slug || ''}
+                      onChange={(e) =>
+                        setEditingItem({
+                          ...editingItem,
+                          item: { ...editingItem.item, slug: e.target.value },
+                        })
+                      }
+                      className="w-full bg-[#13131F] border border-white/10 rounded-xl px-4 py-2 text-sm text-white font-mono focus:outline-none focus:border-[#8059E3]"
+                    />
+                  </div>
+                </>
+              )}
+
+              {editingItem.type === 'service' && (
                 <div>
-                  <label className="block text-xs font-mono text-gray-400 mb-1">Title</label>
+                  <label className="block text-xs font-mono text-gray-400 mb-1">Service Number (e.g. 01, 02)</label>
                   <input
                     type="text"
-                    required
-                    value={editingItem.item.title || ''}
+                    value={editingItem.item.number || ''}
                     onChange={(e) =>
                       setEditingItem({
                         ...editingItem,
-                        item: { ...editingItem.item, title: e.target.value },
+                        item: { ...editingItem.item, number: e.target.value },
                       })
                     }
-                    className="w-full bg-[#13131F] border border-white/10 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-[#8059E3]"
+                    className="w-full bg-[#13131F] border border-white/10 rounded-xl px-4 py-2 text-sm text-white font-mono focus:outline-none focus:border-[#8059E3]"
                   />
                 </div>
               )}
@@ -1822,6 +1925,31 @@ export default function AdminPage() {
                         item: { ...editingItem.item, category: e.target.value },
                       })
                     }
+                    className="w-full bg-[#13131F] border border-white/10 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-[#8059E3]"
+                  />
+                </div>
+              )}
+
+              {editingItem.type === 'project' && (
+                <div>
+                  <label className="block text-xs font-mono text-gray-400 mb-1 flex items-center justify-between">
+                    <span>Tech Tags</span>
+                    <span className="text-[10px] text-gray-500">Comma separated</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={
+                      Array.isArray(editingItem.item.tags)
+                        ? editingItem.item.tags.join(', ')
+                        : editingItem.item.tags || ''
+                    }
+                    onChange={(e) =>
+                      setEditingItem({
+                        ...editingItem,
+                        item: { ...editingItem.item, tags: e.target.value },
+                      })
+                    }
+                    placeholder="Next.js 15, Fastify, PostgreSQL, Tailwind"
                     className="w-full bg-[#13131F] border border-white/10 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-[#8059E3]"
                   />
                 </div>
@@ -1888,6 +2016,31 @@ export default function AdminPage() {
                 />
               </div>
 
+              {editingItem.type === 'service' && (
+                <div>
+                  <label className="block text-xs font-mono text-gray-400 mb-1 flex items-center justify-between">
+                    <span>Key Features / Capabilities</span>
+                    <span className="text-[10px] text-gray-500">One per line</span>
+                  </label>
+                  <textarea
+                    rows={3}
+                    value={
+                      Array.isArray(editingItem.item.bullets)
+                        ? editingItem.item.bullets.join('\n')
+                        : editingItem.item.bullets || ''
+                    }
+                    onChange={(e) =>
+                      setEditingItem({
+                        ...editingItem,
+                        item: { ...editingItem.item, bullets: e.target.value },
+                      })
+                    }
+                    placeholder="High-Performance Architecture&#10;Type-Safe Contracts&#10;Sub-15ms Latency"
+                    className="w-full bg-[#13131F] border border-white/10 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-[#8059E3]"
+                  />
+                </div>
+              )}
+
               <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
                 <button
                   type="button"
@@ -1898,9 +2051,17 @@ export default function AdminPage() {
                 </button>
                 <button
                   type="submit"
-                  className="purple-pill-btn px-5 py-2 rounded-xl text-xs font-semibold text-white"
+                  disabled={isSavingModal || saveStatus === 'saving'}
+                  className="purple-pill-btn px-5 py-2 rounded-xl text-xs font-semibold text-white disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
-                  Save Entry
+                  {isSavingModal ? (
+                    <>
+                      <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                      <span>Saving Entry...</span>
+                    </>
+                  ) : (
+                    <span>Save Entry</span>
+                  )}
                 </button>
               </div>
             </form>
