@@ -72,7 +72,7 @@ export function TeamSection() {
         </p>
       </FadeIn>
 
-      <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <StaggerContainer key={members.length > 0 ? "live" : "fallback"} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {displayList.map((member, idx) => {
           const photo = member.photoUrl || member.socials?.photoUrl;
           const letter = member.name?.charAt(0) || 'C';

@@ -26,12 +26,3 @@ export async function seed() {
 
   console.log(`Initial admin created: ${env.ADMIN_SEED_EMAIL}`);
 }
-
-if (process.env.NODE_ENV !== 'test') {
-  seed()
-    .then(() => process.exit(0))
-    .catch((err) => {
-      console.error('Seeding failed:', err);
-      process.exit(1);
-    });
-}

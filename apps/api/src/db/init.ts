@@ -2,33 +2,28 @@ import { runMigrations } from './migrate.js';
 import { seed } from './seed.js';
 import { seedInitialContent } from './seedContent.js';
 
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
 export async function initializeDatabase() {
   console.log('🔄 Checking database migrations and initial seed status...');
-  try {
-    await runMigrations();
-  } catch (err: any) {
-    console.warn('⚠️ Migration warning (tables may already exist):', err?.message || err);
+
+  let lastErr: any;
+  for (let attempt = 1; attempt <= 15; attempt++) {
+    try {
+      await runMigrations();
+      lastErr = null;
+      break;
+    } catch (err: any) {
+      lastErr = err;
+      console.warn(`⚠️ Migration attempt ${attempt}/15 failed: ${err?.message || err}`);
+      await sleep(3000);
+    }
+  }
+  if (lastErr) {
+    throw new Error('Database migrations failed: ' + (lastErr?.message || lastErr));
   }
 
-  try {
-    await seed();
-  } catch (err: any) {
-    console.warn('⚠️ Admin user seed warning:', err?.message || err);
-  }
-
-  try {
-    await seedInitialContent();
-  } catch (err: any) {
-    console.warn('⚠️ Initial content seed warning:', err?.message || err);
-  }
-  console.log('✅ Database initialization check complete.');
-}
-
-if (process.env.NODE_ENV !== 'test' && process.argv[1]?.includes('init')) {
-  initializeDatabase()
-    .then(() => process.exit(0))
-    .catch((err) => {
-      console.error('❌ Database initialization error:', err);
-      process.exit(1);
-    });
+  await seed();
+  await seedInitialContent();
+  console.log('✅ Database initialization complete.');
 }

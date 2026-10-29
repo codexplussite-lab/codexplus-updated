@@ -71,7 +71,7 @@ export function Services() {
         </p>
       </FadeIn>
 
-      <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <StaggerContainer key={servicesList.length > 0 ? "live" : "fallback"} className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {items.map((srv, idx) => (
           <StaggerItem
             key={srv.id || idx}

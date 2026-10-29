@@ -71,7 +71,7 @@ export function FeaturedProjects() {
         </p>
       </FadeIn>
 
-      <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <StaggerContainer key={projects.length > 0 ? "live" : "fallback"} className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {items.map((project, idx) => {
           const cover = project.imageUrl || project.url;
 
