@@ -1697,7 +1697,7 @@ export default function AdminPage() {
                 <div>
                   <label className="block text-xs font-mono text-gray-400 mb-1 flex items-center justify-between">
                     <span>Member Picture / Photo</span>
-                    <span className="text-[10px] text-[#A855F7]">Direct Upload or Adjust Frame</span>
+                    <span className="text-[10px] text-[#A855F7]">Crop / Center Face Supported</span>
                   </label>
                   <div className="flex gap-2">
                     <input
@@ -1722,45 +1722,32 @@ export default function AdminPage() {
                           })
                         }
                         className="px-3 py-2 bg-[#8059E3]/20 hover:bg-[#8059E3]/30 text-[#A855F7] hover:text-white rounded-xl border border-[#8059E3]/30 flex items-center gap-1.5 text-xs font-semibold transition"
-                        title="Crop / Reframe Face"
+                        title="Crop / Adjust Photo"
                       >
                         <Crop className="w-3.5 h-3.5" />
-                        <span>Adjust Frame</span>
+                        <span>Crop</span>
                       </button>
                     )}
                     <label className="px-3 py-2 bg-white/[0.06] hover:bg-white/[0.12] rounded-xl cursor-pointer border border-white/10 flex items-center gap-1.5 text-xs text-gray-300 hover:text-white transition">
                       <Camera className="w-3.5 h-3.5" />
-                      <span>Upload</span>
+                      <span>Upload & Crop</span>
                       <input
                         type="file"
-                        accept="image/png,image/jpeg,image/webp,image/jpg"
+                        accept="image/*"
                         className="hidden"
-                        onChange={async (e) => {
+                        onChange={(e) => {
                           const file = e.target.files?.[0];
                           if (!file) return;
-                          const fd = new FormData();
-                          fd.append('file', file);
-                          try {
-                            const res = await fetch('/api/backend/admin/media/upload', {
-                              method: 'POST',
-                              body: fd,
-                            });
-                            if (res.ok) {
-                              const data = await res.json();
-                              const uploadedUrl = data.media?.url || '';
-                              if (uploadedUrl) {
-                                setEditingItem({
-                                  ...editingItem,
-                                  item: { ...editingItem.item, photoUrl: uploadedUrl },
-                                });
-                              }
-                            } else {
-                              const errData = await res.json().catch(() => null);
-                              alert('Upload failed: ' + (errData?.error?.message || errData?.message || 'Server error'));
+                          const reader = new FileReader();
+                          reader.onload = (event) => {
+                            if (event.target?.result) {
+                              setCropperState({
+                                isOpen: true,
+                                imageSrc: event.target.result as string,
+                              });
                             }
-                          } catch (err: any) {
-                            alert('Upload error: ' + err.message);
-                          }
+                          };
+                          reader.readAsDataURL(file);
                           e.target.value = '';
                         }}
                       />
@@ -1776,9 +1763,9 @@ export default function AdminPage() {
                         />
                       </div>
                       <div className="flex-1">
-                        <span className="text-xs text-white font-medium block">Live Preview (Top-Framed)</span>
+                        <span className="text-xs text-white font-medium block">Live Framing Preview</span>
                         <span className="text-[11px] text-gray-400 block mt-0.5">
-                          Heads and faces are anchored at the top so they are never cut off. Click "Adjust Frame" to zoom or reposition manually.
+                          Positioning is automatically focused at the top so heads are never cut off. Click "Crop" to re-frame.
                         </span>
                       </div>
                     </div>
@@ -2118,39 +2105,6 @@ export default function AdminPage() {
                 </button>
               </div>
             </form>
-      {/* Image Cropper Modal */}
-      <ImageCropperModal
-        isOpen={cropperState.isOpen}
-        imageSrc={cropperState.imageSrc}
-        aspectRatio={1}
-        onClose={() => setCropperState({ isOpen: false, imageSrc: '' })}
-        onCropComplete={async (blob) => {
-          const file = new File([blob], 'team-adjusted.webp', { type: 'image/webp' });
-          const fd = new FormData();
-          fd.append('file', file);
-          try {
-            const res = await fetch('/api/backend/admin/media/upload', {
-              method: 'POST',
-              body: fd,
-            });
-            if (res.ok) {
-              const data = await res.json();
-              const url = data.media?.url;
-              if (url && editingItem) {
-                setEditingItem({
-                  ...editingItem,
-                  item: { ...editingItem.item, photoUrl: url },
-                });
-              }
-            } else {
-              const err = await res.json().catch(() => null);
-              alert('Crop upload failed: ' + (err?.error?.message || err?.message || 'Server error'));
-            }
-          } catch (e: any) {
-            alert('Upload error: ' + e.message);
-          }
-        }}
-      />
           </div>
         </div>
       )}
