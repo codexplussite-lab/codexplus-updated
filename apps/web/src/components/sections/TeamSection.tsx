@@ -20,15 +20,22 @@ export interface TeamMember {
   };
 }
 
+const FALLBACK_MEMBERS: TeamMember[] = [
+  {
+    name: 'Arman Naqvi',
+    role: 'Lead Architect & Founder',
+    bio: 'Full-stack systems architecture, Node/Fastify API pipelines, and cloud database optimization.',
+  },
+];
+
 export function TeamSection() {
   const [members, setMembers] = useState<TeamMember[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetch('/api/backend/public/team', { cache: 'no-store' })
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
-        if (data && data.items && Array.isArray(data.items)) {
+        if (data && data.items && data.items.length > 0) {
           setMembers(
             data.items.map((m: any) => ({
               ...m,
@@ -39,20 +46,15 @@ export function TeamSection() {
             }))
           );
         } else {
-          setMembers([]);
+          setMembers(FALLBACK_MEMBERS);
         }
       })
       .catch(() => {
-        setMembers([]);
-      })
-      .finally(() => {
-        setIsLoading(false);
+        setMembers(FALLBACK_MEMBERS);
       });
   }, []);
 
-  if (!isLoading && members.length === 0) {
-    return null;
-  }
+  const displayList = members.length > 0 ? members : FALLBACK_MEMBERS;
 
   return (
     <section id="team" aria-labelledby="team-heading" className="py-24 md:py-28 px-6 max-w-7xl mx-auto">
@@ -70,8 +72,8 @@ export function TeamSection() {
         </p>
       </FadeIn>
 
-      <StaggerContainer key="live" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {members.map((member, idx) => {
+      <StaggerContainer key={members.length > 0 ? "live" : "fallback"} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {displayList.map((member, idx) => {
           const photo = member.photoUrl || member.socials?.photoUrl;
           const letter = member.name?.charAt(0) || 'C';
           const gh = (member as any).github || member.socials?.github;
