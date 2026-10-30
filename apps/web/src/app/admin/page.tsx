@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { ImageCropperModal } from '@/components/ImageCropperModal';
 import {
   LayoutDashboard,
   Settings,
@@ -27,7 +26,6 @@ import {
   X,
   Upload,
   Camera,
-  Crop,
   Github,
   Linkedin,
   Twitter,
@@ -139,13 +137,6 @@ export default function AdminPage() {
   const [servicesList, setServicesList] = useState<any[]>([]);
   const [projectsList, setProjectsList] = useState<any[]>([]);
   const [teamList, setTeamList] = useState<any[]>([]);
-  const [cropperState, setCropperState] = useState<{
-    isOpen: boolean;
-    imageSrc: string;
-  }>({
-    isOpen: false,
-    imageSrc: '',
-  });
   const [postsList, setPostsList] = useState<any[]>([]);
   const [faqsList, setFaqsList] = useState<any[]>([]);
   const [inboxList, setInboxList] = useState<any[]>([]);
@@ -1697,7 +1688,7 @@ export default function AdminPage() {
                 <div>
                   <label className="block text-xs font-mono text-gray-400 mb-1 flex items-center justify-between">
                     <span>Member Picture / Photo</span>
-                    <span className="text-[10px] text-[#A855F7]">Direct Upload or Adjust Frame</span>
+                    <span className="text-[10px] text-[#A855F7]">URL or Upload</span>
                   </label>
                   <div className="flex gap-2">
                     <input
@@ -1712,77 +1703,33 @@ export default function AdminPage() {
                       }
                       className="flex-1 bg-[#13131F] border border-white/10 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-[#8059E3]"
                     />
-                    {editingItem.item.photoUrl && (
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setCropperState({
-                            isOpen: true,
-                            imageSrc: editingItem.item.photoUrl,
-                          })
-                        }
-                        className="px-3 py-2 bg-[#8059E3]/20 hover:bg-[#8059E3]/30 text-[#A855F7] hover:text-white rounded-xl border border-[#8059E3]/30 flex items-center gap-1.5 text-xs font-semibold transition"
-                        title="Crop / Reframe Face"
-                      >
-                        <Crop className="w-3.5 h-3.5" />
-                        <span>Adjust Frame</span>
-                      </button>
-                    )}
-                    <label className="px-3 py-2 bg-white/[0.06] hover:bg-white/[0.12] rounded-xl cursor-pointer border border-white/10 flex items-center gap-1.5 text-xs text-gray-300 hover:text-white transition">
-                      <Camera className="w-3.5 h-3.5" />
-                      <span>Upload</span>
+                    <label className="px-3 py-2 bg-white/[0.06] hover:bg-white/[0.12] rounded-xl cursor-pointer border border-white/10 flex items-center justify-center text-gray-300 hover:text-white transition">
+                      <Camera className="w-4 h-4" />
                       <input
                         type="file"
-                        accept="image/png,image/jpeg,image/webp,image/jpg"
+                        accept="image/*"
                         className="hidden"
                         onChange={async (e) => {
                           const file = e.target.files?.[0];
                           if (!file) return;
                           const fd = new FormData();
                           fd.append('file', file);
-                          try {
-                            const res = await fetch('/api/backend/admin/media/upload', {
-                              method: 'POST',
-                              body: fd,
+                          const res = await fetch('/api/backend/admin/media/upload', {
+                            method: 'POST',
+                            body: fd,
+                          }).catch(() => null);
+                          if (res?.ok) {
+                            const data = await res.json();
+                            const url = data.media?.url || URL.createObjectURL(file);
+                            setEditingItem({
+                              ...editingItem,
+                              item: { ...editingItem.item, photoUrl: url },
                             });
-                            if (res.ok) {
-                              const data = await res.json();
-                              const uploadedUrl = data.media?.url || '';
-                              if (uploadedUrl) {
-                                setEditingItem({
-                                  ...editingItem,
-                                  item: { ...editingItem.item, photoUrl: uploadedUrl },
-                                });
-                              }
-                            } else {
-                              const errData = await res.json().catch(() => null);
-                              alert('Upload failed: ' + (errData?.error?.message || errData?.message || 'Server error'));
-                            }
-                          } catch (err: any) {
-                            alert('Upload error: ' + err.message);
                           }
-                          e.target.value = '';
                         }}
                       />
                     </label>
                   </div>
-                  {editingItem.item.photoUrl && (
-                    <div className="mt-3 flex items-center gap-3 p-3 rounded-xl bg-black/40 border border-white/5">
-                      <div className="w-14 h-14 rounded-lg overflow-hidden bg-black/60 border border-white/10 shrink-0">
-                        <img
-                          src={editingItem.item.photoUrl}
-                          alt="Preview"
-                          className="w-full h-full object-cover object-top"
-                        />
-                      </div>
-                      <div className="flex-1">
-                        <span className="text-xs text-white font-medium block">Live Preview (Top-Framed)</span>
-                        <span className="text-[11px] text-gray-400 block mt-0.5">
-                          Heads and faces are anchored at the top so they are never cut off. Click "Adjust Frame" to zoom or reposition manually.
-                        </span>
-                      </div>
-                    </div>
-                  )}
                 </div>
               )}
 
@@ -2118,39 +2065,6 @@ export default function AdminPage() {
                 </button>
               </div>
             </form>
-      {/* Image Cropper Modal */}
-      <ImageCropperModal
-        isOpen={cropperState.isOpen}
-        imageSrc={cropperState.imageSrc}
-        aspectRatio={1}
-        onClose={() => setCropperState({ isOpen: false, imageSrc: '' })}
-        onCropComplete={async (blob) => {
-          const file = new File([blob], 'team-adjusted.webp', { type: 'image/webp' });
-          const fd = new FormData();
-          fd.append('file', file);
-          try {
-            const res = await fetch('/api/backend/admin/media/upload', {
-              method: 'POST',
-              body: fd,
-            });
-            if (res.ok) {
-              const data = await res.json();
-              const url = data.media?.url;
-              if (url && editingItem) {
-                setEditingItem({
-                  ...editingItem,
-                  item: { ...editingItem.item, photoUrl: url },
-                });
-              }
-            } else {
-              const err = await res.json().catch(() => null);
-              alert('Crop upload failed: ' + (err?.error?.message || err?.message || 'Server error'));
-            }
-          } catch (e: any) {
-            alert('Upload error: ' + e.message);
-          }
-        }}
-      />
           </div>
         </div>
       )}
