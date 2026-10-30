@@ -10,3 +10,7 @@ out/
 .DS_Store
 *.tsbuildinfo
 uploads/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
