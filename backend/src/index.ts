@@ -10,7 +10,8 @@ import { adminRouter } from './routes/admin.js';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = Number(process.env.PORT) || 5000;
+const HOST = process.env.HOST || '0.0.0.0';
 const CORS_ORIGIN = process.env.CORS_ORIGIN || 'http://localhost:3000';
 const UPLOADS_DIR = path.resolve(process.cwd(), process.env.UPLOADS_DIR || './uploads');
 
@@ -20,8 +21,22 @@ if (!fs.existsSync(UPLOADS_DIR)) {
 }
 
 // Middlewares
+const allowedOrigins = [
+  CORS_ORIGIN,
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  'https://codexplus.site',
+  'https://www.codexplus.site',
+].filter(Boolean);
+
 app.use(cors({
-  origin: [CORS_ORIGIN, 'http://localhost:3000', 'http://127.0.0.1:3000'],
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(null, true); // Allow reverse proxy / mobile / same-origin requests
+    }
+  },
   credentials: true
 }));
 app.use(express.json());
@@ -39,7 +54,7 @@ app.get('/health', (req, res) => {
 app.use('/api/public', publicRouter);
 app.use('/api/admin', adminRouter);
 
-app.listen(PORT, () => {
-  console.log(`🚀 CodeXplus Backend Server running on http://localhost:${PORT}`);
+app.listen(PORT, HOST, () => {
+  console.log(`🚀 CodeXplus Backend Server running on http://${HOST}:${PORT}`);
   console.log(`📦 SQLite Database ready`);
 });

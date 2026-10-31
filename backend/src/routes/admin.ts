@@ -7,9 +7,9 @@ import { db } from '../db/index.js';
 import { requireAuth, AuthRequest } from '../middleware/auth.js';
 
 export const adminRouter = Router();
-const JWT_SECRET = process.env.JWT_SECRET || 'codexplus-secret-key';
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@codexplus.site';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
+const JWT_SECRET = process.env.COOKIE_SECRET || process.env.JWT_SECRET || 'codexplus-secret-key';
+const ADMIN_EMAIL = process.env.ADMIN_SEED_EMAIL || process.env.ADMIN_EMAIL || 'admin@codexplus.site';
+const ADMIN_PASSWORD = process.env.ADMIN_SEED_PASSWORD || process.env.ADMIN_PASSWORD || 'admin123';
 
 // Configure Multer for File Uploads
 const uploadDir = path.resolve(process.cwd(), process.env.UPLOADS_DIR || './uploads');
@@ -53,7 +53,8 @@ adminRouter.post('/upload', upload.single('file'), (req: Request, res: Response)
     res.status(400).json({ error: 'No file uploaded' });
     return;
   }
-  const fileUrl = `http://localhost:5000/uploads/${req.file.filename}`;
+  const baseUrl = process.env.API_PUBLIC_URL || '';
+  const fileUrl = `${baseUrl}/uploads/${req.file.filename}`;
   res.json({ success: true, url: fileUrl, filename: req.file.filename });
 });
 
